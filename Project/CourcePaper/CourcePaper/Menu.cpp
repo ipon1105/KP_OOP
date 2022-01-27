@@ -133,37 +133,13 @@ int setting(RenderWindow& window) {
             ImGui::SFML::Shutdown();
             return 1;
         }
-        ImGui::Text(u8"Разрешение экрана: ");
-        if (ImGui::Combo(u8"Разрешение экрана: ", &var, strings, tmpArr.size())) {
+        if (ImGui::Combo(u8" - разрешение экрана", &var, strings, tmpArr.size())) {
             configurateStruct newData;
             newData.windowWidth = tmpArr[var].width;
             newData.windowHeight = tmpArr[var].height;
             setSetting(newData);
         }
-        
-        
-        
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Играть").x) * 0.5f);
-        ImGui::SetCursorPosY(getSetting().windowHeight * 0.4f);
-        if (ImGui::Button(u8"Играть")) {
 
-        }
-
-        for (int i = 0; i < 3; i++)
-            ImGui::Spacing();
-
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Настройки").x) * 0.5f);
-        if (ImGui::Button(u8"Настройки")) {
-
-        }
-
-        for (int i = 0; i < 3; i++)
-            ImGui::Spacing();
-
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Выход").x) * 0.5f);
-        if (ImGui::Button(u8"Выход")) {
-            window.close();
-        }
         ImGui::End();
 
         window.clear();
@@ -173,4 +149,26 @@ int setting(RenderWindow& window) {
 
     ImGui::SFML::Shutdown();
     return 0;
+}
+
+void gameplay(RenderWindow& window) {
+
+    //// Главный цикл приложения. Выполняется, пока открыто окно
+    //while (window.isOpen())
+    //{
+    //	// Обрабатываем очередь событий в цикле
+    //	Event event;
+    //	while (window.pollEvent(event))
+    //	{
+
+    //		// Пользователь нажал на «крестик» и хочет закрыть окно?
+    //		if (event.type == Event::Closed)
+    //			// тогда закрываем его
+    //			window.close();
+    //	}
+    //	window.clear(Color(250, 220, 100, 0));
+
+    //	// Отрисовка окна
+    //	window.display();
+    //}
 }
