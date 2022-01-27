@@ -40,6 +40,12 @@ int loadConfigurate() {
 
 	return 0;
 }
+
 configurateStruct getSetting() {
 	return confSetting;
+}
+
+void setSetting(configurateStruct newStruct) {
+	confSetting = newStruct;
+	return (void)0;
 }

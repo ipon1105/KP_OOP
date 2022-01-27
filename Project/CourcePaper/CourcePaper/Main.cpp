@@ -6,7 +6,7 @@
 #include "Menu.h"
 #include "GameSetting.h"
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>;
 
 using namespace sf;
 
@@ -18,9 +18,19 @@ int main()
 	
 
 	// Объект, который, собственно, является главным окном приложения
-	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
+	//RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
+	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!");
 	
-	menu(window);
+	int num = 1;
+	while (1) {
+
+		switch (num) {
+			case 1: num = menu(window); break;
+			case 2: num = setting(window); break;
+		}
+
+		if (!num) exit(0);
+	}
 	//// Главный цикл приложения. Выполняется, пока открыто окно
 	//while (window.isOpen())
 	//{

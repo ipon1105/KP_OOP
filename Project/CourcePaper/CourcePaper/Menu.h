@@ -8,6 +8,12 @@
 * Данная функция будет отрисовывать
 * главное меню игры
 */
-void menu(sf::RenderWindow& window);
+int menu(sf::RenderWindow& window);
+
+/*
+* Данная функция будет отрисовывать
+* настойки игры
+*/
+int setting(sf::RenderWindow& window);
 
 #endif // !INTERFACE_HPP
