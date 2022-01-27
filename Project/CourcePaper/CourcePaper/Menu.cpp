@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 
+
 using namespace sf;
 
 bool menuWindow;
@@ -156,7 +157,8 @@ int setting(RenderWindow& window) {
             newData.windowHeight = tmpArr[var].height;
             setSetting(newData);
         }
-
+        ImGui::Text(u8"             Громкость: ");
+        ImGui::Text(u8"Музыка: ");
         ImGui::End();
 
         window.clear();

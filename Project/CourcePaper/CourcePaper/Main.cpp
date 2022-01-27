@@ -7,6 +7,7 @@
 #include "GameSetting.h"
 
 #include <SFML/Graphics.hpp>;
+#include <SFML/Audio.hpp>;
 
 using namespace sf;
 
@@ -22,6 +23,10 @@ int main()
 	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!");
 	
 	int num = 1;
+	Music mainMusic;
+	mainMusic.openFromFile("resource//Main-Theme.wav");
+	mainMusic.play();
+	mainMusic.getLoop();
 	while (1) {
 
 		switch (num) {
