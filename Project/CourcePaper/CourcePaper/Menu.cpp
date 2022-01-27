@@ -12,6 +12,13 @@ using namespace sf;
 bool menuWindow;
 
 int menu(RenderWindow& window) {
+    Texture backTexture;
+    backTexture.loadFromFile("resource//gm_1.jpg");
+    Sprite backSprite(backTexture);
+
+    //Подгонка изображения под разрешение экрана
+    backSprite.setScale((float)(((float)getSetting().windowWidth) / (float)(backTexture.getSize().x)), (float)(((float)getSetting().windowHeight) / (float)(backTexture.getSize().y)));
+    
     ImGui::SFML::Init(window);
 
     menuWindow = true;
@@ -37,6 +44,7 @@ int menu(RenderWindow& window) {
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
+        ImGui::SetNextWindowBgAlpha(0.0f);
 
         //ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse);
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
@@ -65,6 +73,7 @@ int menu(RenderWindow& window) {
         ImGui::End();
 
         window.clear();
+        window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
     }
@@ -74,6 +83,13 @@ int menu(RenderWindow& window) {
 }
 
 int setting(RenderWindow& window) {
+    Texture backTexture;
+    backTexture.loadFromFile("resource//gm_1.jpg");
+    Sprite backSprite(backTexture);
+
+    //Подгонка изображения под разрешение экрана
+    backSprite.setScale((float)(((float)getSetting().windowWidth) / (float)(backTexture.getSize().x)), (float)(((float)getSetting().windowHeight) / (float)(backTexture.getSize().y)));
+
     ImGui::SFML::Init(window);
 
     menuWindow = true;
@@ -127,6 +143,7 @@ int setting(RenderWindow& window) {
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
+        ImGui::SetNextWindowBgAlpha(0.0f);
 
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
         if (ImGui::Button(u8"Назад")) {
@@ -143,6 +160,7 @@ int setting(RenderWindow& window) {
         ImGui::End();
 
         window.clear();
+        window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
     }
