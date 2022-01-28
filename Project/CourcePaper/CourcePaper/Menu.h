@@ -16,4 +16,10 @@ int menu(sf::RenderWindow& window);
 */
 int setting(sf::RenderWindow& window);
 
+/*
+* Данная функция нужна для реализации
+* движка игры.
+*/
+int gameplay(sf::RenderWindow& window);
+
 #endif // !INTERFACE_HPP

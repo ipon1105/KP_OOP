@@ -58,7 +58,8 @@ int menu(RenderWindow& window) {
         ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Играть").x) * 0.5f);
         ImGui::SetCursorPosY(getSetting().windowHeight * 0.4f);
         if (ImGui::Button(u8"Играть")) {
-            
+            ImGui::SFML::Shutdown();
+            return 4;
         }
 
         for(int i = 0; i < 3; i++)
@@ -214,6 +215,8 @@ class Title {
 private:
     int x;
     int y;
+    int width;
+    int height;
 
     //temp
     RectangleShape rect;
@@ -224,9 +227,11 @@ private:
     Sprite sprite;
 
 public:
-    Title(int x, int y, block type) {
-        this->x = x;
-        this->y = y;
+    Title() {
+
+    }
+
+    Title(block type) {
         this->type = type;
 
         switch (type) {
@@ -234,6 +239,7 @@ public:
             case grass: rect.setFillColor(Color::Green); break;
             case stone: rect.setFillColor(Color(200, 200, 200)); break;
         }
+        //original
         /*
         switch (type) {
             case empty: texture.loadFromFile("empty.png"); break;
@@ -242,18 +248,41 @@ public:
         }
 
         sprite.setTexture(texture);
+        sprite.setPosition( (float) x, (float) y );
         */
         
-        sprite.setPosition( (float) x, (float) y );
     }
 
     ~Title() {
 
     }
+    
+    void initType(block type){
+        this->type = type;
 
-    void draw() {
+        switch (type) {
+            case empty: rect.setFillColor(Color::White); break;
+            case grass: rect.setFillColor(Color::Green); break;
+            case stone: rect.setFillColor(Color(200, 200, 200)); break;
+        }
+    }
+
+    void setRect(IntRect rec) {
+        x = rec.left;
+        y = rec.top;
+        width = rec.width;
+        height = rec.height;
+    
+        rect.setPosition(x,y);
+        rect.setSize(Vector2f(width, height));
+    }
+
+    void draw(RenderWindow& window) {
+        //Ошибка
+        window.draw(rect);
+        //original
         /*
-        draw(sprite)
+        (*window).draw(sprite)
         */
     }
 
@@ -264,14 +293,51 @@ class Map {
 private:
     int width;
     int height;
-    Title map;
+    int titleScale;
+    float scale;
+
+    Title **map;
 
 public:
+    Map(int width, int height) {
+        this->width = width;
+        this->height = height;
 
+        titleScale = 100;
 
+        map = new Title*[height];
+        for(int i = 0; i < height; i++)
+            map[i] = new Title[width];
+
+        initArr();
+        //getSetting().windowWidth;
+    }
+
+    ~Map() {
+        for (int i = 0; i < height; i++)
+            delete[] map[i];
+        delete[] map;
+    }
+
+    void initArr() {
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++) {
+                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
+                map[i][j].initType(grass);
+            }
+    }
+
+    void draw(RenderWindow& window) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                map[i][j].draw(window);
+            }
+        }
+    }
 };
 
-void gameplay(RenderWindow& window) {
+int gameplay(RenderWindow& window) {
+    Map map(5, 5);
 
     while (window.isOpen())
     {
@@ -286,7 +352,9 @@ void gameplay(RenderWindow& window) {
     			window.close();
     	}
     	window.clear(Color(Color::Black));
-
+        map.draw(window);
     	window.display();
     }
+
+    return 1;
 }

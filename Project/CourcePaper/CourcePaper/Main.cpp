@@ -20,8 +20,8 @@ int main()
 	
 
 	// Объект, который, собственно, является главным окном приложения
-	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
-	//RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!");
+	//RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
+	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!");
 	
 	int num = 1;
 	Music mainMusic;
@@ -42,9 +42,11 @@ int main()
 			{
 				num = 2;
 				window.close();
-				window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
+				//window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
+				RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!");
 			}
 			break;
+			case 4: gameplay(window); break;
 		}
 
 		if (!num) exit(0);
