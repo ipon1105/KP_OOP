@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <windows.h>
+#include <iostream>
 
 
 using namespace sf;
@@ -294,7 +295,7 @@ private:
     int width;
     int height;
     int titleScale;
-    float scale;
+    float scalingMap;
 
     Title **map;
 
@@ -312,6 +313,20 @@ public:
         initArr();
         //getSetting().windowWidth;
     }
+    
+    Map(block** arr, int width, int height) {
+        this->width = width;
+        this->height = height;
+
+        titleScale = 100;
+
+        map = new Title * [height];
+        for (int i = 0; i < height; i++)
+            map[i] = new Title[width];
+
+        initArr(arr, height, width);
+        //getSetting().windowWidth;
+    }
 
     ~Map() {
         for (int i = 0; i < height; i++)
@@ -327,30 +342,62 @@ public:
             }
     }
 
-    void draw(RenderWindow& window) {
-        for (int i = 0; i < height; i++) {
+    void initArr(block** arr, int aHeight, int bWidth) {
+        if (aHeight != height || bWidth != width)
+            return initArr();
+
+        for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
-                map[i][j].draw(window);
+                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
+                map[i][j].initType(arr[i][j]);
             }
+    }
+
+    void inc() {
+        //if(scalingMap + 0.1 > 1.0)
+    }
+
+    void draw(RenderWindow& window) {
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                map[i][j].draw(window);
+    }
+
+    void update(Event event, RenderWindow& window) {
+        if (event.type == event.MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
+            //std::cout << "x = " << Mouse::getPosition(window).x << "; y = " << Mouse::getPosition(window).y << ";\n";
         }
     }
 };
 
 int gameplay(RenderWindow& window) {
-    Map map(5, 5);
+    block bMap[5][5] = {
+        {grass,grass,grass,grass,grass},
+        {grass,stone,stone,stone,grass},
+        {grass,stone,grass,stone,grass},
+        {grass,stone,stone,stone,grass},
+        {grass,grass,grass,grass,grass}
+    };
+    
+    block** tmpMap = new block*[5];
+    for (int i = 0; i < 5; i++)
+        tmpMap[i] = new block[5];
+
+    for (int i = 0; i < 5; i++)
+        for (int j = 0; j < 5; j++)
+            tmpMap[i][j] = bMap[i][j];
+
+    Map map(tmpMap, 5, 5);
 
     while (window.isOpen())
     {
     	// Обрабатываем очередь событий в цикле
     	Event event;
-    	while (window.pollEvent(event))
-    	{
-
-    		// Пользователь нажал на «крестик» и хочет закрыть окно?
+    	while (window.pollEvent(event)) {
     		if (event.type == Event::Closed)
-    			// тогда закрываем его
     			window.close();
     	}
+
     	window.clear(Color(Color::Black));
         map.draw(window);
     	window.display();
