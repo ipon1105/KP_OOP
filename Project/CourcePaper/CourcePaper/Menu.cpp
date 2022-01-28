@@ -98,13 +98,25 @@ int setting(RenderWindow& window) {
     char** strings;
     int j = 0;
     int k = 0;
-    std::vector<sf::VideoMode> tmpArr = sf::VideoMode().getFullscreenModes();
+
+    std::vector<sf::VideoMode> tmpMy = sf::VideoMode().getFullscreenModes();
+    std::vector<sf::VideoMode> tmpArr;
+    for(int i = 0; i < tmpMy.size(); i++)
+        for (int l = 0; l < 4; l++)
+            if (tmpMy[i].width == LIST_SCREEN_SIZE[l][0] && tmpMy[i].height == LIST_SCREEN_SIZE[l][1])
+                tmpArr.push_back(tmpMy[i]);
+            
+
+
     strings = new char*[tmpArr.size()];
     for (int i = 0; i < tmpArr.size(); i++)
         strings[i] = new char[10];
 
     char textA[5], textB[5], separator = '*';
+    int var = 0;
     for (int i = 0; i < tmpArr.size(); i++) {
+        if (getSetting().windowWidth == tmpArr[i].width && getSetting().windowHeight == tmpArr[i].height)
+            var = i;
         _itoa(tmpArr[i].width, textA, 10);
         _itoa(tmpArr[i].height, textB, 10);
         while(textA[j]){
@@ -120,7 +132,6 @@ int setting(RenderWindow& window) {
         j = k = 0;
         
     }
-    int var = 0;
 
     ImGuiIO& io = ImGui::GetIO();
     io.Fonts->Clear();
@@ -151,11 +162,19 @@ int setting(RenderWindow& window) {
             ImGui::SFML::Shutdown();
             return 1;
         }
+        /*
+        Проблема разрешения экрана состоит в том, что просто так нельзя изменить разрешение экрана,
+        так же необходимо пересоздать окно SFML, что бы всё было корректно
+        */
         if (ImGui::Combo(u8" - разрешение экрана", &var, strings, tmpArr.size())) {
             configurateStruct newData;
             newData.windowWidth = tmpArr[var].width;
             newData.windowHeight = tmpArr[var].height;
             setSetting(newData);
+            saveConfigurate();
+            ImGui::SFML::Shutdown();
+            return 3;
+
         }
         ImGui::Text(u8"             Громкость: ");
         ImGui::Text(u8"Музыка: ");
