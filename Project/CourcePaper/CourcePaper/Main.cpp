@@ -42,8 +42,7 @@ int main()
 			{
 				num = 2;
 				window.close();
-				//window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
-				RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!");
+				window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", sf::Style::Fullscreen);
 			}
 			break;
 			case 4: gameplay(window); break;
