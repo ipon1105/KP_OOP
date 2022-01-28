@@ -23,10 +23,7 @@ int main()
 	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!");
 	
 	int num = 1;
-	Music mainMusic;
-	mainMusic.openFromFile("resource//Main-Theme.wav");
-	mainMusic.play();
-	mainMusic.getLoop();
+	
 	while (1) {
 
 		switch (num) {

@@ -6,16 +6,21 @@
 #include "GameSetting.h"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 
 using namespace sf;
 
 bool menuWindow;
 
+
+
 int menu(RenderWindow& window) {
     Texture backTexture;
     backTexture.loadFromFile("resource//gm_1.jpg");
     Sprite backSprite(backTexture);
+
+    
 
     //Подгонка изображения под разрешение экрана
     backSprite.setScale((float)(((float)getSetting().windowWidth) / (float)(backTexture.getSize().x)), (float)(((float)getSetting().windowHeight) / (float)(backTexture.getSize().y)));
@@ -87,7 +92,10 @@ int setting(RenderWindow& window) {
     Texture backTexture;
     backTexture.loadFromFile("resource//gm_1.jpg");
     Sprite backSprite(backTexture);
-
+    Music mainMusic;
+    mainMusic.openFromFile("resource//Main-Theme.wav");
+    mainMusic.play();
+    mainMusic.getLoop();
     //Подгонка изображения под разрешение экрана
     backSprite.setScale((float)(((float)getSetting().windowWidth) / (float)(backTexture.getSize().x)), (float)(((float)getSetting().windowHeight) / (float)(backTexture.getSize().y)));
 
@@ -157,8 +165,16 @@ int setting(RenderWindow& window) {
             newData.windowHeight = tmpArr[var].height;
             setSetting(newData);
         }
-        ImGui::Text(u8"             Громкость: ");
+        
+        ImGui::Text(u8"Громкость: \n");
+        static int val1=100,val2=100,val3=100;
+        ImGui::Text(u8"Общая громкость: ");
+        ImGui::SliderInt(u8"  ", &val1, 0, 100);
         ImGui::Text(u8"Музыка: ");
+        ImGui::SliderInt(u8" ", &val2, 0, 100);
+        mainMusic.setVolume(val2);
+        ImGui::Text(u8"Звуки: ");
+        ImGui::SliderInt(u8"   ", &val3, 0, 100);
         ImGui::End();
 
         window.clear();
