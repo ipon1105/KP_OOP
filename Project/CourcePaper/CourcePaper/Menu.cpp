@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <windows.h>
 
 
 using namespace sf;
@@ -82,6 +83,7 @@ int menu(RenderWindow& window) {
         window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
+        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
@@ -107,15 +109,7 @@ int setting(RenderWindow& window) {
     int j = 0;
     int k = 0;
 
-    std::vector<sf::VideoMode> tmpMy = sf::VideoMode().getFullscreenModes();
-    std::vector<sf::VideoMode> tmpArr;
-    for(int i = 0; i < tmpMy.size(); i++)
-        for (int l = 0; l < 4; l++)
-            if (tmpMy[i].width == LIST_SCREEN_SIZE[l][0] && tmpMy[i].height == LIST_SCREEN_SIZE[l][1])
-                tmpArr.push_back(tmpMy[i]);
-            
-
-
+    std::vector<sf::VideoMode> tmpArr = sf::VideoMode().getFullscreenModes();
     strings = new char*[tmpArr.size()];
     for (int i = 0; i < tmpArr.size(); i++)
         strings[i] = new char[10];
@@ -200,30 +194,99 @@ int setting(RenderWindow& window) {
         window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
+        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
     return 0;
 }
 
+//Поверхности
+enum block {
+    empty,
+    grass,
+    stone
+};
+
+//Плитка, единица на поле
+class Title {
+
+private:
+    int x;
+    int y;
+
+    //temp
+    RectangleShape rect;
+    //endtemp
+
+    block type;
+    Texture texture;
+    Sprite sprite;
+
+public:
+    Title(int x, int y, block type) {
+        this->x = x;
+        this->y = y;
+        this->type = type;
+
+        switch (type) {
+            case empty: rect.setFillColor(Color::White); break;
+            case grass: rect.setFillColor(Color::Green); break;
+            case stone: rect.setFillColor(Color(200, 200, 200)); break;
+        }
+        /*
+        switch (type) {
+            case empty: texture.loadFromFile("empty.png"); break;
+            case grass: texture.loadFromFile("grass.png"); break;
+            case stone: texture.loadFromFile("stone.png"); break;
+        }
+
+        sprite.setTexture(texture);
+        */
+        
+        sprite.setPosition( (float) x, (float) y );
+    }
+
+    ~Title() {
+
+    }
+
+    void draw() {
+        /*
+        draw(sprite)
+        */
+    }
+
+};
+
+class Map {
+
+private:
+    int width;
+    int height;
+    Title map;
+
+public:
+
+
+};
+
 void gameplay(RenderWindow& window) {
 
-    //// Главный цикл приложения. Выполняется, пока открыто окно
-    //while (window.isOpen())
-    //{
-    //	// Обрабатываем очередь событий в цикле
-    //	Event event;
-    //	while (window.pollEvent(event))
-    //	{
+    while (window.isOpen())
+    {
+    	// Обрабатываем очередь событий в цикле
+    	Event event;
+    	while (window.pollEvent(event))
+    	{
 
-    //		// Пользователь нажал на «крестик» и хочет закрыть окно?
-    //		if (event.type == Event::Closed)
-    //			// тогда закрываем его
-    //			window.close();
-    //	}
-    //	window.clear(Color(250, 220, 100, 0));
+    		// Пользователь нажал на «крестик» и хочет закрыть окно?
+    		if (event.type == Event::Closed)
+    			// тогда закрываем его
+    			window.close();
+    	}
+    	window.clear(Color(Color::Black));
 
-    //	// Отрисовка окна
-    //	window.display();
-    //}
+    	window.display();
+    }
 }
