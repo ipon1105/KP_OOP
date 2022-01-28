@@ -95,10 +95,7 @@ int setting(RenderWindow& window) {
     Texture backTexture;
     backTexture.loadFromFile("resource//gm_1.jpg");
     Sprite backSprite(backTexture);
-    Music mainMusic;
-    mainMusic.openFromFile("resource//Main-Theme.wav");
-    mainMusic.play();
-    mainMusic.getLoop();
+  
     //Подгонка изображения под разрешение экрана
     backSprite.setScale((float)(((float)getSetting().windowWidth) / (float)(backTexture.getSize().x)), (float)(((float)getSetting().windowHeight) / (float)(backTexture.getSize().y)));
 
@@ -154,7 +151,7 @@ int setting(RenderWindow& window) {
         }
 
         ImGui::SFML::Update(window, deltaClock.restart());
-
+static int val1= getSetting().allSound,val2= getSetting().Music,val3= getSetting().sound;
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
@@ -162,6 +159,14 @@ int setting(RenderWindow& window) {
 
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
         if (ImGui::Button(u8"Назад")) {
+            configurateStruct newData;
+            newData.windowWidth = tmpArr[var].width;
+            newData.windowHeight = tmpArr[var].height;
+            newData.allSound = val1;
+            newData.Music = val2;
+            newData.sound = val3;
+            setSetting(newData);
+            saveConfigurate();
             ImGui::SFML::Shutdown();
             return 1;
         }
@@ -173,6 +178,9 @@ int setting(RenderWindow& window) {
             configurateStruct newData;
             newData.windowWidth = tmpArr[var].width;
             newData.windowHeight = tmpArr[var].height;
+            newData.allSound = val1;
+            newData.Music = val2;
+            newData.sound = val3;
             setSetting(newData);
             saveConfigurate();
             ImGui::SFML::Shutdown();
@@ -181,14 +189,17 @@ int setting(RenderWindow& window) {
         }
         
         ImGui::Text(u8"Громкость: \n");
-        static int val1=100,val2=100,val3=100;
         ImGui::Text(u8"Общая громкость: ");
         ImGui::SliderInt(u8"  ", &val1, 0, 100);
         ImGui::Text(u8"Музыка: ");
         ImGui::SliderInt(u8" ", &val2, 0, 100);
-        mainMusic.setVolume(val2);
         ImGui::Text(u8"Звуки: ");
         ImGui::SliderInt(u8"   ", &val3, 0, 100);
+       /* configurateStruct newData;
+        
+        setSetting(newData);
+        saveConfigurate();*/
+       //ImGui::SFML::Shutdown();
         ImGui::End();
 
         window.clear();

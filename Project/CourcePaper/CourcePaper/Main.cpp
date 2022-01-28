@@ -25,16 +25,16 @@ int main()
 	
 	int num = 1;
 	Music mainMusic;
-
 	//Звук
 	{
 		mainMusic.openFromFile("resource//Main-Theme.wav");
 		mainMusic.play();
-		mainMusic.getLoop();
+		mainMusic.setLoop(true);
+		
 	}
 
 	while (1) {
-
+	mainMusic.setVolume(getSetting().Music);
 		switch (num) {
 			case 1: num = menu(window); break;
 			case 2: num = setting(window); break;

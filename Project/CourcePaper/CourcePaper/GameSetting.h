@@ -5,6 +5,9 @@
 struct configurateStruct {
 	int windowWidth;	//Ширина окна
 	int windowHeight;	//Высота окна
+	int allSound; //общая громкость
+	int Music;// музыка
+	int sound;//звуки
 };
 
 int saveConfigurate();			//Сохранить конфигурацию в файл
