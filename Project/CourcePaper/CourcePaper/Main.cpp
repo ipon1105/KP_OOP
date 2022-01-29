@@ -40,7 +40,7 @@ int main()
 				window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
 			}
 			break;
-			case 4: gameplay(window); break;
+			case 4: num = gameplay(window); break;
 		}
 
 		if (!num) exit(0);

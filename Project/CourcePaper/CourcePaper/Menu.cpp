@@ -328,11 +328,8 @@ public:
 
     }
 
-    void draw(RenderWindow& window, int globalX, int globalY) {
-        Vector2f tmp = sprite.getPosition(); 
-        sprite.setPosition(tmp.x + (float)globalX, tmp.y + (float)globalY);
+    void draw(RenderWindow& window) {
         window.draw(sprite);
-        sprite.setPosition(tmp);
     }
 
 };
@@ -340,13 +337,15 @@ public:
 class Map {
 
 private:
+    int windowWidth;
+    int windowHeight;
+
     int globalX;
     int globalY;
 
     int width;
     int height;
-    int titleScale;
-    float scalingMap;
+    float titleScale;
 
     Title **map;
     Vector2i mouseData;
@@ -359,14 +358,15 @@ public:
         this->width = width;
         this->height = height;
 
-        titleScale = 100;
+        titleScale = 32.0f;
 
         map = new Title*[height];
         for(int i = 0; i < height; i++)
             map[i] = new Title[width];
 
         initArr();
-        //getSetting().windowWidth;
+        windowWidth = getSetting().windowWidth;
+        windowHeight = getSetting().windowHeight;
     }
     
     Map(block** arr, int width, int height) {
@@ -376,7 +376,7 @@ public:
         this->width = width;
         this->height = height;
 
-        titleScale = 100;
+        titleScale = 32.0f;
 
         map = new Title * [height];
         for (int i = 0; i < height; i++)
@@ -411,40 +411,36 @@ public:
             }
     }
 
-    void inc() {
-        //if(scalingMap + 0.1 > 1.0)
-    }
-
     void draw(RenderWindow& window) {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
-                map[i][j].draw(window, globalX, globalY);
+                map[i][j].draw(window);
     }
 
-    void update(Event event, RenderWindow& window) {
-        if (Keyboard::isKeyPressed(Keyboard::Left))
-            globalX -= 20;
-        if (Keyboard::isKeyPressed(Keyboard::Right))
-            globalX += 20;
-        if (Keyboard::isKeyPressed(Keyboard::Down))
-            globalY += 20;
-        if (Keyboard::isKeyPressed(Keyboard::Up))
-            globalY -= 20;
-
-       /* if (event.type == event.MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
-            mouseData = Mouse::getPosition(window);
-        }
-        if (event.type == event.MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
-            Vector2i tmp = Mouse::getPosition(window);
-            if (mouseData != tmp) {
-                globalX += mouseData.x - tmp.x;
-                globalY += mouseData.y - tmp.y;
-                mouseData = Mouse::getPosition(window);
-            }
-        }*/
-
-    }
 };
+
+void cameraUpdateScroll(Event event, View& v) {
+
+    if (event.type == event.MouseWheelScrolled) {
+        if (event.mouseWheelScroll.delta > 0)
+            v.zoom(0.9f);
+        else
+            v.zoom(1.1f);
+    }
+}
+
+void cameraUpdateMove(Event event, View& v) {
+    const int speed = 5;
+
+    if (Keyboard::isKeyPressed(Keyboard::Left))
+        v.move(-speed, 0);
+    if (Keyboard::isKeyPressed(Keyboard::Right))
+        v.move(speed, 0);
+    if (Keyboard::isKeyPressed(Keyboard::Down))
+        v.move(0, speed);
+    if (Keyboard::isKeyPressed(Keyboard::Up))
+        v.move(0, -speed);
+}
 
 int gameplay(RenderWindow& window) {
 
@@ -488,6 +484,10 @@ int gameplay(RenderWindow& window) {
     ImGui::SFML::UpdateFontTexture();
 
     Clock deltaClock;
+
+    View camera;
+    camera.reset(sf::FloatRect(0, 0, getSetting().windowWidth, getSetting().windowHeight));
+
     window.setFramerateLimit(60);
     while (window.isOpen())
     {
@@ -496,11 +496,14 @@ int gameplay(RenderWindow& window) {
     	while (window.pollEvent(event)) {
     		if (event.type == Event::Closed)
     			window.close();
+
+            cameraUpdateScroll(event, camera);
     	}
-        map.update(event, window);
+        cameraUpdateMove(event, camera);
 
         ImGui::SFML::Update(window, deltaClock.restart());
-    	window.clear(Color(Color::Black));
+        window.setView(camera);
+        window.clear(Color(Color::Black));
         map.draw(window);
         ImGui::SFML::Render(window);
     	window.display();
@@ -509,6 +512,5 @@ int gameplay(RenderWindow& window) {
     }
 
     ImGui::SFML::Shutdown();
-
     return 0;
 }
