@@ -103,6 +103,7 @@ int setting(RenderWindow& window) {
     ImGui::SFML::Init(window);
 
     menuWindow = true;
+    bool fullscreenWinow = getSetting().screenScale;
 
     char** strings;
     int j = 0;
@@ -213,6 +214,26 @@ int setting(RenderWindow& window) {
             setSetting(newData);
             getBackgroundMusic().setVolume(((float)getSetting().musicVolume) * (((float)getSetting().generaVolume) / 100.0f));
         }
+        
+        if (ImGui::Checkbox(u8"Полноэкранный режим", &fullscreenWinow)) {
+            configurateStruct tmp;
+            tmp.screenScale = (tmp.screenScale) ? 0 : 1;
+
+            setSetting(tmp);
+            saveConfigurate();
+
+            ImGui::SFML::Shutdown();
+
+            return 3;
+        };/*
+        if (fullscreenWinow != (getSetting().screenScale ? true : false)) {
+            getSetting().screenScale = getSetting().screenScale ? 0 : 1;
+
+            ImGui::SFML::Shutdown();
+            saveConfigurate();
+
+            return 3;
+        }*/
        /* configurateStruct newData;
         
         setSetting(newData);
@@ -427,6 +448,7 @@ int gameplay(RenderWindow& window) {
         map.draw(window);
         ImGui::SFML::Render(window);
     	window.display();
+        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
