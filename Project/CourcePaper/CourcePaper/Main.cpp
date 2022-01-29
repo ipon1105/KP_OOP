@@ -20,18 +20,16 @@ int main()
 	
 	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Default);
 	
-	int num = 1;
-	Music mainMusic;
+	int num = 1;	
 	//Звук
 	{
-		mainMusic.openFromFile("resource//Main-Theme.wav");
-		mainMusic.play();
-		mainMusic.setLoop(true);
-		
+		getBackgroundMusic().openFromFile("resource//Main-Theme.wav");
+		getBackgroundMusic().play();
+		getBackgroundMusic().setLoop(true);
+		getBackgroundMusic().setVolume(((float)getSetting().musicVolume) * (((float)getSetting().generaVolume) / 100.0f));
 	}
 
 	while (1) {
-		mainMusic.setVolume(getSetting().musicVolume * getSetting().generaVolume / 100);
 		switch (num) {
 			case 1: num = menu(window); break;
 			case 2: num = setting(window); break;
