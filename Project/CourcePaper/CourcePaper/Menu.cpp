@@ -263,6 +263,65 @@ enum block {
     stone   //Камень
 };
 
+class Unit {
+
+private:
+    const int TITLE_SIZE = 32;  //Размер одной персонажа
+    int x;      //Х координата
+    int y;      //Y координата
+    int row;    //Номер строки
+    int col;    //Номер колонки
+
+
+    CircleShape g;  //Круг
+
+public:
+    //Конструктор
+    Unit() {
+        x = 0;
+        y = 0;
+
+        g.setPosition(x + 16, y + 16);
+        g.setRadius(15);
+    }
+    //Конструктор
+    Unit(int x, int y) {
+        this->x = x;
+        this->y = y;
+
+        g.setPosition(x+16,y+16);
+        g.setRadius(15);
+        g.setFillColor(Color::Red);
+    }
+
+    void setPos(int x, int y) {
+        this->x = x * 32;
+        this->y = y * 32;
+
+        g.setPosition(this->x + 16, this->y + 16);
+        g.setRadius(15);
+        g.setFillColor(Color::Red);
+    }
+
+    int getX() {
+        return x;
+    }
+
+    int getY() {
+        return y;
+    }
+
+    //Логика
+    void update(int moveX, int moveY) {
+        g.move(moveX, moveY);
+    }
+
+    //Отображение
+    void draw(RenderWindow& window) {
+        window.draw(g);
+    }
+};
+
 //Плитка, единица поверхности на поле
 class Title {
 
@@ -332,6 +391,11 @@ private:
 
     Title **map;        //Массив карты
 
+    //temp
+    Unit player;
+    int k;
+    //endtemp
+
 public:
     //Конструктор создающий карту col на row
     Map(int col, int row) {
@@ -343,8 +407,12 @@ public:
             map[i] = new Title[col];
 
         initArr();
+        
         windowWidth = getSetting().windowWidth;
         windowHeight = getSetting().windowHeight;
+
+        player.setPos(col / 2, row / 2);
+        k = 0;
     }
     
     //Конструктор, который строит карту по массиву блоков
@@ -357,6 +425,12 @@ public:
             map[i] = new Title[col];
 
         initArr(arr, row, col);
+        
+        windowWidth = getSetting().windowWidth;
+        windowHeight = getSetting().windowHeight;
+
+        player.setPos(col / 2, row / 2);
+        k = 0;
     }
 
     //Деструктор
@@ -387,11 +461,22 @@ public:
             }
     }
 
+    //Логика
+    void update() {
+        if (k++ % 60 == 0) {
+            k = 1;
+
+            player.update(-32,0);
+        }
+    }
+
     //Отрисовка всех плиток
     void draw(RenderWindow& window) {
         for (int i = 0; i < row; i++)
             for (int j = 0; j < col; j++)
                 map[i][j].draw(window);
+
+        player.draw(window);
     }
 
 };
@@ -425,38 +510,31 @@ void cameraUpdateMove(Event event, View& v) {
 }
 
 int gameplay(RenderWindow& window) {
+    const int col = 40;
+    const int row = 40;
 
-    block bMap[5][5];
-        
-
+    block bMap[row][col];
+    
+    //temp
+    {
         std::default_random_engine randomEngine(time(NULL));
         std::uniform_int_distribution<int> randomNum(0, 2);
 
-        for (int i = 0; i < 5;) {
-            for (int j = 0; j < 5;) {
-                int num = randomNum(randomEngine);
-                if (num == 0) {
-                    bMap[i][j] = grass;
-                }
-                else
-                    bMap[i][j] = stone;
-                    j++;
-                }
-            i++;
-        }
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++)
+                bMap[i][j] = (randomNum(randomEngine) == 0 ? grass : stone);
+    }
+    //endtemp
 
+    block** tmpMap = new block*[row];
+    for (int i = 0; i < row; i++)
+        tmpMap[i] = new block[col];
 
-    
-    
-    block** tmpMap = new block*[5];
-    for (int i = 0; i < 5; i++)
-        tmpMap[i] = new block[5];
-
-    for (int i = 0; i < 5; i++)
-        for (int j = 0; j < 5; j++)
+    for (int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
             tmpMap[i][j] = bMap[i][j];
 
-    Map map(tmpMap, 5, 5);
+    Map map(tmpMap, row, col);
 
     ImGui::SFML::Init(window);
     ImGuiIO& io = ImGui::GetIO();
@@ -470,7 +548,7 @@ int gameplay(RenderWindow& window) {
     View camera;
     camera.reset(sf::FloatRect(0, 0, getSetting().windowWidth, getSetting().windowHeight));
 
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(30);
     while (window.isOpen())
     {
     	// Обрабатываем очередь событий в цикле
@@ -483,7 +561,7 @@ int gameplay(RenderWindow& window) {
             cameraUpdateScroll(event, camera);
     	}
         cameraUpdateMove(event, camera);
-
+        map.update();
         ImGui::SFML::Update(window, deltaClock.restart());
         window.setView(camera);
         window.clear(Color(Color::Black));
