@@ -321,7 +321,7 @@ public:
         height = rec.height;
     
         sprite.setPosition(x,y);
-        sprite.setScale(width/32, height/32);
+        sprite.setScale((float)((float)width)/32.0f, (float)((float)height)/ 32.0f);
     }
 
     void update(RenderWindow& window) {
