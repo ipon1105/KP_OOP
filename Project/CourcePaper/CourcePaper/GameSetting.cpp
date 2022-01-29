@@ -15,11 +15,13 @@ int saveConfigurate() {
 	if (!outData)
 		return 1;
 
-	outData << confSetting.windowWidth << '\n';
-	outData << confSetting.windowHeight<<'\n';
+	outData << confSetting.windowWidth	<< '\n';
+	outData << confSetting.windowHeight	<<'\n';
 	outData << confSetting.generaVolume << '\n';
-	outData << confSetting.musicVolume << '\n';
-	outData << confSetting.soundVolume;
+	outData << confSetting.musicVolume	<< '\n';
+	outData << confSetting.soundVolume	<< '\n';
+	outData << confSetting.screenScale;
+
 	return 0;
 }
 
@@ -27,6 +29,10 @@ int defaultConfigurate() {
 	sf::VideoMode tmp = sf::VideoMode().getDesktopMode();
 	confSetting.windowWidth = tmp.width;
 	confSetting.windowHeight = tmp.height;
+	confSetting.generaVolume = 100;
+	confSetting.musicVolume = 100;
+	confSetting.soundVolume = 100;
+	confSetting.screenScale = 1;
 
 	return (saveConfigurate()) ? 1 : 0;
 }
@@ -42,6 +48,7 @@ int loadConfigurate() {
 	inData >> confSetting.generaVolume;
 	inData >> confSetting.musicVolume;
 	inData >> confSetting.soundVolume;
+	inData >> confSetting.screenScale;
 
 	return 0;
 }

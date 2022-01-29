@@ -7,7 +7,8 @@ struct configurateStruct {
 	int windowHeight;	//Высота окна
 	int generaVolume;	//Общая громкость
 	int musicVolume;	//Громкость музыкы
-	int soundVolume;			//Громкость звуков
+	int soundVolume;	//Громкость звуков
+	int screenScale;	//Полноэкранный режим
 };
 
 int saveConfigurate();			//Сохранить конфигурацию в файл

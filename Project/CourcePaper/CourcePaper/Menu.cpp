@@ -388,6 +388,13 @@ int gameplay(RenderWindow& window) {
 
     Map map(tmpMap, 5, 5);
 
+    ImGuiIO& io = ImGui::GetIO();
+    io.Fonts->Clear();
+    io.Fonts->AddFontFromFileTTF("resource//font2.ttf", 36, NULL,
+        ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
+    ImGui::SFML::UpdateFontTexture();
+
+    Clock deltaClock;
     while (window.isOpen())
     {
     	// Обрабатываем очередь событий в цикле
@@ -396,11 +403,14 @@ int gameplay(RenderWindow& window) {
     		if (event.type == Event::Closed)
     			window.close();
     	}
-
+        ImGui::SFML::Update(window, deltaClock.restart());
     	window.clear(Color(Color::Black));
         map.draw(window);
+        ImGui::SFML::Render(window);
     	window.display();
     }
+
+    ImGui::SFML::Shutdown();
 
     return 0;
 }
