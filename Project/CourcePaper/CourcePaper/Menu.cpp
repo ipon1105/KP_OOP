@@ -258,51 +258,39 @@ int setting(RenderWindow& window) {
 
 //Поверхности
 enum block {
-    empty,
-    grass,
-    stone
+    empty,  //Пустота
+    grass,  //Земля
+    stone   //Камень
 };
 
-//Плитка, единица на поле
+//Плитка, единица поверхности на поле
 class Title {
 
 private:
-    int x;
-    int y;
-    int width;
-    int height;
+    const int TITLE_SIZE = 32;  //Размер одной плитки
 
-    //temp
-    RectangleShape rect;
-    //endtemp
+    int x;      //Х координата
+    int y;      //Y координата
+    int width;  //Ширина плитки
+    int height; //Высота плитки
 
-    block type;
-    Texture texture;
-    Sprite sprite;
+    block type;         //Тип поверхности
+    Texture texture;    //Вырезанная текстура
+    Sprite sprite;      //Спрайт поверхности
 
 public:
-    Title() {
+    //Конструктор по умолчанию
+    Title() { }
 
-    }
-
+    //Конструктор по типу поверхности
     Title(block type) {
-        this->type = type;
-        
-        switch (type) {
-            case empty: texture.loadFromFile("resource//spriteList.png", IntRect(0,64,32,32)); break;
-            case grass: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
-            case stone: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
-        }
-
-        sprite.setTexture(texture);
-        sprite.setPosition( (float) x, (float) y );
-        
+        initType(type);
     }
 
-    ~Title() {
-
-    }
+    //Деструктор
+    ~Title() { }
     
+    //Инициализация плитки с помощью типа поверхности
     void initType(block type){
         this->type = type;
 
@@ -314,111 +302,101 @@ public:
         sprite.setTexture(texture);
     }
 
-    void setRect(IntRect rec) {
-        x = rec.left;
-        y = rec.top;
-        width = rec.width;
-        height = rec.height;
+    //Установить позицию плитки
+    void setPos(int x, int y) {
+        this->x =  x * TITLE_SIZE;
+        this->y =  y * TITLE_SIZE;
+        this->width  = TITLE_SIZE;
+        this->height = TITLE_SIZE;
     
-        sprite.setPosition(x,y);
-        sprite.setScale((float)((float)width)/32.0f, (float)((float)height)/ 32.0f);
+        sprite.setPosition(this->x, this->y);
     }
 
-    void update(RenderWindow& window) {
-
-    }
-
+    //Отрисовка плитки на окне
     void draw(RenderWindow& window) {
         window.draw(sprite);
     }
 
 };
 
+//Класс, который манипулирует всеми плитками и
+//всем игровым процессом
 class Map {
 
 private:
-    int windowWidth;
-    int windowHeight;
+    int windowWidth;    //Ширина окна
+    int windowHeight;   //Высота окна
 
-    int globalX;
-    int globalY;
+    int col;            //Кол. колонок массива
+    int row;            //Кол. строк массива
 
-    int width;
-    int height;
-    float titleScale;
-
-    Title **map;
-    Vector2i mouseData;
+    Title **map;        //Массив карты
 
 public:
-    Map(int width, int height) {
-        globalX = 50;
-        globalY = 150;
+    //Конструктор создающий карту col на row
+    Map(int col, int row) {
+        this->col = col;
+        this->row = row;
 
-        this->width = width;
-        this->height = height;
-
-        titleScale = 32.0f;
-
-        map = new Title*[height];
-        for(int i = 0; i < height; i++)
-            map[i] = new Title[width];
+        map = new Title*[row];
+        for(int i = 0; i < row; i++)
+            map[i] = new Title[col];
 
         initArr();
         windowWidth = getSetting().windowWidth;
         windowHeight = getSetting().windowHeight;
     }
     
-    Map(block** arr, int width, int height) {
-        globalX = 50;
-        globalY = 150;
+    //Конструктор, который строит карту по массиву блоков
+    Map(block** arr, int col, int row) {
+        this->col = col;
+        this->row = row;
 
-        this->width = width;
-        this->height = height;
+        map = new Title * [row];
+        for (int i = 0; i < row; i++)
+            map[i] = new Title[col];
 
-        titleScale = 32.0f;
-
-        map = new Title * [height];
-        for (int i = 0; i < height; i++)
-            map[i] = new Title[width];
-
-        initArr(arr, height, width);
-        //getSetting().windowWidth;
+        initArr(arr, row, col);
     }
 
+    //Деструктор
     ~Map() {
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i < row; i++)
             delete[] map[i];
         delete[] map;
     }
 
+    //Инициализация всех плиток как плиток земли
     void initArr() {
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++) {
-                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++) {
                 map[i][j].initType(grass);
+                map[i][j].setPos(j, i);
             }
     }
 
+    //Инициализация всех плиток в счёт переданного массива блоков в виде карты
     void initArr(block** arr, int aHeight, int bWidth) {
-        if (aHeight != height || bWidth != width)
+        if (aHeight != row || bWidth != col)
             return initArr();
 
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++) {
-                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++) {
                 map[i][j].initType(arr[i][j]);
+                map[i][j].setPos(j, i);
             }
     }
 
+    //Отрисовка всех плиток
     void draw(RenderWindow& window) {
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++)
                 map[i][j].draw(window);
     }
 
 };
 
+//Функция для зума камеры
 void cameraUpdateScroll(Event event, View& v) {
 
     if (event.type == event.MouseWheelScrolled) {
@@ -429,7 +407,11 @@ void cameraUpdateScroll(Event event, View& v) {
     }
 }
 
+//Функция для перемещения камеры
 void cameraUpdateMove(Event event, View& v) {
+    /*
+    Пометка - сделать зависимость от приблежения
+    */
     const int speed = 5;
 
     if (Keyboard::isKeyPressed(Keyboard::Left))
@@ -494,6 +476,7 @@ int gameplay(RenderWindow& window) {
     	// Обрабатываем очередь событий в цикле
     	Event event;
     	while (window.pollEvent(event)) {
+
     		if (event.type == Event::Closed)
     			window.close();
 
