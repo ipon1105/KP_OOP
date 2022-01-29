@@ -388,6 +388,8 @@ int gameplay(RenderWindow& window) {
 
     Map map(tmpMap, 5, 5);
 
+    ImGui::SFML::Init(window);
+    ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     ImGuiIO& io = ImGui::GetIO();
     io.Fonts->Clear();
     io.Fonts->AddFontFromFileTTF("resource//font2.ttf", 36, NULL,
