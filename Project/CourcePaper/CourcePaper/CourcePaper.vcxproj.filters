@@ -407,4 +407,9 @@
       <Filter>Файлы заголовков\ImGui_SFML</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\spriteList.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

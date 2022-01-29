@@ -245,23 +245,15 @@ public:
 
     Title(block type) {
         this->type = type;
-
+        
         switch (type) {
-            case empty: rect.setFillColor(Color::White); break;
-            case grass: rect.setFillColor(Color::Green); break;
-            case stone: rect.setFillColor(Color(200, 200, 200)); break;
-        }
-        //original
-        /*
-        switch (type) {
-            case empty: texture.loadFromFile("empty.png"); break;
-            case grass: texture.loadFromFile("grass.png"); break;
-            case stone: texture.loadFromFile("stone.png"); break;
+            case empty: texture.loadFromFile("resource//spriteList.png", IntRect(0,64,32,32)); break;
+            case grass: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
+            case stone: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
         }
 
         sprite.setTexture(texture);
         sprite.setPosition( (float) x, (float) y );
-        */
         
     }
 
@@ -273,10 +265,11 @@ public:
         this->type = type;
 
         switch (type) {
-            case empty: rect.setFillColor(Color::White); break;
-            case grass: rect.setFillColor(Color::Green); break;
-            case stone: rect.setFillColor(Color(200, 200, 200)); break;
+            case empty: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
+            case grass: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
+            case stone: texture.loadFromFile("resource//spriteList.png", IntRect(64, 64, 32, 32)); break;
         }
+        sprite.setTexture(texture);
     }
 
     void setRect(IntRect rec) {
@@ -285,17 +278,12 @@ public:
         width = rec.width;
         height = rec.height;
     
-        rect.setPosition(x,y);
-        rect.setSize(Vector2f(width, height));
+        sprite.setPosition(x,y);
+        sprite.setScale(width/32, height/32);
     }
 
     void draw(RenderWindow& window) {
-        //Ошибка
-        window.draw(rect);
-        //original
-        /*
-        (*window).draw(sprite)
-        */
+        window.draw(sprite);
     }
 
 };

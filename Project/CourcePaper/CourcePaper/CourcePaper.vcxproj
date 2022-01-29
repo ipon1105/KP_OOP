@@ -283,6 +283,9 @@
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector2.inl" />
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector3.inl" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\spriteList.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
