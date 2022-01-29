@@ -85,7 +85,8 @@ int menu(RenderWindow& window) {
         window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
-        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
+        if(getSetting().screenScale)
+            ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
@@ -245,7 +246,8 @@ int setting(RenderWindow& window) {
         window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
-        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
+        if (getSetting().screenScale)
+            ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
@@ -320,6 +322,10 @@ public:
         sprite.setScale(width/32, height/32);
     }
 
+    void update(RenderWindow& window) {
+
+    }
+
     void draw(RenderWindow& window) {
         window.draw(sprite);
     }
@@ -329,6 +335,9 @@ public:
 class Map {
 
 private:
+    int globalX;
+    int globalY;
+
     int width;
     int height;
     int titleScale;
@@ -338,6 +347,9 @@ private:
 
 public:
     Map(int width, int height) {
+        globalX = 50;
+        globalY = 150;
+
         this->width = width;
         this->height = height;
 
@@ -352,6 +364,9 @@ public:
     }
     
     Map(block** arr, int width, int height) {
+        globalX = 50;
+        globalY = 150;
+
         this->width = width;
         this->height = height;
 
@@ -374,7 +389,7 @@ public:
     void initArr() {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
-                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
+                map[i][j].setRect(IntRect(globalY + j * titleScale, globalX + i * titleScale, titleScale, titleScale));
                 map[i][j].initType(grass);
             }
     }
@@ -385,7 +400,7 @@ public:
 
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
-                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
+                map[i][j].setRect(IntRect(globalY + j * titleScale, globalX + i * titleScale, titleScale, titleScale));
                 map[i][j].initType(arr[i][j]);
             }
     }
@@ -427,7 +442,6 @@ int gameplay(RenderWindow& window) {
     Map map(tmpMap, 5, 5);
 
     ImGui::SFML::Init(window);
-    ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     ImGuiIO& io = ImGui::GetIO();
     io.Fonts->Clear();
     io.Fonts->AddFontFromFileTTF("resource//font2.ttf", 36, NULL,
@@ -448,7 +462,8 @@ int gameplay(RenderWindow& window) {
         map.draw(window);
         ImGui::SFML::Render(window);
     	window.display();
-        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
+        if (getSetting().screenScale)
+            ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
