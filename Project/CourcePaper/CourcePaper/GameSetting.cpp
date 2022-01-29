@@ -17,9 +17,9 @@ int saveConfigurate() {
 
 	outData << confSetting.windowWidth << '\n';
 	outData << confSetting.windowHeight<<'\n';
-	outData << confSetting.allSound << '\n';
-	outData << confSetting.Music << '\n';
-	outData << confSetting.sound;
+	outData << confSetting.generaVolume << '\n';
+	outData << confSetting.musicVolume << '\n';
+	outData << confSetting.soundVolume;
 	return 0;
 }
 
@@ -39,9 +39,9 @@ int loadConfigurate() {
 
 	inData >> confSetting.windowWidth;
 	inData >> confSetting.windowHeight;
-	inData >> confSetting.allSound;
-	inData >> confSetting.Music;
-	inData >> confSetting.sound;
+	inData >> confSetting.generaVolume;
+	inData >> confSetting.musicVolume;
+	inData >> confSetting.soundVolume;
 
 	return 0;
 }

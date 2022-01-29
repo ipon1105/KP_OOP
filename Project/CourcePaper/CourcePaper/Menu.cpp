@@ -152,7 +152,7 @@ int setting(RenderWindow& window) {
         }
 
         ImGui::SFML::Update(window, deltaClock.restart());
-static int val1= getSetting().allSound,val2= getSetting().Music,val3= getSetting().sound;
+static int val1= getSetting().generaVolume,val2= getSetting().musicVolume,val3= getSetting().soundVolume;
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
@@ -163,9 +163,9 @@ static int val1= getSetting().allSound,val2= getSetting().Music,val3= getSetting
             configurateStruct newData;
             newData.windowWidth = tmpArr[var].width;
             newData.windowHeight = tmpArr[var].height;
-            newData.allSound = val1;
-            newData.Music = val2;
-            newData.sound = val3;
+            newData.generaVolume = val1;
+            newData.musicVolume = val2;
+            newData.soundVolume = val3;
             setSetting(newData);
             saveConfigurate();
             ImGui::SFML::Shutdown();
@@ -179,9 +179,9 @@ static int val1= getSetting().allSound,val2= getSetting().Music,val3= getSetting
             configurateStruct newData;
             newData.windowWidth = tmpArr[var].width;
             newData.windowHeight = tmpArr[var].height;
-            newData.allSound = val1;
-            newData.Music = val2;
-            newData.sound = val3;
+            newData.generaVolume = val1;
+            newData.musicVolume = val2;
+            newData.soundVolume = val3;
             setSetting(newData);
             saveConfigurate();
             ImGui::SFML::Shutdown();
@@ -383,7 +383,7 @@ public:
 
 int gameplay(RenderWindow& window) {
     block bMap[5][5] = {
-        {grass,grass,grass,grass,grass},
+        {stone,grass,grass,grass,grass},
         {grass,stone,stone,stone,grass},
         {grass,stone,grass,stone,grass},
         {grass,stone,stone,stone,grass},
