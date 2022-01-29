@@ -328,8 +328,11 @@ public:
 
     }
 
-    void draw(RenderWindow& window) {
+    void draw(RenderWindow& window, int globalX, int globalY) {
+        Vector2f tmp = sprite.getPosition(); 
+        sprite.setPosition(tmp.x + (float)globalX, tmp.y + (float)globalY);
         window.draw(sprite);
+        sprite.setPosition(tmp);
     }
 
 };
@@ -346,6 +349,7 @@ private:
     float scalingMap;
 
     Title **map;
+    Vector2i mouseData;
 
 public:
     Map(int width, int height) {
@@ -391,7 +395,7 @@ public:
     void initArr() {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
-                map[i][j].setRect(IntRect(globalY + j * titleScale, globalX + i * titleScale, titleScale, titleScale));
+                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
                 map[i][j].initType(grass);
             }
     }
@@ -402,7 +406,7 @@ public:
 
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
-                map[i][j].setRect(IntRect(globalY + j * titleScale, globalX + i * titleScale, titleScale, titleScale));
+                map[i][j].setRect(IntRect(j * titleScale, i * titleScale, titleScale, titleScale));
                 map[i][j].initType(arr[i][j]);
             }
     }
@@ -414,13 +418,31 @@ public:
     void draw(RenderWindow& window) {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
-                map[i][j].draw(window);
+                map[i][j].draw(window, globalX, globalY);
     }
 
     void update(Event event, RenderWindow& window) {
-        if (event.type == event.MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
-            //std::cout << "x = " << Mouse::getPosition(window).x << "; y = " << Mouse::getPosition(window).y << ";\n";
+        if (Keyboard::isKeyPressed(Keyboard::Left))
+            globalX -= 20;
+        if (Keyboard::isKeyPressed(Keyboard::Right))
+            globalX += 20;
+        if (Keyboard::isKeyPressed(Keyboard::Down))
+            globalY += 20;
+        if (Keyboard::isKeyPressed(Keyboard::Up))
+            globalY -= 20;
+
+       /* if (event.type == event.MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+            mouseData = Mouse::getPosition(window);
         }
+        if (event.type == event.MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
+            Vector2i tmp = Mouse::getPosition(window);
+            if (mouseData != tmp) {
+                globalX += mouseData.x - tmp.x;
+                globalY += mouseData.y - tmp.y;
+                mouseData = Mouse::getPosition(window);
+            }
+        }*/
+
     }
 };
 
@@ -466,6 +488,7 @@ int gameplay(RenderWindow& window) {
     ImGui::SFML::UpdateFontTexture();
 
     Clock deltaClock;
+    window.setFramerateLimit(60);
     while (window.isOpen())
     {
     	// Обрабатываем очередь событий в цикле
@@ -474,6 +497,8 @@ int gameplay(RenderWindow& window) {
     		if (event.type == Event::Closed)
     			window.close();
     	}
+        map.update(event, window);
+
         ImGui::SFML::Update(window, deltaClock.restart());
     	window.clear(Color(Color::Black));
         map.draw(window);
