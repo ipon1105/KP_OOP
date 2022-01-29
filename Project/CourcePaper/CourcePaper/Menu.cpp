@@ -9,7 +9,9 @@
 #include <SFML/Audio.hpp>
 #include <windows.h>
 #include <iostream>
-
+#include <conio.h>
+#include <ctime>
+#include <random>
 
 using namespace sf;
 
@@ -423,13 +425,28 @@ public:
 };
 
 int gameplay(RenderWindow& window) {
-    block bMap[5][5] = {
-        {stone,grass,grass,grass,grass},
-        {grass,stone,stone,stone,grass},
-        {grass,stone,grass,stone,grass},
-        {grass,stone,stone,stone,grass},
-        {grass,grass,grass,grass,grass}
-    };
+
+    block bMap[5][5];
+        
+
+        std::default_random_engine randomEngine(time(NULL));
+        std::uniform_int_distribution<int> randomNum(0, 2);
+
+        for (int i = 0; i < 5;) {
+            for (int j = 0; j < 5;) {
+                int num = randomNum(randomEngine);
+                if (num == 0) {
+                    bMap[i][j] = grass;
+                }
+                else
+                    bMap[i][j] = stone;
+                    j++;
+                }
+            i++;
+        }
+
+
+    
     
     block** tmpMap = new block*[5];
     for (int i = 0; i < 5; i++)
