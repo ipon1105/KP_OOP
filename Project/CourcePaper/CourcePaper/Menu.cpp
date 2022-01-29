@@ -103,6 +103,7 @@ int setting(RenderWindow& window) {
     ImGui::SFML::Init(window);
 
     menuWindow = true;
+    bool fullscreenWinow = getSetting().screenScale;
 
     char** strings;
     int j = 0;
@@ -114,7 +115,7 @@ int setting(RenderWindow& window) {
         strings[i] = new char[10];
 
     char textA[5], textB[5], separator = '*';
-    int var = 0;
+    int var = 0, varGeneral = getSetting().generaVolume, varMusic = getSetting().musicVolume, varSound = getSetting().soundVolume;
     for (int i = 0; i < tmpArr.size(); i++) {
         if (getSetting().windowWidth == tmpArr[i].width && getSetting().windowHeight == tmpArr[i].height)
             var = i;
@@ -152,7 +153,7 @@ int setting(RenderWindow& window) {
         }
 
         ImGui::SFML::Update(window, deltaClock.restart());
-static int val1= getSetting().generaVolume,val2= getSetting().musicVolume,val3= getSetting().soundVolume;
+        
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
@@ -160,15 +161,8 @@ static int val1= getSetting().generaVolume,val2= getSetting().musicVolume,val3= 
 
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
         if (ImGui::Button(u8"Назад")) {
-            configurateStruct newData;
-            newData.windowWidth = tmpArr[var].width;
-            newData.windowHeight = tmpArr[var].height;
-            newData.generaVolume = val1;
-            newData.musicVolume = val2;
-            newData.soundVolume = val3;
-            setSetting(newData);
-            saveConfigurate();
             ImGui::SFML::Shutdown();
+            saveConfigurate();
             return 1;
         }
         /*
@@ -179,11 +173,8 @@ static int val1= getSetting().generaVolume,val2= getSetting().musicVolume,val3= 
             configurateStruct newData;
             newData.windowWidth = tmpArr[var].width;
             newData.windowHeight = tmpArr[var].height;
-            newData.generaVolume = val1;
-            newData.musicVolume = val2;
-            newData.soundVolume = val3;
             setSetting(newData);
-            saveConfigurate();
+
             ImGui::SFML::Shutdown();
             return 3;
 
@@ -191,11 +182,58 @@ static int val1= getSetting().generaVolume,val2= getSetting().musicVolume,val3= 
         
         ImGui::Text(u8"Громкость: \n");
         ImGui::Text(u8"Общая громкость: ");
-        ImGui::SliderInt(u8"  ", &val1, 0, 100);
+        if (ImGui::SliderInt(u8"  ", &varGeneral, 0, 100)) {
+            configurateStruct newData;
+
+            newData.generaVolume = varGeneral;
+            newData.musicVolume = varMusic;
+            newData.soundVolume = varSound;
+
+            setSetting(newData);
+            getBackgroundMusic().setVolume(((float)getSetting().musicVolume) * (((float)getSetting().generaVolume) / 100.0f));
+        }
         ImGui::Text(u8"Музыка: ");
-        ImGui::SliderInt(u8" ", &val2, 0, 100);
+        if(ImGui::SliderInt(u8" ", &varMusic, 0, 100)) {
+            configurateStruct newData;
+
+            newData.generaVolume = varGeneral;
+            newData.musicVolume = varMusic;
+            newData.soundVolume = varSound;
+
+            setSetting(newData);
+            getBackgroundMusic().setVolume(((float)getSetting().musicVolume) * (((float)getSetting().generaVolume) / 100.0f));
+        }
         ImGui::Text(u8"Звуки: ");
-        ImGui::SliderInt(u8"   ", &val3, 0, 100);
+        if (ImGui::SliderInt(u8"   ", &varSound, 0, 100)) {
+            configurateStruct newData;
+
+            newData.generaVolume = varGeneral;
+            newData.musicVolume = varMusic;
+            newData.soundVolume = varSound;
+
+            setSetting(newData);
+            getBackgroundMusic().setVolume(((float)getSetting().musicVolume) * (((float)getSetting().generaVolume) / 100.0f));
+        }
+        
+        if (ImGui::Checkbox(u8"Полноэкранный режим", &fullscreenWinow)) {
+            configurateStruct tmp;
+            tmp.screenScale = (tmp.screenScale) ? 0 : 1;
+
+            setSetting(tmp);
+            saveConfigurate();
+
+            ImGui::SFML::Shutdown();
+
+            return 3;
+        };/*
+        if (fullscreenWinow != (getSetting().screenScale ? true : false)) {
+            getSetting().screenScale = getSetting().screenScale ? 0 : 1;
+
+            ImGui::SFML::Shutdown();
+            saveConfigurate();
+
+            return 3;
+        }*/
        /* configurateStruct newData;
         
         setSetting(newData);
@@ -410,6 +448,7 @@ int gameplay(RenderWindow& window) {
         map.draw(window);
         ImGui::SFML::Render(window);
     	window.display();
+        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
