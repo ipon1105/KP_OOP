@@ -34,7 +34,7 @@ int main()
 	}
 
 	while (1) {
-	mainMusic.setVolume(getSetting().musicVolume);
+	mainMusic.setVolume(getSetting().musicVolume*getSetting().generaVolume/100);
 		switch (num) {
 			case 1: num = menu(window); break;
 			case 2: num = setting(window); break;
