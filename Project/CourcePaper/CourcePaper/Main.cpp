@@ -18,7 +18,7 @@ int main()
 	if (loadConfigurate() == -1) 
 		exit(1);	//Ошибка
 	
-	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Default);
+	RenderWindow window(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
 	
 	int num = 1;	
 	//Звук
@@ -37,7 +37,7 @@ int main()
 			{
 				num = 2;
 				window.close();
-				window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Default);
+				window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
 			}
 			break;
 			case 4: gameplay(window); break;
