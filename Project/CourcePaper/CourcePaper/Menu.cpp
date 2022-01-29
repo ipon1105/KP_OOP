@@ -402,5 +402,5 @@ int gameplay(RenderWindow& window) {
     	window.display();
     }
 
-    return 1;
+    return 0;
 }
