@@ -260,7 +260,11 @@ int setting(RenderWindow& window) {
 enum block {
     empty,  //Пустота
     grass,  //Земля
-    stone   //Камень
+    stone,  //Камень
+
+    shadowGrass = 100,  //Тень травы
+    shadowStone         //Тень камня
+
 };
 
 class Unit {
@@ -271,7 +275,6 @@ private:
     int y;      //Y координата
     int row;    //Номер строки
     int col;    //Номер колонки
-
 
     CircleShape g;  //Круг
 
@@ -298,7 +301,7 @@ public:
         this->x = x * 32;
         this->y = y * 32;
 
-        g.setPosition(this->x + 16, this->y + 16);
+        g.setPosition(this->x, this->y);
         g.setRadius(15);
         g.setFillColor(Color::Red);
     }
@@ -509,13 +512,90 @@ void cameraUpdateMove(Event event, View& v) {
         v.move(0, -speed);
 }
 
-int gameplay(RenderWindow& window) {
-    const int col = 40;
-    const int row = 40;
 
-    block bMap[row][col];
-    
+int gameplay(RenderWindow& window) {
+    const int col = 30;
+    const int row = 30;
+
+    block bMap[row][col] = { empty };
+    //Генерация карты
+    {
+        int cStone = 7;
+        int cGrass = 7;
+        int r = 0, c = 0;
+        int i = 0, j = 0;
+        bool finish;
+
+        srand(time(0));
+
+        //Генерация cStone количества камня
+        for (i = 0; i < cStone; i++) 
+        {
+            r = rand() % row;
+            c = rand() % col;
+
+            bMap[r][c] = stone;
+        }
+
+        //Генерация cGrass количества камня
+        for (i = 0; i < cGrass; i++)
+        {
+            r = rand() % row;
+            c = rand() % col;
+
+            bMap[r][c] = grass;
+        }
+
+        finish = false;
+        while (1) {
+            for (i = 0; i < row; i++) {
+                for (j = 0; j < col; j++) {
+
+                    if (bMap[i][j] != 0) {
+
+                        if (bMap[i][j] == shadowGrass || bMap[i][j] == shadowStone)
+                            break; // Возможно нужна замена на continue
+
+                        if (i - 1 >= 0 && bMap[i - 1][j] == empty)
+                            bMap[i - 1][j] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
+                        if (i + 1 <= row-1 && bMap[i + 1][j] == empty)
+                            bMap[i + 1][j] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
+                        if (j - 1 >= 0 && bMap[i][j - 1] == empty)
+                            bMap[i][j - 1] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
+                        if (j + 1 <= col - 1 && bMap[i][j + 1] == empty)
+                            bMap[i][j + 1] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
+
+                    }
+                }
+            }
+
+            for (int kk = 0; kk < row; kk++) {
+                for (int jj = 0; jj < col; jj++) {
+                    if (bMap[kk][jj] == shadowGrass)
+                        bMap[kk][jj] = grass;
+                    if (bMap[kk][jj] == shadowStone)
+                        bMap[kk][jj] = stone;
+                }
+            }
+
+            //Проверка на то, что больше делать нечего
+            finish = true;
+            for (i = 0; i < row; i++)
+                for (j = 0; j < col; j++)
+                    if (bMap[i][j] == 0)
+                    {
+                        i = row; j = col;
+                        finish = false;
+                        break;
+                    }
+
+            if (finish)
+                break;
+        }
+    }
+
     //temp
+    /*
     {
         std::default_random_engine randomEngine(time(NULL));
         std::uniform_int_distribution<int> randomNum(0, 2);
@@ -524,6 +604,7 @@ int gameplay(RenderWindow& window) {
             for (int j = 0; j < col; j++)
                 bMap[i][j] = (randomNum(randomEngine) == 0 ? grass : stone);
     }
+    */
     //endtemp
 
     block** tmpMap = new block*[row];
