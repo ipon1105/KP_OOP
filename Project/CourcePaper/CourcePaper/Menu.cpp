@@ -3,7 +3,10 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
+#include "MyView.h"
 #include "GameSetting.h"
+#include "Game.h"
+#include "block.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -255,59 +258,7 @@ int setting(RenderWindow& window) {
     ImGui::SFML::Shutdown();
     return 0;
 }
-
-//Поверхности
-enum block {
-    empty,  //Пустота   
-    grass,  //Земля     0,      64
-    stone,  //Камень    64,     64
-    water,  //Вода      32,     64
-
-    //<!-- stone & grass-->//
-
-    stone_grass_left_up,    //0,        96
-    stone_grass_left,       //0,        128
-    stone_grass_left_down,  //0,        160
-    stone_grass_up,         //32,       96
-    stone_grass_right_up,   //64,       96
-    stone_grass_right,      //64,       128
-    stone_grass_right_down, //64,       160
-    stone_grass_down,       //32,       160
-
-    grass_stone_left_up,    //96,       96
-    grass_stone_right_up,   //128,      96
-    grass_stone_left_down,  //96,       128
-    grass_stone_right_down, //128,      128
-
-    grass_stone_x_1,        //96,       160
-    grass_stone_x_2,        //128,      160
-
-    //<!-- water & grass-->//
-
-    water_grass_left_up,    //192,      96
-    water_grass_left,       //192,      128
-    water_grass_left_down,  //192,      160
-    water_grass_up,         //224,      96
-    water_grass_right_up,   //256,      96
-    water_grass_right,      //256,      128
-    water_grass_right_down, //256,      160
-    water_grass_down,       //224,      160
-
-    grass_water_left_up,    //288,      96
-    grass_water_right_up,   //324,      96
-    grass_water_left_down,  //288,      128
-    grass_water_right_down, //324,      128
-
-    grass_water_x_1,        //288,      160
-    grass_water_x_2,        //324,      160
-
-    //<!-- temporary floor-->//
-
-    shadowGrass = 100,  //Тень травы
-    shadowStone         //Тень камня
-
-};
-
+/*
 class Unit {
 
 private:
@@ -367,7 +318,7 @@ public:
 };
 
 //Плитка, единица поверхности на поле
-class Title {
+class MTitle {
 
 private:
     const int TITLE_SIZE = 32;  //Размер одной плитки
@@ -385,20 +336,20 @@ private:
     bool hitBox;        //Отображение границ
 public:
     //Конструктор по умолчанию
-    Title() { 
+    MTitle() { 
         hitBox = false;
         rect.setFillColor(Color::Transparent);
     }
 
     //Конструктор по типу поверхности
-    Title(block type) {
+    MTitle(block type) {
         initType(type);
         hitBox = false;
         rect.setFillColor(Color::Transparent);
     }
 
     //Деструктор
-    ~Title() { }
+    ~MTitle() { }
     
     //Инициализация плитки с помощью типа поверхности
     void initType(block type){
@@ -419,6 +370,8 @@ public:
         }
         sprite.setTexture(texture);
     }
+
+    block& getType() { return type; }
 
     //Установить позицию плитки
     void setPos(int x, int y) {
@@ -463,9 +416,7 @@ public:
 
 };
 
-//Класс, который манипулирует всеми плитками и
-//всем игровым процессом
-class Map {
+class MyMap {
 
 private:
     int windowWidth;    //Ширина окна
@@ -474,7 +425,7 @@ private:
     int col;            //Кол. колонок массива
     int row;            //Кол. строк массива
 
-    Title **map;        //Массив карты
+    MTitle **map;        //Массив карты
 
     //temp
     Unit player;
@@ -485,31 +436,157 @@ private:
 
 public:
     //Конструктор создающий карту col на row
-    Map(int col, int row) {
+    MyMap(int col, int row) {
         this->col = col;
         this->row = row;
 
-        map = new Title*[row];
+        map = new MTitle*[row];
         for(int i = 0; i < row; i++)
-            map[i] = new Title[col];
+            map[i] = new MTitle[col];
 
-        initArr();
-        
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++)
+                map[i][j].getType() = empty;
         windowWidth = getSetting().windowWidth;
         windowHeight = getSetting().windowHeight;
 
+        //////////////
+
+        //Генерация карты
+        {
+            int cStone = 7;
+            int cGrass = 7;
+            int r = 0, c = 0;
+            int i = 0, j = 0;
+            bool finish;
+
+            srand(time(0));
+
+            //Генерация cStone количества камня
+            for (i = 0; i < cStone; i++)
+            {
+                r = rand() % row;
+                c = rand() % col;
+
+                map[r][c].initType(stone);
+            }
+
+            //Генерация cGrass количества камня
+            for (i = 0; i < cGrass; i++)
+            {
+                r = rand() % row;
+                c = rand() % col;
+
+                map[r][c].initType(grass);
+            }
+
+            finish = false;
+            while (1) {
+                for (i = 0; i < row; i++) {
+                    for (j = 0; j < col; j++) {
+
+                        if (map[i][j].getType() != 0) {
+
+                            if (map[i][j].getType() == shadowGrass || map[i][j].getType() == shadowStone)
+                                break; // Возможно нужна замена на continue
+
+                            if (i - 1 >= 0 && map[i - 1][j].getType() == empty)
+                                map[i - 1][j].getType() = (map[i][j].getType() == grass) ? shadowGrass : shadowStone;
+                            if (i + 1 <= row - 1 && map[i + 1][j].getType() == empty)
+                                map[i + 1][j].getType() = (map[i][j].getType() == grass) ? shadowGrass : shadowStone;
+                            if (j - 1 >= 0 && map[i][j - 1].getType() == empty)
+                                map[i][j - 1].getType() = (map[i][j].getType() == grass) ? shadowGrass : shadowStone;
+                            if (j + 1 <= col - 1 && map[i][j + 1].getType() == empty)
+                                map[i][j + 1].getType() = (map[i][j].getType() == grass) ? shadowGrass : shadowStone;
+
+                        }
+                    }
+                }
+
+                for (int kk = 0; kk < row; kk++) {
+                    for (int jj = 0; jj < col; jj++) {
+                        if (map[kk][jj].getType() == shadowGrass)
+                            map[kk][jj].getType() = grass;
+                        if (map[kk][jj].getType() == shadowStone)
+                            map[kk][jj].getType() = stone;
+                    }
+                }
+
+                //Проверка на то, что больше делать нечего
+                finish = true;
+                for (i = 0; i < row; i++)
+                    for (j = 0; j < col; j++)
+                        if (map[i][j].getType() == 0)
+                        {
+                            i = row; j = col;
+                            finish = false;
+                            break;
+                        }
+
+
+
+                if (finish)
+                    break;
+            }
+            /*
+            for (i = 0; i < row; i++)
+                for (j = 0; j < col; j++)
+                {
+                    if (map[i][j].getType() == grass && map[i - 1][j].getType() == stone && map[i][j - 1].getType() == stone && map[i][j + 1].getType() != stone)
+                    {
+                        map[i][j].getType() = stone_grass_left_up;//лево верх 
+                    }
+                    if (map[i][j].getType() == grass && map[i + 1][j].getType() == stone && map[i][j - 1].getType() == stone && map[i][j + 1].getType() != stone)
+                    {
+                        map[i][j].getType() = stone_grass_left_down;//лево низ
+                    }
+                    if (map[i][j].getType() == grass && map[i + 1][j].getType() == stone && map[i][j + 1].getType() == stone && map[i][j - 1].getType() != stone)
+                    {
+                        map[i][j].getType() = stone_grass_right_down;//право низ                                         
+                    }
+                    if (map[i][j].getType() == grass && map[i - 1][j].getType() == stone && map[i][j + 1].getType() == stone && map[i][j - 1].getType() != stone)
+                    {
+                        map[i][j].getType() = stone_grass_right_up;//право верх                                          
+                    }
+                    if (map[i][j].getType() == grass && map[i - 1][j].getType() == stone && map[i][j + 1].getType() != stone && map[i][j - 1].getType() != stone)
+                    {
+                        map[i][j].getType() = stone_grass_up;//верх                                                     
+                    }
+                    if (map[i][j].getType() == grass && map[i + 1][j].getType() == stone && map[i][j + 1].getType() != stone && map[i][j - 1].getType() != stone)
+                    {
+                        map[i][j].getType() = stone_grass_down;//низ                                                     
+                    }
+                    if (map[i][j].getType() == grass && map[i + 1][j].getType() != stone && map[i - 1][j].getType() != stone && map[i][j - 1].getType() == stone)
+                    {
+                        map[i][j].getType() = stone_grass_left;//лево                                                    
+                    }
+                    if (map[i][j].getType() == grass && map[i + 1][j].getType() != stone && map[i - 1][j].getType() != stone && map[i][j + 1].getType() == stone)
+                    {
+                        map[i][j].getType() = stone_grass_right;//право
+                    }
+
+                }
+                
+            for (int i = 0; i < row; i++)
+                for (int j = 0; j < col; j++) {
+                    map[i][j].setPos(j, i);
+                }
+        }
+
+        //////////////
+        
         player.setPos(col / 2, row / 2);
         k = 0;
     }
     
     //Конструктор, который строит карту по массиву блоков
-    Map(block** arr, int col, int row) {
+    MyMap(block** arr, int col, int row) {
         this->col = col;
         this->row = row;
 
-        map = new Title * [row];
+        map = new MTitle * [row];
         for (int i = 0; i < row; i++)
-            map[i] = new Title[col];
+            map[i] = new MTitle[col];
 
         initArr(arr, row, col);
         
@@ -521,7 +598,7 @@ public:
     }
 
     //Деструктор
-    ~Map() {
+    ~MyMap() {
         for (int i = 0; i < row; i++)
             delete[] map[i];
         delete[] map;
@@ -567,7 +644,7 @@ public:
             if (col >= this->col || row >= this->row || col < 0 || row < 0)
                 return;
 
-            Title temp = map[row][col];
+            MTitle temp = map[row][col];
             temp.setHitBox(!temp.getHitBox());
         }
         
@@ -585,35 +662,6 @@ public:
 
 };
 
-//Функция для зума камеры
-void cameraUpdateScroll(Event event, View& v) {
-
-    if (event.type == event.MouseWheelScrolled) {
-        if (event.mouseWheelScroll.delta > 0)
-            v.zoom(1/1.1);
-        else
-            v.zoom(1.1f);
-    }
-}
-
-//Функция для перемещения камеры
-void cameraUpdateMove(Event event, View& v) {
-    /*
-    Пометка - сделать зависимость от приблежения
-    */
-    const int speed = 5;
-
-    if (Keyboard::isKeyPressed(Keyboard::Left))
-        v.move(-speed, 0);
-    if (Keyboard::isKeyPressed(Keyboard::Right))
-        v.move(speed, 0);
-    if (Keyboard::isKeyPressed(Keyboard::Down))
-        v.move(0, speed);
-    if (Keyboard::isKeyPressed(Keyboard::Up))
-        v.move(0, -speed);
-}
-
-
 int gameplay(RenderWindow& window) {
     const int col = 40;
     const int row = 40;
@@ -624,152 +672,27 @@ int gameplay(RenderWindow& window) {
         posCol[5] = "\0", posRow[5] = "\0",
         winWid2[5] = "\0", winHei2[5] = "\0",
         posWidth[5] = "\0", posHeight[5] = "\0";
+   
+    MyMap map(row, col);
 
-    block bMap[row][col] = { empty };
-    //Генерация карты
-    {
-        int cStone = 7;
-        int cGrass = 7;
-        int r = 0, c = 0;
-        int i = 0, j = 0;
-        bool finish;
+    ImGui::SFML::Init(window, false);////////////////////////////////////////////
+    ImGuiIO& io = ImGui::GetIO();////////////////////////////////////////////
+    io.Fonts->Clear();////////////////////////////////////////////
+    io.Fonts->AddFontFromFileTTF("resource//font2.ttf", 22, NULL,////////////////////////////////////////////
+        ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());////////////////////////////////////////////
+    ImGui::SFML::UpdateFontTexture();////////////////////////////////////////////
+    ImGuiStyle oldStyle = ImGui::GetStyle();////////////////////////////////////////////
 
-        srand(time(0));
-
-        //Генерация cStone количества камня
-        for (i = 0; i < cStone; i++)
-        {
-            r = rand() % row;
-            c = rand() % col;
-
-            bMap[r][c] = stone;
-        }
-
-        //Генерация cGrass количества камня
-        for (i = 0; i < cGrass; i++)
-        {
-            r = rand() % row;
-            c = rand() % col;
-
-            bMap[r][c] = grass;
-        }
-
-        finish = false;
-        while (1) {
-            for (i = 0; i < row; i++) {
-                for (j = 0; j < col; j++) {
-
-                    if (bMap[i][j] != 0) {
-
-                        if (bMap[i][j] == shadowGrass || bMap[i][j] == shadowStone)
-                            break; // Возможно нужна замена на continue
-
-                        if (i - 1 >= 0 && bMap[i - 1][j] == empty)
-                            bMap[i - 1][j] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
-                        if (i + 1 <= row - 1 && bMap[i + 1][j] == empty)
-                            bMap[i + 1][j] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
-                        if (j - 1 >= 0 && bMap[i][j - 1] == empty)
-                            bMap[i][j - 1] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
-                        if (j + 1 <= col - 1 && bMap[i][j + 1] == empty)
-                            bMap[i][j + 1] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
-
-                    }
-                }
-            }
-
-            for (int kk = 0; kk < row; kk++) {
-                for (int jj = 0; jj < col; jj++) {
-                    if (bMap[kk][jj] == shadowGrass)
-                        bMap[kk][jj] = grass;
-                    if (bMap[kk][jj] == shadowStone)
-                        bMap[kk][jj] = stone;
-                }
-            }
-
-            //Проверка на то, что больше делать нечего
-            finish = true;
-            for (i = 0; i < row; i++)
-                for (j = 0; j < col; j++)
-                    if (bMap[i][j] == 0)
-                    {
-                        i = row; j = col;
-                        finish = false;
-                        break;
-                    }
-
-
-
-            if (finish)
-                break;
-        }
-        for (i = 0; i < row; i++)
-            for (j = 0; j < col; j++)
-            {
-                if (bMap[i][j] == grass && bMap[i - 1][j] == stone && bMap[i][j - 1] == stone && bMap[i][j + 1] != stone)
-                {
-                    bMap[i][j] = stone_grass_left_up;//лево верх 
-                }
-                if (bMap[i][j] == grass && bMap[i + 1][j] == stone && bMap[i][j - 1] == stone && bMap[i][j + 1] != stone)
-                {
-                    bMap[i][j] = stone_grass_left_down;//лево низ
-                }
-                if (bMap[i][j] == grass && bMap[i + 1][j] == stone && bMap[i][j + 1] == stone && bMap[i][j - 1] != stone)
-                {
-                    bMap[i][j] = stone_grass_right_down;//право низ
-                }
-                if (bMap[i][j] == grass && bMap[i - 1][j] == stone && bMap[i][j + 1] == stone && bMap[i][j - 1] != stone)
-                {
-                    bMap[i][j] = stone_grass_right_up;//право верх
-                }
-                if (bMap[i][j] == grass && bMap[i - 1][j] == stone && bMap[i][j + 1] != stone && bMap[i][j - 1] != stone)
-                {
-                    bMap[i][j] = stone_grass_up;//верх
-                }
-                if (bMap[i][j] == grass && bMap[i + 1][j] == stone && bMap[i][j + 1] != stone && bMap[i][j - 1] != stone)
-                {
-                    bMap[i][j] = stone_grass_down;//низ
-                }
-                if (bMap[i][j] == grass && bMap[i + 1][j] != stone && bMap[i-1][j] != stone && bMap[i][j - 1] == stone)
-                {
-                    bMap[i][j] = stone_grass_left;//лево
-                }
-                if (bMap[i][j] == grass && bMap[i + 1][j] != stone && bMap[i-1][j] != stone && bMap[i][j + 1] == stone)
-                {
-                    bMap[i][j] = stone_grass_right;//право
-                }
-
-            }
-
-    }
-
-    block** tmpMap = new block*[row];
-    for (int i = 0; i < row; i++)
-        tmpMap[i] = new block[col];
-
-    for (int i = 0; i < row; i++)
-        for (int j = 0; j < col; j++)
-            tmpMap[i][j] = bMap[i][j];
-
-    Map map(tmpMap, row, col);
-
-    ImGui::SFML::Init(window, false);
-    ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->Clear();
-    io.Fonts->AddFontFromFileTTF("resource//font2.ttf", 22, NULL,
-        ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
-    ImGui::SFML::UpdateFontTexture();
-    ImGuiStyle oldStyle = ImGui::GetStyle();
-
-    oldStyle.Colors[2] = ImVec4(0.48, 0.23, 0.16, 1.0f);
+    oldStyle.Colors[2] = ImVec4(0.48, 0.23, 0.16, 1.0f);////////////////////////////////////////////
     //oldStyle.Colors[8] = ImVec4(0.98, 0.43, 0.26, 0.0f);
     //oldStyle.Colors[9] = ImVec4(0.98, 0.43, 0.26, 0.0f);
 
-    oldStyle.Alpha = 0.0f;
+    oldStyle.Alpha = 0.0f;////////////////////////////////////////////
     //ImGui::SetNextWindowBgAlpha(0.1f);
 
-    Clock deltaClock;
+    Clock deltaClock;////////////////////////////////////////////
 
-    View camera = window.getView();
+    getCamera() = window.getView();
 
     //camera.reset(sf::FloatRect(0, 0, getSetting().windowWidth, getSetting().windowHeight));
 
@@ -784,18 +707,18 @@ int gameplay(RenderWindow& window) {
     		if (event.type == Event::Closed)
     			window.close();
 
-            cameraUpdateScroll(event, camera);
+            cameraUpdateZoom(event);
     	}
-        cameraUpdateMove(event, camera);
+        cameraUpdateMove(event);
 
-        ImGui::SFML::Update(window, deltaClock.restart());
+        ImGui::SFML::Update(window, deltaClock.restart());////////////////////////////////////////////
         window.setView(camera);
         window.clear(Color(Color::Black));
         
         map.draw(window);
 
-        ImGui::SetNextWindowBgAlpha(0.2f);
-        ImGui::Begin(u8"Статистика");
+        ImGui::SetNextWindowBgAlpha(0.2f);////////////////////////////////////////////
+        ImGui::Begin(u8"Статистика");////////////////////////////////////////////
 
         map.update(event, window);
         //Отрисовка статистики по координатам мыши
@@ -917,11 +840,11 @@ int gameplay(RenderWindow& window) {
                 ImGui::EndGroup();
                 //ImGui::Text(u8"Мышка");
             }
-        }
+        }////////////////////////////////////////////
 
-        ImGui::End();
+        ImGui::End();////////////////////////////////////////////
 
-        ImGui::SFML::Render(window);
+        ImGui::SFML::Render(window);////////////////////////////////////////////
         window.display();
         
         if (getSetting().screenScale)
@@ -929,5 +852,14 @@ int gameplay(RenderWindow& window) {
     }
 
     ImGui::SFML::Shutdown();
+    return 0;
+}
+*/
+
+int test(RenderWindow& window, int a) {
+
+    Game gme;
+    gme.run(window);
+
     return 0;
 }

@@ -157,9 +157,13 @@
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_draw.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_tables.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSetting.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MyView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig-SFML.h" />
@@ -269,8 +273,14 @@
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Window.hpp" />
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowHandle.hpp" />
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowStyle.hpp" />
+    <ClInclude Include="block.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameSetting.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MyView.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bit_SFML-2.5.1\include\SFML\Audio\SoundFileFactory.inl" />
@@ -284,8 +294,11 @@
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector3.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resource\Bitmap.bmp" />
+    <Image Include="bitmap1.bmp" />
     <Image Include="resource\spriteList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CourcePaper.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

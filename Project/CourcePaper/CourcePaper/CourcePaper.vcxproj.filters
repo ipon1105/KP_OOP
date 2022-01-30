@@ -19,12 +19,21 @@
     <Filter Include="Файлы заголовков\ImGui_SFML">
       <UniqueIdentifier>{f51992ff-cde7-4918-95c6-c0d95d72af99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Game">
+      <UniqueIdentifier>{3de3c30f-91c5-479b-b0fa-643e4f72f1a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Game\Utils">
+      <UniqueIdentifier>{627ea9d7-bc87-4d83-8ae6-eb844f652405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Game">
+      <UniqueIdentifier>{5d822835-0712-4f3c-b8f6-d8253fac5621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Game\Utils">
+      <UniqueIdentifier>{2676b716-473f-43ee-8792-031dd8ffc8e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui.cpp">
@@ -45,14 +54,26 @@
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui-SFML.cpp">
       <Filter>Исходные файлы\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Исходные файлы\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MyView.cpp">
+      <Filter>Исходные файлы\Game\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="GameSetting.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Game\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Исходные файлы\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Исходные файлы\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Исходные файлы\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Menu.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Main.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -374,7 +395,28 @@
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowStyle.hpp">
       <Filter>Файлы заголовков\ImGui_SFML</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Файлы заголовков\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Файлы заголовков\Game</Filter>
+    </ClInclude>
     <ClInclude Include="GameSetting.h">
+      <Filter>Файлы заголовков\Game\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MyView.h">
+      <Filter>Файлы заголовков\Game\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Файлы заголовков\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="block.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Файлы заголовков\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -411,8 +453,13 @@
     <Image Include="resource\spriteList.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="resource\Bitmap.bmp">
+    <Image Include="bitmap1.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CourcePaper.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

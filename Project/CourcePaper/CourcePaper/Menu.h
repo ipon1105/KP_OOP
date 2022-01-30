@@ -22,4 +22,9 @@ int setting(sf::RenderWindow& window);
 */
 int gameplay(sf::RenderWindow& window);
 
+/*
+* Данная функция нужна для реализации
+* движка игры. ТЕСТОВАЯ
+*/
+int test(sf::RenderWindow& window, int a);
 #endif // !INTERFACE_HPP
