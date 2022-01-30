@@ -380,14 +380,21 @@ private:
     block type;         //Тип поверхности
     Texture texture;    //Вырезанная текстура
     Sprite sprite;      //Спрайт поверхности
+    RectangleShape rect;
 
+    bool hitBox;        //Отображение границ
 public:
     //Конструктор по умолчанию
-    Title() { }
+    Title() { 
+        hitBox = false;
+        rect.setFillColor(Color::Transparent);
+    }
 
     //Конструктор по типу поверхности
     Title(block type) {
         initType(type);
+        hitBox = false;
+        rect.setFillColor(Color::Transparent);
     }
 
     //Деструктор
@@ -421,11 +428,37 @@ public:
         this->height = TITLE_SIZE;
     
         sprite.setPosition(this->x, this->y);
+
+        rect.setPosition(this->x, this->y);
+        rect.setOutlineColor(Color::Green);
+        rect.setOutlineThickness(2);
+        rect.setSize(Vector2f(32.f, 32.f));
+    }
+
+    //Отображение границ
+    void setHitBox(bool hitBox) {
+        this->hitBox = hitBox;
+    }
+
+    bool getHitBox() {
+        return hitBox;
+    }
+
+    int getX() {
+        return x;
+    }
+
+    int getY() {
+        return y;
     }
 
     //Отрисовка плитки на окне
     void draw(RenderWindow& window) {
         window.draw(sprite);
+
+        if (hitBox)
+            window.draw(rect);
+
     }
 
 };
@@ -446,6 +479,8 @@ private:
     //temp
     Unit player;
     int k;
+    char dataA[5] = "\0";
+    char dataB[5] = "\0";
     //endtemp
 
 public:
@@ -514,12 +549,29 @@ public:
     }
 
     //Логика
-    void update() {
+    void update(Event event, RenderWindow& window) {
         if (k++ % 60 == 0) {
             k = 1;
 
-            player.update(-32,0);
+            player.update(-32, 0);
         }
+
+        if (event.type == event.MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+            Vector2i mousePos = Mouse::getPosition(window);
+
+            (((View)window.getView()).getCenter().x - (getSetting().windowWidth / 2));
+
+            int col = (mousePos.x + (((View)window.getView()).getCenter().x - (getSetting().windowWidth / 2))) / 32;
+            int row = (mousePos.y + (((View)window.getView()).getCenter().y - (getSetting().windowHeight / 2))) / 32;
+
+            if (col >= this->col || row >= this->row || col < 0 || row < 0)
+                return;
+
+            Title temp = map[row][col];
+            temp.setHitBox(!temp.getHitBox());
+        }
+        
+
     }
 
     //Отрисовка всех плиток
@@ -538,7 +590,7 @@ void cameraUpdateScroll(Event event, View& v) {
 
     if (event.type == event.MouseWheelScrolled) {
         if (event.mouseWheelScroll.delta > 0)
-            v.zoom(0.9f);
+            v.zoom(1/1.1);
         else
             v.zoom(1.1f);
     }
@@ -565,6 +617,13 @@ void cameraUpdateMove(Event event, View& v) {
 int gameplay(RenderWindow& window) {
     const int col = 40;
     const int row = 40;
+
+    char
+        cenX[5] = "\0", cenY[5] = "\0",
+        posX[5] = "\0", posY[5] = "\0",
+        posCol[5] = "\0", posRow[5] = "\0",
+        winWid2[5] = "\0", winHei2[5] = "\0",
+        posWidth[5] = "\0", posHeight[5] = "\0";
 
     block bMap[row][col] = { empty };
     //Генерация карты
@@ -693,17 +752,26 @@ int gameplay(RenderWindow& window) {
 
     Map map(tmpMap, row, col);
 
-    ImGui::SFML::Init(window);
+    ImGui::SFML::Init(window, false);
     ImGuiIO& io = ImGui::GetIO();
     io.Fonts->Clear();
-    io.Fonts->AddFontFromFileTTF("resource//font2.ttf", 36, NULL,
+    io.Fonts->AddFontFromFileTTF("resource//font2.ttf", 22, NULL,
         ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
     ImGui::SFML::UpdateFontTexture();
+    ImGuiStyle oldStyle = ImGui::GetStyle();
+
+    oldStyle.Colors[2] = ImVec4(0.48, 0.23, 0.16, 1.0f);
+    //oldStyle.Colors[8] = ImVec4(0.98, 0.43, 0.26, 0.0f);
+    //oldStyle.Colors[9] = ImVec4(0.98, 0.43, 0.26, 0.0f);
+
+    oldStyle.Alpha = 0.0f;
+    //ImGui::SetNextWindowBgAlpha(0.1f);
 
     Clock deltaClock;
 
-    View camera;
-    camera.reset(sf::FloatRect(0, 0, getSetting().windowWidth, getSetting().windowHeight));
+    View camera = window.getView();
+
+    //camera.reset(sf::FloatRect(0, 0, getSetting().windowWidth, getSetting().windowHeight));
 
     window.setFramerateLimit(30);
     while (window.isOpen())
@@ -711,6 +779,7 @@ int gameplay(RenderWindow& window) {
     	// Обрабатываем очередь событий в цикле
     	Event event;
     	while (window.pollEvent(event)) {
+            ImGui::SFML::ProcessEvent(event);
 
     		if (event.type == Event::Closed)
     			window.close();
@@ -718,13 +787,143 @@ int gameplay(RenderWindow& window) {
             cameraUpdateScroll(event, camera);
     	}
         cameraUpdateMove(event, camera);
-        map.update();
+
         ImGui::SFML::Update(window, deltaClock.restart());
         window.setView(camera);
         window.clear(Color(Color::Black));
+        
         map.draw(window);
+
+        ImGui::SetNextWindowBgAlpha(0.2f);
+        ImGui::Begin(u8"Статистика");
+
+        map.update(event, window);
+        //Отрисовка статистики по координатам мыши
+        {
+            Vector2i mousePos = Mouse::getPosition(window);
+            
+            {
+                ImGui::BeginGroup();
+                //Мышка
+                {
+                    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Мышка:").x) * 0.5f);
+                    ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Мышка:");
+
+                    ImGui::Text(u8"X = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(mousePos.x, posX, 10));
+                    ImGui::SameLine();
+
+                    ImGui::Text(u8"; Y = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(mousePos.y, posY, 10));
+                    ImGui::Spacing();
+                }
+                
+                //Позиция клетки на карте
+                {
+                    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Позиция клетки:").x) * 0.5f);
+                    ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Позиция клетки:");
+
+                    ImGui::Text(u8"Строка = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(mousePos.y / 32, posRow, 10));
+                    ImGui::SameLine();
+
+                    ImGui::Text(u8"; Колонка = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(mousePos.x / 32, posCol, 10));
+                    ImGui::Spacing();
+                }
+
+                //Информация о виде
+                {
+                    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Вид:").x) * 0.5f);
+                    ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Вид:");
+
+                    ImGui::Text(u8"Ширина = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(((View)window.getView()).getSize().x, posWidth, 10));
+                    ImGui::SameLine();
+
+                    ImGui::Text(u8"; Высота = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(((View)window.getView()).getSize().y, posHeight, 10));
+
+                    ImGui::Text(u8"ЦентрX = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(((View)window.getView()).getCenter().x, cenX, 10));
+                    ImGui::SameLine();
+
+                    ImGui::Text(u8"; ЦентрY = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(((View)window.getView()).getCenter().y, cenY, 10));
+                    ImGui::Spacing();
+                }
+
+                //Тестовые данные
+                {
+                    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Тесты:").x) * 0.5f);
+                    ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Тесты:");
+
+                    ImGui::Text(u8"windowWidth / 2 = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(getSetting().windowWidth / 2,winWid2,10));
+
+                    ImGui::Text(u8"windowHeight / 2 = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(getSetting().windowHeight / 2, winWid2, 10));
+
+                    int col = (mousePos.x + (((View)window.getView()).getCenter().x - (getSetting().windowWidth / 2)));
+                    int row = (mousePos.y + (((View)window.getView()).getCenter().y - (getSetting().windowHeight / 2)));
+
+                    ImGui::Text(u8"mousePos.x + (windowWidth / 2) = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(col, winWid2, 10));
+
+                    ImGui::Text(u8"mousePos.y + (windowHeight / 2) = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(row, winWid2, 10));
+
+                    col = (mousePos.x + (((View)window.getView()).getCenter().x - (((View)window.getView()).getSize().x / 2) * 1.1f));
+                    row = (mousePos.y + (((View)window.getView()).getCenter().y - (((View)window.getView()).getSize().y / 2) * 1.1f));
+
+                    ImGui::Text(u8"mousePos.x + (view.windowWidth / 2) = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(col, winWid2, 10));
+
+                    ImGui::Text(u8"mousePos.y + (view.windowHeight / 2) = ");
+                    ImGui::SameLine();
+
+                    ImGui::Text(_itoa(row, winWid2, 10));
+
+
+
+                }
+
+                ImGui::EndGroup();
+                //ImGui::Text(u8"Мышка");
+            }
+        }
+
+        ImGui::End();
+
         ImGui::SFML::Render(window);
-    	window.display();
+        window.display();
+        
         if (getSetting().screenScale)
             ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
