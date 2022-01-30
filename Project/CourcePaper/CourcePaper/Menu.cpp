@@ -401,6 +401,14 @@ public:
             case empty: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
             case grass: texture.loadFromFile("resource//spriteList.png", IntRect(0, 64, 32, 32)); break;
             case stone: texture.loadFromFile("resource//spriteList.png", IntRect(64, 64, 32, 32)); break;
+            case stone_grass_left:texture.loadFromFile("resource//spriteList.png", IntRect(0, 128, 32, 32)); break;       //0,        128
+            case stone_grass_right:texture.loadFromFile("resource//spriteList.png", IntRect(64, 128, 32, 32)); break;      //64,       128
+            case stone_grass_down:texture.loadFromFile("resource//spriteList.png", IntRect(32, 160, 32, 32)); break;       //32,       160
+            case stone_grass_up:texture.loadFromFile("resource//spriteList.png", IntRect(32, 96, 32, 32)); break;         //32,       96
+            case stone_grass_left_up:texture.loadFromFile("resource//spriteList.png", IntRect(0, 96, 32, 32)); break;   //0,        96
+            case stone_grass_left_down:texture.loadFromFile("resource//spriteList.png", IntRect(0, 160, 32, 32)); break;  //0,        160
+            case stone_grass_right_up:texture.loadFromFile("resource//spriteList.png", IntRect(64, 96, 32, 32)); break;   //64,       96
+            case stone_grass_right_down:texture.loadFromFile("resource//spriteList.png", IntRect(64, 160, 32, 32)); break;//64,       160
         }
         sprite.setTexture(texture);
     }
@@ -555,8 +563,8 @@ void cameraUpdateMove(Event event, View& v) {
 
 
 int gameplay(RenderWindow& window) {
-    const int col = 30;
-    const int row = 30;
+    const int col = 40;
+    const int row = 40;
 
     block bMap[row][col] = { empty };
     //√енераци€ карты
@@ -570,7 +578,7 @@ int gameplay(RenderWindow& window) {
         srand(time(0));
 
         //√енераци€ cStone количества камн€
-        for (i = 0; i < cStone; i++) 
+        for (i = 0; i < cStone; i++)
         {
             r = rand() % row;
             c = rand() % col;
@@ -599,7 +607,7 @@ int gameplay(RenderWindow& window) {
 
                         if (i - 1 >= 0 && bMap[i - 1][j] == empty)
                             bMap[i - 1][j] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
-                        if (i + 1 <= row-1 && bMap[i + 1][j] == empty)
+                        if (i + 1 <= row - 1 && bMap[i + 1][j] == empty)
                             bMap[i + 1][j] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
                         if (j - 1 >= 0 && bMap[i][j - 1] == empty)
                             bMap[i][j - 1] = (bMap[i][j] == grass) ? shadowGrass : shadowStone;
@@ -630,9 +638,49 @@ int gameplay(RenderWindow& window) {
                         break;
                     }
 
+
+
             if (finish)
                 break;
         }
+        for (i = 0; i < row; i++)
+            for (j = 0; j < col; j++)
+            {
+                if (bMap[i][j] == grass && bMap[i - 1][j] == stone && bMap[i][j - 1] == stone && bMap[i][j + 1] != stone)
+                {
+                    bMap[i][j] = stone_grass_left_up;//лево верх 
+                }
+                if (bMap[i][j] == grass && bMap[i + 1][j] == stone && bMap[i][j - 1] == stone && bMap[i][j + 1] != stone)
+                {
+                    bMap[i][j] = stone_grass_left_down;//лево низ
+                }
+                if (bMap[i][j] == grass && bMap[i + 1][j] == stone && bMap[i][j + 1] == stone && bMap[i][j - 1] != stone)
+                {
+                    bMap[i][j] = stone_grass_right_down;//право низ
+                }
+                if (bMap[i][j] == grass && bMap[i - 1][j] == stone && bMap[i][j + 1] == stone && bMap[i][j - 1] != stone)
+                {
+                    bMap[i][j] = stone_grass_right_up;//право верх
+                }
+                if (bMap[i][j] == grass && bMap[i - 1][j] == stone && bMap[i][j + 1] != stone && bMap[i][j - 1] != stone)
+                {
+                    bMap[i][j] = stone_grass_up;//верх
+                }
+                if (bMap[i][j] == grass && bMap[i + 1][j] == stone && bMap[i][j + 1] != stone && bMap[i][j - 1] != stone)
+                {
+                    bMap[i][j] = stone_grass_down;//низ
+                }
+                if (bMap[i][j] == grass && bMap[i + 1][j] != stone && bMap[i-1][j] != stone && bMap[i][j - 1] == stone)
+                {
+                    bMap[i][j] = stone_grass_left;//лево
+                }
+                if (bMap[i][j] == grass && bMap[i + 1][j] != stone && bMap[i-1][j] != stone && bMap[i][j + 1] == stone)
+                {
+                    bMap[i][j] = stone_grass_right;//право
+                }
+
+            }
+
     }
 
     block** tmpMap = new block*[row];
