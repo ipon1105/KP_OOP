@@ -720,7 +720,6 @@ int gameplay(RenderWindow& window) {
         ImGui::SetNextWindowBgAlpha(0.2f);////////////////////////////////////////////
         ImGui::Begin(u8"Статистика");////////////////////////////////////////////
 
-        map.update(event, window);
         //Отрисовка статистики по координатам мыши
         {
             Vector2i mousePos = Mouse::getPosition(window);

@@ -15,7 +15,12 @@ class Game
 private:
 	Map map;
 
-public:	
+	//Инициализация
+	void interfaceInit(sf::RenderWindow& window);
+
+	//Создание окно статистики
+	void staticWindow(sf::RenderWindow& window);
+public:
 	//Конструктор класса
 	Game();
 
