@@ -6,7 +6,8 @@
 #include <Windows.h>
 
 Game::Game() {
-	map = Map(10, 10);
+	map.initMap(17, 17);
+	map.createMap(3, 3);
 }
 
 void Game::run(sf::RenderWindow& window) {

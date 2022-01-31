@@ -1,21 +1,16 @@
 #include "Map.h"
 
 Map::Map() {
-    this->colCount = 10;
-    this->rowCount = 10;
+
+}
+
+void Map::initMap(const int& row, const int& col) {
+    this->rowCount = row;
+    this->colCount = col;
 
     map = new Box * [rowCount];
     for (int i = 0; i < rowCount; i++)
         map[i] = new Box[this->colCount];
-
-    //temp
-    for (int i = 0; i < this->rowCount; i++)
-        for (int j = 0; j < this->colCount; j++)
-        {
-            map[i][j].setOriginPos(sf::Vector2i(j, i));
-            map[i][j].setType(grass);
-        }
-    //endtemp
 }
 
 Map::Map(const int& row, const int& col) {
@@ -26,14 +21,6 @@ Map::Map(const int& row, const int& col) {
     for (int i = 0; i < this->rowCount; i++)
         map[i] = new Box[this->colCount];
 
-    //temp
-    for (int i = 0; i < this->rowCount; i++)
-        for (int j = 0; j < this->colCount; j++)
-        {
-            map[i][j].setOriginPos(sf::Vector2i(j,i));
-            map[i][j].setType(grass);
-        }
-    //endtemp
 }
 
 int Map::getRowCount() {
@@ -61,13 +48,91 @@ Map::Map(const Map& newMap) {
             map[i][j] = newMap.map[i][j];
 }
 
-void Map::createMap(const int& stoneCount, const int& grassCount, const int seed = time(0)) {
+void Map::createMap(const int& stoneCount, const int& grassCount, const int seed) {
     srand(seed);
 
-    /*
-    Сделать
-    */
+    int r = 0, c = 0;
+    block** blockMap = new block*[this->rowCount];
+    for (int i = 0; i < rowCount; i++)
+        blockMap[i] = new block[this->colCount];
+    
+    for (int i = 0; i < rowCount; i++)
+        for (int j = 0; j < colCount; j++)
+            blockMap[i][j] = empty;
 
+    for (int i = 0; i < stoneCount; i++) {
+        r = rand() % rowCount;
+        c = rand() % colCount;
+
+        blockMap[r][c] = stone;
+    }
+    
+    for (int i = 0; i < grassCount; i++) {
+        r = rand() % rowCount;
+        c = rand() % colCount;
+
+        blockMap[r][c] = grass;
+    }
+
+    bool gen = true;
+    while (gen) {
+        //Деление
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                if (blockMap[i][j] != 0) {
+
+                    if (blockMap[i][j] == shadowGrass || blockMap[i][j] == shadowStone)
+                        break;
+
+                    if (i - 1 >= 0 && blockMap[i - 1][j] == empty)
+                        blockMap[i - 1][j] = (blockMap[i][j] == grass) ? shadowGrass : shadowStone;
+                    if (i + 1 <= rowCount - 1 && blockMap[i + 1][j] == empty)
+                        blockMap[i + 1][j] = (blockMap[i][j]== grass) ? shadowGrass : shadowStone;
+                    if (j - 1 >= 0 && blockMap[i][j - 1]== empty)
+                        blockMap[i][j - 1] = (blockMap[i][j]== grass) ? shadowGrass : shadowStone;
+                    if (j + 1 <= rowCount - 1 && blockMap[i][j + 1] == empty)
+                        blockMap[i][j + 1] = (blockMap[i][j] == grass) ? shadowGrass : shadowStone;
+
+                }
+            }
+        }
+        
+        //Выравнивание
+        for (int i = 0; i < rowCount; i++) 
+            for (int j = 0; j < colCount; j++) {
+                if (blockMap[i][j] == shadowGrass)
+                    blockMap[i][j] = grass;
+                if (blockMap[i][j] == shadowStone)
+                    blockMap[i][j] = stone;
+            }
+        
+        //Гранение:
+
+
+        //Проверка
+        gen = false;
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                if (blockMap[i][j] == 0) {
+                    gen = true;
+
+                    i = rowCount;
+                    j = colCount;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < rowCount; i++)
+        for (int j = 0; j < colCount; j++) 
+        {
+            map[i][j].setType(blockMap[i][j]);
+            map[i][j].setOriginPos(sf::Vector2i(j, i));
+        }
+
+    for (int i = 0; i < rowCount; i++)
+        delete[] blockMap[i];
+    delete[] blockMap;
 }
 
 void Map::update(const sf::Event& event) {

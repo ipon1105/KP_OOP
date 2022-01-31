@@ -21,7 +21,10 @@ public:
     Map(const int& row, const int& col);
 
     //Генерирует карту с введённой кучностью и сидом
-    void createMap(const int& stoneCount, const int& grassCount, const int seed);
+    void createMap(const int& stoneCount, const int& grassCount, const int seed = time(0));
+
+    //Инициализация
+    void initMap(const int& row, const int& col);
 
     //Вернуть количество строк
     int getRowCount();

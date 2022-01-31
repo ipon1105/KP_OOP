@@ -66,7 +66,7 @@ void Box::initHitBox() {
     this->hitBox.setOutlineColor(sf::Color::Green);
     this->hitBox.setOutlineThickness(this->hitBoxThickness);
 
-    this->setHitBoxing(true);
+    this->setHitBoxing(false);
 }
 
 void Box::setGlobalPos(const sf::Vector2i& pos) {
