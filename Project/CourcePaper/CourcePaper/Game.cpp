@@ -8,17 +8,10 @@
 #include <Windows.h>
 
 void Game::staticWindow(sf::RenderWindow& window) {
-    //char tmp[6];
+    char tmp[6];
     //ImGui::SetNextWindowBgAlpha(0.2f);
-
-    //ImGui::Begin(u8"1");
-    //ImGui::End();
-    /*
     ImGui::Begin(u8"Статистика");
-    ImGui::End();
-    */
-    ImGui::SFML::Render();
-    /*
+    
     //Отрисовка статистики по координатам мыши
     {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -139,7 +132,7 @@ void Game::staticWindow(sf::RenderWindow& window) {
 
         }
     }
-    */
+    ImGui::End();
 }
 
 void Game::interfaceInit(sf::RenderWindow& window) {
@@ -161,9 +154,9 @@ Game::Game() {
 void Game::run(sf::RenderWindow& window) {
 
 	interfaceInit(window);
+
 	getCamera() = window.getView();
     sf::Clock deltaClock;
-
 	while (window.isOpen()) {
 
 		sf::Event event;
@@ -177,8 +170,6 @@ void Game::run(sf::RenderWindow& window) {
 		}
         cameraUpdateMove(event);
         ImGui::SFML::Update(window, deltaClock.restart());
-        window.setView(camera);
-        window.clear(sf::Color(sf::Color::Black));
 
 		update(event);
 		render(window);
@@ -189,8 +180,15 @@ void Game::run(sf::RenderWindow& window) {
 
 void Game::render(sf::RenderWindow& window) {
 
+    window.setView(camera);
+
+    window.clear(sf::Color::Black);
+    window.display();
+
     map.render(window);
     staticWindow(window);
+    ImGui::SFML::Render();
+
 	window.display();
 
 	if (getSetting().screenScale)

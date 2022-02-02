@@ -65,6 +65,7 @@ int menu(RenderWindow& window) {
         ImGui::SetCursorPosY(getSetting().windowHeight * 0.4f);
         if (ImGui::Button(u8"Играть")) {
             ImGui::SFML::Shutdown();
+            ImGui::SFML::Shutdown();
             return 4;
         }
 
@@ -538,7 +539,7 @@ public:
                     }
                     if (map[i][j].getType() == grass && map[i + 1][j].getType() == stone && map[i][j - 1].getType() == stone && map[i][j + 1].getType() != stone)
                     {
-                        map[i][j].getType() = stone_grass_left_down;//лево низ
+/*лево низ*//*                        map[i][j].getType() = stone_grass_left_down;
                     }
                     if (map[i][j].getType() == grass && map[i + 1][j].getType() == stone && map[i][j + 1].getType() == stone && map[i][j - 1].getType() != stone)
                     {
@@ -855,7 +856,7 @@ int gameplay(RenderWindow& window) {
 }
 */
 
-int test(RenderWindow& window, int a) {
+int test(sf::RenderWindow& window) {
 
     Game gme;
     gme.run(window);
