@@ -139,6 +139,7 @@ void Game::run(sf::RenderWindow& window) {
 
 			cameraUpdateZoom(event);
             map.update(event, window);
+            enemy.updateEvent(event, window);
 		}
         cameraUpdateMove(event);
 
@@ -155,6 +156,7 @@ void Game::render(sf::RenderWindow& window) {
 
     window.pushGLStates();
     map.render(window);
+    enemy.render(window);
     window.popGLStates();
     ImGui::SFML::Render();
 
@@ -166,5 +168,6 @@ void Game::render(sf::RenderWindow& window) {
 void Game::update(const sf::Event& event, sf::RenderWindow& window) {
     ImGui::SFML::Update(window, this->deltaClock.restart());
     staticWindow(window);
+    
     window.setView(camera);
 }

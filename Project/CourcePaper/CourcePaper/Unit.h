@@ -17,6 +17,10 @@ private:
 	sf::Texture texture;		//Текстура
 	sf::Sprite	sprite;			//Спрайт
 
+	//temp
+	sf::CircleShape shape;		//Временный - Персонаж
+	//endtemp
+
 	state stateNow;				//Состояние существа
 
 public:
@@ -53,6 +57,12 @@ public:
 
 	//Ударить врага
 	void kickEnemy(Unit& enemy);
+
+	//Идти на следующие координаты карты
+	void goToOriginPos(sf::Vector2i pos);
+
+	//Идти на следующие координаты карты
+	void goToGlobalPos(sf::Vector2i pos);
 
 	//Отрисовать
 	void render(sf::RenderWindow& window);

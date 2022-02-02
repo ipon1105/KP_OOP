@@ -4,6 +4,7 @@
 #include "imgui-SFML.h"
 
 #include "Utilits.h"
+#include "AI.h"
 #include "Map.h"
 
 #include <SFML/Graphics.hpp>
@@ -16,6 +17,7 @@ class Game
 private:
 	Map map;
 	Utilits tools;
+	EnemyAI enemy;
 	sf::Clock deltaClock;
 
 	//Инициализация
