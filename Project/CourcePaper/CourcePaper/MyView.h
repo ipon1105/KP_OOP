@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 //Значение приближение камеры 1.1f
-extern const float CAMERA_ZOOM_SCALE;
+extern const double CAMERA_ZOOM_SCALE;
 
 //Скорость перемещения камеры
 extern int cameraMoveSpeed;
@@ -34,3 +34,6 @@ void setMinZoomCount(int minZoom);
 
 //Вернёт настоящие состояние отдаления/приближения
 int getZoom();
+
+//Возвращает отностельные координаты мыши с условием приближения и смещения
+sf::Vector2i getOriginMousePos(sf::RenderWindow& window);

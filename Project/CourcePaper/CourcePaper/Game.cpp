@@ -25,14 +25,14 @@ void Game::staticWindow(sf::RenderWindow& window) {
 
                 ImGui::Text(u8"X = ");
                 ImGui::SameLine();
-
-                ImGui::Text(_itoa(mousePos.x, tmp, 10));
+                
+                ImGui::Text(_itoa(getOriginMousePos(window).x, tmp, 10));
                 ImGui::SameLine();
 
                 ImGui::Text(u8"; Y = ");
                 ImGui::SameLine();
 
-                ImGui::Text(_itoa(mousePos.y, tmp, 10));
+                ImGui::Text(_itoa(getOriginMousePos(window).y, tmp, 10));
                 ImGui::Spacing();
             }
 
@@ -111,8 +111,8 @@ void Game::staticWindow(sf::RenderWindow& window) {
 
                 ImGui::Text(_itoa(row, tmp, 10));
 
-                col = (mousePos.x * pow(1.1f, getZoom()) + (getCamera().getCenter().x - (getCamera().getSize().x / 2)));
-                row = (mousePos.y * pow(1.1f, getZoom()) + (getCamera().getCenter().y - (getCamera().getSize().y / 2)));
+                
+                
 
                 ImGui::Text(u8"mousePos.x + (view.windowWidth / 2) = ");
                 ImGui::SameLine();

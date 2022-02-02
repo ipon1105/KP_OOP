@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
+#include "GameSetting.h"
 
-const float CAMERA_ZOOM_SCALE = 1.1f;
+const double CAMERA_ZOOM_SCALE = 1.1f;
 int cameraMoveSpeed = 5;
 int zoomCount = 0;
 
@@ -24,7 +25,21 @@ void cameraUpdateZoom(sf::Event event) {
             camera.zoom(CAMERA_ZOOM_SCALE);
             zoomCount++;
         }
+
+        //Избавляемся от погрешности
+        /*
+        Со временем, умножение при зуме даёт погрешность
+        и размер карты становиться не (условно) 1600х900
+        а 1599х899. Так что со временем, разрешение экрана
+        приводится к правильному
+        */
+        if (zoomCount == 0){
+            sf::Vector2f tmp = camera.getCenter();
+            camera.reset(sf::FloatRect(0, 0, getSetting().windowWidth, getSetting().windowHeight));
+            camera.setCenter(tmp);
+        }
     }
+
 }
 
 void cameraUpdateMove(sf::Event event) {
@@ -58,6 +73,14 @@ int getMaxZoomCount() {
 
 int getMinZoomCount() {
     return minZoomCount;
+}
+
+sf::Vector2i getOriginMousePos(sf::RenderWindow& window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    float tmp = pow(CAMERA_ZOOM_SCALE, zoomCount);
+    mousePos.x = mousePos.x * tmp + (camera.getCenter().x - (camera.getSize().x / 2));
+    mousePos.y = mousePos.y * tmp + (camera.getCenter().y - (camera.getSize().y / 2));
+    return mousePos;
 }
 
 sf::View& getCamera() {
