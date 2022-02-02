@@ -164,6 +164,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MyView.cpp" />
+    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Utilits.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +283,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MyView.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Unit.h" />
     <ClInclude Include="Utilits.h" />
   </ItemGroup>
   <ItemGroup>

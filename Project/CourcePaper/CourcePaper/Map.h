@@ -13,6 +13,7 @@ class Map
 private:
     int rowCount;       //Количество строк карты
     int colCount;       //Количество колонок карты
+    int seed;           //Ключ генерации карты
 
 	Box** map;          //Массив карты
 public:
@@ -44,6 +45,9 @@ public:
 
     //Отвечате за обработку событий на карте
     void update(const sf::Event& event, sf::RenderWindow& window);
+
+    //Вернуть ключ генерации карты
+    int getSeed();
 
     //Освобождение памяти
     ~Map();

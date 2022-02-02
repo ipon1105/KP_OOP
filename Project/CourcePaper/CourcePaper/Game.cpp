@@ -9,7 +9,7 @@
 #include <Windows.h>
 
 void Game::staticWindow(sf::RenderWindow& window) {
-    char tmp[6];
+    char tmp[12];
     ImGui::SetNextWindowBgAlpha(0.2f);
     ImGui::Begin(u8"Статистика");
     
@@ -82,6 +82,7 @@ void Game::staticWindow(sf::RenderWindow& window) {
 
                 ImGui::Text(_itoa(getCamera().getCenter().y, tmp, 10));
                 ImGui::Spacing();
+                
             }
 
             //Тестовые данные
@@ -89,6 +90,14 @@ void Game::staticWindow(sf::RenderWindow& window) {
                 ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Тесты:").x) * 0.5f);
                 ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Тесты:");
 
+                if (ImGui::Button(u8"Сгенирировать заново"))
+                    map.createMap(3, 3, tools);
+                ImGui::SameLine();
+
+                ImGui::Text(u8"Сид = ");
+                ImGui::SameLine();
+                ImGui::Text(_itoa(map.getSeed(), tmp, 10));
+                ImGui::Spacing();
             }
 
             ImGui::EndGroup();

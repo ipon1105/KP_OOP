@@ -10,6 +10,8 @@ void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
+    this->~Map();
+
     map = new Box * [rowCount];
     for (int i = 0; i < rowCount; i++)
         map[i] = new Box[this->colCount];
@@ -48,6 +50,7 @@ Map::Map(const Map& newMap) {
 }
 
 void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed) {
+    this->seed = seed;
     srand(seed);
 
     int r = 0, c = 0;
@@ -157,7 +160,10 @@ void Map::render(sf::RenderWindow& window){
             this->map[i][j].render(window);
 }
 
- Map::~Map(){
+Map::~Map(){
+    if (map == NULL)
+         return;
+
     for (int i = 0; i < this->rowCount; i++)
         delete[] this->map[i];
     delete[] map;
@@ -166,4 +172,8 @@ void Map::render(sf::RenderWindow& window){
  Map& Map::operator = (const Map& newMap) {
      Map map(newMap);
      return map;
+ }
+
+ int Map::getSeed() {
+     return this->seed;
  }
