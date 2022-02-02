@@ -9,7 +9,7 @@
 
 void Game::staticWindow(sf::RenderWindow& window) {
     char tmp[6];
-    //ImGui::SetNextWindowBgAlpha(0.2f);
+    ImGui::SetNextWindowBgAlpha(0.2f);
     ImGui::Begin(u8"Статистика");
     
     //Отрисовка статистики по координатам мыши
@@ -156,7 +156,6 @@ void Game::run(sf::RenderWindow& window) {
 	interfaceInit(window);
 
 	getCamera() = window.getView();
-    sf::Clock deltaClock;
 	while (window.isOpen()) {
 
 		sf::Event event;
@@ -167,11 +166,11 @@ void Game::run(sf::RenderWindow& window) {
 				window.close();
 
 			cameraUpdateZoom(event);
+            map.update(event, window);
 		}
         cameraUpdateMove(event);
-        ImGui::SFML::Update(window, deltaClock.restart());
 
-		update(event);
+		update(event, window);
 		render(window);
 	}
 
@@ -180,23 +179,20 @@ void Game::run(sf::RenderWindow& window) {
 
 void Game::render(sf::RenderWindow& window) {
 
-    window.setView(camera);
-
     window.clear(sf::Color::Black);
 
     window.pushGLStates();
     map.render(window);
     window.popGLStates();
-
-    staticWindow(window);
     ImGui::SFML::Render();
 
 	window.display();
-
 	if (getSetting().screenScale)
 		ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
 }
 
-void Game::update(const sf::Event& event) {
-	map.update(event);
+void Game::update(const sf::Event& event, sf::RenderWindow& window) {
+    ImGui::SFML::Update(window, this->deltaClock.restart());
+    staticWindow(window);
+    window.setView(camera);
 }

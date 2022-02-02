@@ -1,4 +1,6 @@
 #include "Map.h"
+#include "MyView.h"
+#include "GameSetting.h"
 
 Map::Map() {
 
@@ -132,7 +134,22 @@ void Map::createMap(const int& stoneCount, const int& grassCount, const int seed
     delete[] blockMap;
 }
 
-void Map::update(const sf::Event& event) {
+void Map::update(const sf::Event& event, sf::RenderWindow& window) {
+
+    if (event.type == event.MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Left)
+    {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        
+        int col = (mousePos.x + (getCamera().getCenter().x - (getSetting().windowWidth / 2))) / 32;
+        int row = (mousePos.y + (getCamera().getCenter().y - (getSetting().windowHeight / 2))) / 32;
+
+        if (col >= this->colCount || row >= this->rowCount || col < 0 || row < 0)
+            return;
+
+        map[row][col].setHitBoxing( !map[row][col].getHitBoxing());
+    }
+
     /*
     if (event.type == event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);

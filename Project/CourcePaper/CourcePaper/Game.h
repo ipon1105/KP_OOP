@@ -14,6 +14,7 @@ class Game
 {
 private:
 	Map map;
+	sf::Clock deltaClock;
 
 	//Инициализация
 	void interfaceInit(sf::RenderWindow& window);
@@ -25,7 +26,7 @@ public:
 	Game();
 
 	//Функция обновления игрового процесса
-	void update(const sf::Event& event);
+	void update(const sf::Event& event, sf::RenderWindow& window);
 
 	//Функция отрисовки графической оболочки
 	void render(sf::RenderWindow& window);

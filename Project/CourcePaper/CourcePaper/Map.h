@@ -42,7 +42,7 @@ public:
     void render(sf::RenderWindow& window);
 
     //Отвечате за обработку событий на карте
-    void update(const sf::Event& event);
+    void update(const sf::Event& event, sf::RenderWindow& window);
 
     //Освобождение памяти
     ~Map();
