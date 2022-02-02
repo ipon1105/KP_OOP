@@ -183,9 +183,11 @@ void Game::render(sf::RenderWindow& window) {
     window.setView(camera);
 
     window.clear(sf::Color::Black);
-    window.display();
 
+    window.pushGLStates();
     map.render(window);
+    window.popGLStates();
+
     staticWindow(window);
     ImGui::SFML::Render();
 
