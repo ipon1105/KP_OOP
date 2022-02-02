@@ -88,17 +88,17 @@ void Game::staticWindow(sf::RenderWindow& window) {
                 ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Тесты:").x) * 0.5f);
                 ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Тесты:");
 
-                ImGui::Text(u8"windowWidth / 2 = ");
+                ImGui::Text(u8"view.windowWidth / 2 = ");
                 ImGui::SameLine();
 
-                ImGui::Text(_itoa(getSetting().windowWidth / 2, tmp, 10));
+                ImGui::Text(_itoa((getCamera().getSize().x / 2), tmp, 10));
 
-                ImGui::Text(u8"windowHeight / 2 = ");
+                ImGui::Text(u8"view.windowHeight / 2 = ");
                 ImGui::SameLine();
 
-                ImGui::Text(_itoa(getSetting().windowHeight / 2, tmp, 10));
+                ImGui::Text(_itoa((getCamera().getSize().y / 2), tmp, 10));
 
-                int col = (mousePos.x + (getCamera().getCenter().x - (getSetting().windowWidth / 2)));
+                int col = (mousePos.x + (getCamera().getCenter().x - (getSetting().windowWidth  / 2)));
                 int row = (mousePos.y + (getCamera().getCenter().y - (getSetting().windowHeight / 2)));
 
                 ImGui::Text(u8"mousePos.x + (windowWidth / 2) = ");
@@ -111,8 +111,8 @@ void Game::staticWindow(sf::RenderWindow& window) {
 
                 ImGui::Text(_itoa(row, tmp, 10));
 
-                col = (mousePos.x + (getCamera().getCenter().x - (getCamera().getSize().x / 2) * 1.1f));
-                row = (mousePos.y + (getCamera().getCenter().y - (getCamera().getSize().y / 2) * 1.1f));
+                col = (mousePos.x * pow(1.1f, getZoom()) + (getCamera().getCenter().x - (getCamera().getSize().x / 2)));
+                row = (mousePos.y * pow(1.1f, getZoom()) + (getCamera().getCenter().y - (getCamera().getSize().y / 2)));
 
                 ImGui::Text(u8"mousePos.x + (view.windowWidth / 2) = ");
                 ImGui::SameLine();

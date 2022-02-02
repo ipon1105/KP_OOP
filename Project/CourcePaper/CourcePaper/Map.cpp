@@ -141,32 +141,14 @@ void Map::update(const sf::Event& event, sf::RenderWindow& window) {
     {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         
-        int col = (mousePos.x + (getCamera().getCenter().x - (getSetting().windowWidth / 2))) / 32;
-        int row = (mousePos.y + (getCamera().getCenter().y - (getSetting().windowHeight / 2))) / 32;
+        int col = (mousePos.x * pow(1.1f, getZoom()) + (getCamera().getCenter().x - (getCamera().getSize().x / 2))) / 32;
+        int row = (mousePos.y * pow(1.1f, getZoom()) + (getCamera().getCenter().y - (getCamera().getSize().y / 2))) / 32;
 
         if (col >= this->colCount || row >= this->rowCount || col < 0 || row < 0)
             return;
 
         map[row][col].setHitBoxing( !map[row][col].getHitBoxing());
     }
-
-    /*
-    if (event.type == event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
-        (((View)window.getView()).getCenter().x - (getSetting().windowWidth / 2));
-
-        int col = (mousePos.x + (((View)window.getView()).getCenter().x - (getSetting().windowWidth / 2))) / 32;
-        int row = (mousePos.y + (((View)window.getView()).getCenter().y - (getSetting().windowHeight / 2))) / 32;
-
-        if (col >= this->colCount || row >= this->rowCount || col < 0 || row < 0)
-            return;
-
-        Box temp = map[row][col];
-        temp.setHitBoxing(!temp.getHitBoxing());
-    }
-    */
-
 }
 
 void Map::render(sf::RenderWindow& window){
