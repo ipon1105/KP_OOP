@@ -2,11 +2,11 @@
 #include "GameSetting.h"
 
 const double CAMERA_ZOOM_SCALE = 1.1f;
-int cameraMoveSpeed = 5;
+float cameraMoveSpeed = 5.0f;
 int zoomCount = 0;
 
-int maxZoomCount = 5;
-int minZoomCount = 5;
+int maxZoomCount = 10;
+int minZoomCount = 10;
 
 sf::View camera;
 
@@ -17,12 +17,17 @@ void cameraUpdateZoom(sf::Event event) {
         //Приближение
         if (event.mouseWheelScroll.delta > 0 && -minZoomCount < zoomCount){
             camera.zoom(1 / CAMERA_ZOOM_SCALE);
+            if(zoomCount >= 0) 
+                cameraMoveSpeed *= 1 / CAMERA_ZOOM_SCALE;
+
             zoomCount--;
         } 
 
         //Отдаление
         if (event.mouseWheelScroll.delta < 0 && maxZoomCount > zoomCount) {
             camera.zoom(CAMERA_ZOOM_SCALE);
+            cameraMoveSpeed *= CAMERA_ZOOM_SCALE;
+
             zoomCount++;
         }
 
@@ -37,6 +42,8 @@ void cameraUpdateZoom(sf::Event event) {
             sf::Vector2f tmp = camera.getCenter();
             camera.reset(sf::FloatRect(0, 0, getSetting().windowWidth, getSetting().windowHeight));
             camera.setCenter(tmp);
+
+            cameraMoveSpeed = 5.0f;
         }
     }
 
@@ -46,13 +53,13 @@ void cameraUpdateMove(sf::Event event) {
     //Пометка - сделать зависимость cameraMoveSpeed от приблежения
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        camera.move(-cameraMoveSpeed, 0);
+        camera.move((int)-cameraMoveSpeed, 0);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        camera.move(cameraMoveSpeed, 0);
+        camera.move((int)cameraMoveSpeed, 0);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        camera.move(0, cameraMoveSpeed);
+        camera.move(0, (int)cameraMoveSpeed);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        camera.move(0, -cameraMoveSpeed);
+        camera.move(0, (int)-cameraMoveSpeed);
 }
 
 int getZoom() {

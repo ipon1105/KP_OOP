@@ -164,6 +164,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MyView.cpp" />
+    <ClCompile Include="Utilits.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig-SFML.h" />
@@ -281,6 +282,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MyView.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Utilits.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bit_SFML-2.5.1\include\SFML\Audio\SoundFileFactory.inl" />

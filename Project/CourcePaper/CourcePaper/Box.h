@@ -1,7 +1,9 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include "block.h"
+#include "Utilits.h"
+
+#include <SFML/Graphics.hpp>
 
 //Класс, который представляет с собой одну плитку на карте
 class Box
@@ -27,10 +29,9 @@ public:
 	//Конструкторы
 	Box();
 	Box(const Box& box);
-	Box(const sf::Vector2i& coord, const block& type);
 
 	//Инициализация типа
-	void setType(const block& type);
+	void setType(const block& type, Utilits& tool);
 
 	//Вернуть тип
 	block& getType();

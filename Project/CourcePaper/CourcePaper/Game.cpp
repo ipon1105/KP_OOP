@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "MyView.h"
 #include "GameSetting.h"    
+#include "Utilits.h"    
 
 #include <SFML/Graphics.hpp>
 #include <Windows.h>
@@ -14,7 +15,7 @@ void Game::staticWindow(sf::RenderWindow& window) {
     
     //Отрисовка статистики по координатам мыши
     {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        sf::Vector2i mousePos = getOriginMousePos(window);
 
         {
             ImGui::BeginGroup();
@@ -26,13 +27,13 @@ void Game::staticWindow(sf::RenderWindow& window) {
                 ImGui::Text(u8"X = ");
                 ImGui::SameLine();
                 
-                ImGui::Text(_itoa(getOriginMousePos(window).x, tmp, 10));
+                ImGui::Text(_itoa(mousePos.x, tmp, 10));
                 ImGui::SameLine();
 
                 ImGui::Text(u8"; Y = ");
                 ImGui::SameLine();
 
-                ImGui::Text(_itoa(getOriginMousePos(window).y, tmp, 10));
+                ImGui::Text(_itoa(mousePos.y, tmp, 10));
                 ImGui::Spacing();
             }
 
@@ -88,44 +89,6 @@ void Game::staticWindow(sf::RenderWindow& window) {
                 ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Тесты:").x) * 0.5f);
                 ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Тесты:");
 
-                ImGui::Text(u8"view.windowWidth / 2 = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa((getCamera().getSize().x / 2), tmp, 10));
-
-                ImGui::Text(u8"view.windowHeight / 2 = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa((getCamera().getSize().y / 2), tmp, 10));
-
-                int col = (mousePos.x + (getCamera().getCenter().x - (getSetting().windowWidth  / 2)));
-                int row = (mousePos.y + (getCamera().getCenter().y - (getSetting().windowHeight / 2)));
-
-                ImGui::Text(u8"mousePos.x + (windowWidth / 2) = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa(col, tmp, 10));
-
-                ImGui::Text(u8"mousePos.y + (windowHeight / 2) = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa(row, tmp, 10));
-
-                
-                
-
-                ImGui::Text(u8"mousePos.x + (view.windowWidth / 2) = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa(col, tmp, 10));
-
-                ImGui::Text(u8"mousePos.y + (view.windowHeight / 2) = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa(row, tmp, 10));
-
-
-
             }
 
             ImGui::EndGroup();
@@ -147,8 +110,8 @@ void Game::interfaceInit(sf::RenderWindow& window) {
 }
 
 Game::Game() {
-	map.initMap(17, 17);
-	map.createMap(3, 3);
+	map.initMap(50, 50);
+	map.createMap(3, 3, tools);
 }
 
 void Game::run(sf::RenderWindow& window) {

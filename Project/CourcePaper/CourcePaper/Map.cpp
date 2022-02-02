@@ -47,7 +47,7 @@ Map::Map(const Map& newMap) {
         map[i] = new Box[this->colCount];
 }
 
-void Map::createMap(const int& stoneCount, const int& grassCount, const int seed) {
+void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed) {
     srand(seed);
 
     int r = 0, c = 0;
@@ -125,7 +125,7 @@ void Map::createMap(const int& stoneCount, const int& grassCount, const int seed
     for (int i = 0; i < rowCount; i++)
         for (int j = 0; j < colCount; j++) 
         {
-            map[i][j].setType(blockMap[i][j]);
+            map[i][j].setType(blockMap[i][j], tool);
             map[i][j].setOriginPos(sf::Vector2i(j, i));
         }
 
@@ -141,8 +141,8 @@ void Map::update(const sf::Event& event, sf::RenderWindow& window) {
     {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         
-        int col = (mousePos.x * pow(1.1f, getZoom()) + (getCamera().getCenter().x - (getCamera().getSize().x / 2))) / 32;
-        int row = (mousePos.y * pow(1.1f, getZoom()) + (getCamera().getCenter().y - (getCamera().getSize().y / 2))) / 32;
+        int col = getOriginMousePos(window).x / 32;
+        int row = getOriginMousePos(window).y / 32;
 
         if (col >= this->colCount || row >= this->rowCount || col < 0 || row < 0)
             return;

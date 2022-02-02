@@ -9,38 +9,17 @@ Box::Box(const Box& box) {
     this->globalPos = box.globalPos;
     this->originPos = box.originPos;
     this->hitBoxing = box.hitBoxing;
-    this->texture = box.texture;
-    this->sprite = box.sprite;
-    this->hitBox = box.hitBox;
-    this->type = box.type;
+    this->texture   = box.texture;
+    this->sprite    = box.sprite;
+    this->hitBox    = box.hitBox;
+    this->type      = box.type;
 
 }
 
-Box::Box(const sf::Vector2i& coord, const block& type) {
-    this->setGlobalPos(coord);
-
-    initHitBox();
-    setType(type);
-}
-
-void Box::setType(const block& type) {
+void Box::setType(const block& type, Utilits& tool) {
     //Примечание: Реализовать класс, который будет хранить массив вырезанных текстур, для быстрой загрузки
     this->type = type;
-
-    switch (type) {
-    case empty: texture.loadFromFile("resource//spriteList.png", sf::IntRect(0, 64, 32, 32)); break;
-        case grass: texture.loadFromFile("resource//spriteList.png", sf::IntRect(0, 64, 32, 32)); break;
-        case stone: texture.loadFromFile("resource//spriteList.png", sf::IntRect(64, 64, 32, 32)); break;
-        case stone_grass_left:texture.loadFromFile("resource//spriteList.png", sf::IntRect(0, 128, 32, 32)); break;       //0,        128
-        case stone_grass_right:texture.loadFromFile("resource//spriteList.png", sf::IntRect(64, 128, 32, 32)); break;      //64,       128
-        case stone_grass_down:texture.loadFromFile("resource//spriteList.png", sf::IntRect(32, 160, 32, 32)); break;       //32,       160
-        case stone_grass_up:texture.loadFromFile("resource//spriteList.png", sf::IntRect(32, 96, 32, 32)); break;         //32,       96
-        case stone_grass_left_up:texture.loadFromFile("resource//spriteList.png", sf::IntRect(0, 96, 32, 32)); break;   //0,        96
-        case stone_grass_left_down:texture.loadFromFile("resource//spriteList.png", sf::IntRect(0, 160, 32, 32)); break;  //0,        160
-        case stone_grass_right_up:texture.loadFromFile("resource//spriteList.png", sf::IntRect(64, 96, 32, 32)); break;   //64,       96
-        case stone_grass_right_down:texture.loadFromFile("resource//spriteList.png", sf::IntRect(64, 160, 32, 32)); break;//64,       160
-    }
-    sprite.setTexture(texture);
+    sprite.setTexture(tool.getTexture(type));
 }
 
 block& Box::getType() {

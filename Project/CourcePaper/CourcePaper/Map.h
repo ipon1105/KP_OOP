@@ -2,6 +2,7 @@
 
 #include "block.h"
 #include "Box.h"
+#include "Utilits.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -21,7 +22,7 @@ public:
     Map(const int& row, const int& col);
 
     //Генерирует карту с введённой кучностью и сидом
-    void createMap(const int& stoneCount, const int& grassCount, const int seed = time(0));
+    void createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed = time(0));
 
     //Инициализация
     void initMap(const int& row, const int& col);
