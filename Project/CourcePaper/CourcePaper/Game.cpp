@@ -120,7 +120,7 @@ void Game::interfaceInit(sf::RenderWindow& window) {
 
 Game::Game() {
 	map.initMap(50, 50);
-	map.createMap(3, 3, tools);
+	map.createMap(7, 7, tools);
 }
 
 void Game::run(sf::RenderWindow& window) {
