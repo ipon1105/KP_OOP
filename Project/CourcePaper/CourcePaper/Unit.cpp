@@ -5,6 +5,12 @@ Unit::Unit() {
 	setOriginPos(sf::Vector2i(0,0));
 	shape.setFillColor(tintColor);
 	shape.setRadius(16);
+	hitBoxing = false;
+	hitShape.setFillColor(sf::Color::Transparent);
+	hitShape.setOutlineColor(sf::Color::Green);
+	hitShape.setOutlineThickness(2);
+	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
+	hitShape.setRadius(14);
 }
 
 
@@ -27,6 +33,9 @@ void Unit::goToGlobalPos(sf::Vector2i pos)
 
 void Unit::render(sf::RenderWindow& window) {
 	window.draw(shape);
+
+	if (hitBoxing)
+		window.draw(hitShape);
 }
 
 void Unit::update(sf::Event& event) {
@@ -44,6 +53,7 @@ void Unit::setGlobalPos(const sf::Vector2i& pos) {
 	this->originPos = sf::Vector2i(pos.x / 32, pos.y / 32);
 
 	shape.setPosition(this->globalPos.x, this->globalPos.y);
+	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
 }
 
 void Unit::setOriginPos(const sf::Vector2i& pos) {
@@ -51,6 +61,7 @@ void Unit::setOriginPos(const sf::Vector2i& pos) {
 	this->globalPos = sf::Vector2i(pos.x * 32, pos.y * 32);
 
 	shape.setPosition(this->globalPos.x, this->globalPos.y);
+	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
 }
 
 void Unit::setColor(sf::Color& color) {
@@ -108,4 +119,14 @@ int Unit::getDamage()
 int Unit::getCooldown()
 {
 	return cooldown;
+}
+
+void Unit::setHitboxing(const bool& set)
+{
+	this->hitBoxing = set;
+}
+
+bool Unit::getHitboxing()
+{
+	return hitBoxing;
 }

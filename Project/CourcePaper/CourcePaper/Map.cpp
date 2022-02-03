@@ -140,7 +140,7 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
 void Map::update(const sf::Event& event, sf::RenderWindow& window) {
 
     if (event.type == event.MouseButtonPressed &&
-        event.mouseButton.button == sf::Mouse::Left)
+        event.mouseButton.button == sf::Mouse::Right)
     {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         

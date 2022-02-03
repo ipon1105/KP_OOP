@@ -10,6 +10,8 @@ private:
 	int damage;					//Урон, который можно нанести врагу
 	int cooldown;				//Время перед новым ударом
 
+	bool hitBoxing;				//Установить отображение хитбокса
+
 	sf::Vector2i globalPos;		//Глобальная позиция (x,y)
 	sf::Vector2i originPos;		//Позиция относительно карты (row(y/32), col(x/32));
 	sf::Color tintColor;		//Цвет окраски
@@ -19,6 +21,7 @@ private:
 
 	//temp
 	sf::CircleShape shape;		//Временный - Персонаж
+	sf::CircleShape hitShape;	//Отображение границ
 	//endtemp
 
 	state stateNow;				//Состояние существа
@@ -54,6 +57,10 @@ public:
 	//Получить/Установить откат
 	void setCooldown(const int& cooldown);
 	int getCooldown();
+
+	//Получить/Установить отображение хитбокса
+	void setHitboxing(const bool& set);
+	bool getHitboxing();
 
 	//Ударить врага
 	void kickEnemy(Unit& enemy);
