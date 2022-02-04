@@ -33,7 +33,7 @@ void EnemyAI::updateEvent(sf::Event& event, sf::RenderWindow& window) {
 	if (event.type == event.MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Left)
 	{
-		sf::Vector2i mousePos = getOriginMousePos(window);
+		sf::Vector2i mousePos = getGlobalMousePos(window);
 
 		int col = mousePos.x / 32;
 		int row = mousePos.y / 32;
@@ -49,15 +49,17 @@ void EnemyAI::updateEvent(sf::Event& event, sf::RenderWindow& window) {
 	if (event.type == event.MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Right)
 	{
-		sf::Vector2i mousePos = getOriginMousePos(window);
+		sf::Vector2i mousePos = getGlobalMousePos(window);
 
 		int col = mousePos.x / 32;
 		int row = mousePos.y / 32;
 
+		sf::Vector2i t(col, row);
+
 		for (int i = 0; i < this->personList.size(); i++)
 			if (this->personList[i].getHitboxing()) {
-				this->personList[i].goToOriginPos(sf::Vector2i(col, row));
-				this->personList[i].goToOriginPos(mousePos);
+				this->personList[i].goToOriginPos(t);
+				this->personList[i].goToGlobalPos(mousePos);
 			}
 	}
 }
