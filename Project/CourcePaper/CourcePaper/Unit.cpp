@@ -23,11 +23,11 @@ void Unit::kickEnemy(Unit& enemy)
 	}
 }
 
-void Unit::goToOriginPos(sf::Vector2i pos)
+void Unit::goToOriginPos(sf::Vector2i& pos)
 {
 }
 
-void Unit::goToGlobalPos(sf::Vector2i pos)
+void Unit::goToGlobalPos(sf::Vector2i& pos)
 {
 }
 

@@ -66,10 +66,10 @@ public:
 	void kickEnemy(Unit& enemy);
 
 	//Идти на следующие координаты карты
-	void goToOriginPos(sf::Vector2i pos);
+	void goToOriginPos(sf::Vector2i& pos);
 
 	//Идти на следующие координаты карты
-	void goToGlobalPos(sf::Vector2i pos);
+	void goToGlobalPos(sf::Vector2i& pos);
 
 	//Отрисовать
 	void render(sf::RenderWindow& window);
