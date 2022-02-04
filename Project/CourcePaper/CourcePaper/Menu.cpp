@@ -64,8 +64,16 @@ int menu(RenderWindow& window) {
         ImGui::SetCursorPosY(getSetting().windowHeight * 0.4f);
         if (ImGui::Button(u8"Играть")) {
             ImGui::SFML::Shutdown();
-            ImGui::SFML::Shutdown();
             return 4;
+        }
+
+        for(int i = 0; i < 3; i++)
+            ImGui::Spacing();
+
+        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Песочница").x) * 0.5f);
+        if (ImGui::Button(u8"Песочница")) {
+            ImGui::SFML::Shutdown();
+            return 5;
         }
 
         for(int i = 0; i < 3; i++)
@@ -604,8 +612,8 @@ int game(sf::RenderWindow& window, Utilits& tool) {
 
 int mapCreater(sf::RenderWindow& window, Utilits& tool) {
 
-    Creater edit;
-
+    Creater edit(tool);
+    edit.run(window);
 
     return 0;
 }
