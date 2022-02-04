@@ -9,6 +9,7 @@ int maxZoomCount = 10;
 int minZoomCount = 10;
 
 sf::View camera;
+sf::View defaultCamera;
 
 void cameraUpdateZoom(sf::Event event) {
 
@@ -83,11 +84,7 @@ int getMinZoomCount() {
 }
 
 sf::Vector2i getGlobalMousePos(sf::RenderWindow& window) {
-    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    float tmp = pow(CAMERA_ZOOM_SCALE, zoomCount);
-    mousePos.x = mousePos.x * tmp + (camera.getCenter().x - (camera.getSize().x / 2));
-    mousePos.y = mousePos.y * tmp + (camera.getCenter().y - (camera.getSize().y / 2));
-    return mousePos;
+    return sf::Vector2i(((int)window.mapPixelToCoords(sf::Mouse::getPosition(window)).x), ((int)window.mapPixelToCoords(sf::Mouse::getPosition(window)).y));
 }
 
 sf::View& getCamera() {

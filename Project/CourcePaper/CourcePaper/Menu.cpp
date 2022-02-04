@@ -21,15 +21,15 @@ using namespace sf;
 
 bool menuWindow;
 
-
-
 int menu(RenderWindow& window) {
     Texture backTexture;
     backTexture.loadFromFile("resource//gm_1.jpg");
     Sprite backSprite(backTexture);
 
+    if (getSetting().screenScale)
+        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     //Подгонка изображения под разрешение экрана
-    backSprite.setScale((float)(((float)getSetting().windowWidth) / (float)(backTexture.getSize().x)), (float)(((float)getSetting().windowHeight) / (float)(backTexture.getSize().y)));
+    backSprite.setScale((float)(((float)window.getSize().x) / (float)(backTexture.getSize().x)), (float)(((float)window.getSize().y) / (float)(backTexture.getSize().y)));
     
     ImGui::SFML::Init(window);
 
@@ -41,6 +41,7 @@ int menu(RenderWindow& window) {
     ImGui::SFML::UpdateFontTexture();
 
     Clock deltaClock;
+
     while (window.isOpen()) {
 
         Event event;
@@ -55,13 +56,14 @@ int menu(RenderWindow& window) {
 
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
+        //ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
+        ImGui::SetNextWindowSize(window.getSize());
         ImGui::SetNextWindowBgAlpha(0.0f);
 
         //ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse);
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Играть").x) * 0.5f);
-        ImGui::SetCursorPosY(getSetting().windowHeight * 0.4f);
+        ImGui::SetCursorPosX((window.getSize().x - ImGui::CalcTextSize(u8"Играть").x) * 0.5f);
+        ImGui::SetCursorPosY(window.getSize().y * 0.4f);
         if (ImGui::Button(u8"Играть")) {
             ImGui::SFML::Shutdown();
             return 4;
@@ -70,7 +72,7 @@ int menu(RenderWindow& window) {
         for(int i = 0; i < 3; i++)
             ImGui::Spacing();
 
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Песочница").x) * 0.5f);
+        ImGui::SetCursorPosX((window.getSize().x - ImGui::CalcTextSize(u8"Песочница").x) * 0.5f);
         if (ImGui::Button(u8"Песочница")) {
             ImGui::SFML::Shutdown();
             return 5;
@@ -79,7 +81,7 @@ int menu(RenderWindow& window) {
         for(int i = 0; i < 3; i++)
             ImGui::Spacing();
 
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Настройки").x) * 0.5f);
+        ImGui::SetCursorPosX((window.getSize().x - ImGui::CalcTextSize(u8"Настройки").x) * 0.5f);
         if (ImGui::Button(u8"Настройки")) {
             ImGui::SFML::Shutdown();
             return 2;
@@ -88,7 +90,7 @@ int menu(RenderWindow& window) {
         for (int i = 0; i < 3; i++)
             ImGui::Spacing();
 
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(u8"Выход").x) * 0.5f);
+        ImGui::SetCursorPosX((window.getSize().x - ImGui::CalcTextSize(u8"Выход").x) * 0.5f);
         if (ImGui::Button(u8"Выход")) {
             window.close();
         }
@@ -98,8 +100,6 @@ int menu(RenderWindow& window) {
         window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
-        if(getSetting().screenScale)
-            ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
@@ -110,9 +110,11 @@ int setting(RenderWindow& window) {
     Texture backTexture;
     backTexture.loadFromFile("resource//gm_1.jpg");
     Sprite backSprite(backTexture);
-  
+
+    if (getSetting().screenScale)
+        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     //Подгонка изображения под разрешение экрана
-    backSprite.setScale((float)(((float)getSetting().windowWidth) / (float)(backTexture.getSize().x)), (float)(((float)getSetting().windowHeight) / (float)(backTexture.getSize().y)));
+    backSprite.setScale((float)(((float)window.getSize().x) / (float)(backTexture.getSize().x)), (float)(((float)window.getSize().y) / (float)(backTexture.getSize().y)));
 
     ImGui::SFML::Init(window);
 
@@ -170,7 +172,8 @@ int setting(RenderWindow& window) {
         
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
+        //ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
+        ImGui::SetNextWindowSize(window.getSize());
         ImGui::SetNextWindowBgAlpha(0.0f);
 
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
@@ -247,8 +250,6 @@ int setting(RenderWindow& window) {
         window.draw(backSprite);
         ImGui::SFML::Render(window);
         window.display();
-        if (getSetting().screenScale)
-            ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
     }
 
     ImGui::SFML::Shutdown();
@@ -607,7 +608,7 @@ int game(sf::RenderWindow& window, Utilits& tool) {
     Game gme(tool);
     gme.run(window);
 
-    return 0;
+    return 1;
 }
 
 int mapCreater(sf::RenderWindow& window, Utilits& tool) {
@@ -615,5 +616,5 @@ int mapCreater(sf::RenderWindow& window, Utilits& tool) {
     Creater edit(tool);
     edit.run(window);
 
-    return 0;
+    return 1;
 }

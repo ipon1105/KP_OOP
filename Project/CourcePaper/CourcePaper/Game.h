@@ -20,11 +20,17 @@ private:
 	EnemyAI enemy;
 	sf::Clock deltaClock;
 
+	//Состояние игры
+	bool play;
+
 	//Инициализация
 	void interfaceInit(sf::RenderWindow& window);
 
 	//Создание окно статистики
 	void staticWindow(sf::RenderWindow& window);
+
+	//Инициализация вернего меню
+	void menuInit(sf::RenderWindow& window);
 public:
 	//Конструктор класса
 	Game(Utilits& tool);

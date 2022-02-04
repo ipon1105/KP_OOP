@@ -15,10 +15,29 @@ void Game::staticWindow(sf::RenderWindow& window) {
     
     //Отрисовка статистики по координатам мыши
     {
-        sf::Vector2i mousePos = getGlobalMousePos(window);
+
+        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
         {
             ImGui::BeginGroup();
+            //Окно (window)
+            {
+                ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Окно:").x) * 0.5f);
+                ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Окно:");
+
+                ImGui::Text(u8"width = ");
+                ImGui::SameLine();
+
+                ImGui::Text(_itoa(window.getSize().x, tmp, 10));
+                ImGui::SameLine();
+
+                ImGui::Text(u8"; heigth = ");
+                ImGui::SameLine();
+
+                ImGui::Text(_itoa(window.getSize().y, tmp, 10));
+                ImGui::Spacing();
+            }
+
             //Мышка
             {
                 ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Мышка:").x) * 0.5f);
@@ -26,7 +45,7 @@ void Game::staticWindow(sf::RenderWindow& window) {
 
                 ImGui::Text(u8"X = ");
                 ImGui::SameLine();
-                
+
                 ImGui::Text(_itoa(mousePos.x, tmp, 10));
                 ImGui::SameLine();
 
@@ -107,6 +126,22 @@ void Game::staticWindow(sf::RenderWindow& window) {
     ImGui::End();
 }
 
+void Game::menuInit(sf::RenderWindow& window)
+{
+    bool menuWindow = true;
+
+    ImGui::SetNextWindowBgAlpha(1.0f);
+    ImGui::SetNextWindowPos( sf::Vector2f(0, 0) );
+    ImGui::SetNextWindowSize(ImVec2(window.getSize().x, 30));
+    ImGui::Begin(u8"Меню", &menuWindow, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+    
+    if (ImGui::Button(u8"Выйти в главное меню")) 
+        play = false;
+    
+
+    ImGui::End();
+}
+
 void Game::interfaceInit(sf::RenderWindow& window) {
 	ImGui::SFML::Init(window, false);
 
@@ -123,13 +158,19 @@ Game::Game(Utilits& tool) {
 
 	map.initMap(50, 50);
 	map.createMap(7, 7, tools);
+
+    play = true;
 }
 
 void Game::run(sf::RenderWindow& window) {
 
 	interfaceInit(window);
 
+    if (getSetting().screenScale)
+        ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
+
 	getCamera() = window.getView();
+    copyView(window.getView());
 	while (window.isOpen()) {
 
 		sf::Event event;
@@ -147,9 +188,12 @@ void Game::run(sf::RenderWindow& window) {
 
 		update(event, window);
 		render(window);
+        if (!play)
+            break;
 	}
 
 	ImGui::SFML::Shutdown();
+    window.setView(window.getDefaultView());
 }
 
 void Game::render(sf::RenderWindow& window) {
@@ -163,13 +207,13 @@ void Game::render(sf::RenderWindow& window) {
     ImGui::SFML::Render();
 
 	window.display();
-	if (getSetting().screenScale)
-		ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
 }
 
 void Game::update(const sf::Event& event, sf::RenderWindow& window) {
     ImGui::SFML::Update(window, this->deltaClock.restart());
+
     staticWindow(window);
-    
+    menuInit(window);
+
     window.setView(camera);
 }

@@ -169,4 +169,5 @@ void Creater::run(sf::RenderWindow& window){
 	}
 
 	ImGui::SFML::Shutdown();
+    window.setView(window.getDefaultView());
 }
