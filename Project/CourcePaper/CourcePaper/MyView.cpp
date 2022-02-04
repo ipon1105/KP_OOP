@@ -82,7 +82,7 @@ int getMinZoomCount() {
     return minZoomCount;
 }
 
-sf::Vector2i getOriginMousePos(sf::RenderWindow& window) {
+sf::Vector2i getGlobalMousePos(sf::RenderWindow& window) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     float tmp = pow(CAMERA_ZOOM_SCALE, zoomCount);
     mousePos.x = mousePos.x * tmp + (camera.getCenter().x - (camera.getSize().x / 2));

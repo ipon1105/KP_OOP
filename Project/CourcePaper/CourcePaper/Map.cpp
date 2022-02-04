@@ -253,8 +253,8 @@ void Map::update(const sf::Event& event, sf::RenderWindow& window) {
     {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         
-        int col = getOriginMousePos(window).x / 32;
-        int row = getOriginMousePos(window).y / 32;
+        int col = getGlobalMousePos(window).x / 32;
+        int row = getGlobalMousePos(window).y / 32;
 
         if (col >= this->colCount || row >= this->rowCount || col < 0 || row < 0)
             return;

@@ -15,7 +15,7 @@ void Game::staticWindow(sf::RenderWindow& window) {
     
     //Отрисовка статистики по координатам мыши
     {
-        sf::Vector2i mousePos = getOriginMousePos(window);
+        sf::Vector2i mousePos = getGlobalMousePos(window);
 
         {
             ImGui::BeginGroup();

@@ -49,7 +49,7 @@ sf::Texture& Utilits::getTexture(const block& title) {
 		case grass_stone_right_up:		return textureMap[3][4]; break;
 		case grass_stone_left_down:		return textureMap[4][3]; break;
 		case grass_stone_right_down:	return textureMap[4][4]; break;
-
+		
 		case grass_stone_x_1:			return textureMap[5][3]; break;
 		case grass_stone_x_2:			return textureMap[5][4]; break;
 

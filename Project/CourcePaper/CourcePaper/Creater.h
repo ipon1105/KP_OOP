@@ -15,10 +15,15 @@ private:
 
 	sf::Clock deltaClock;
 
+	//x - col; y - row
 	const sf::Vector2i tableMin = sf::Vector2i(10,10);
+	const sf::Vector2i tableMax = sf::Vector2i(200, 200);
 
 	//Инициализация
 	void interfaceInit(sf::RenderWindow& window);
+
+	//Окно
+	void staticWindow(sf::RenderWindow& window);
 public:
 	//Конструктор класса
 	Creater(Utilits& tool);
