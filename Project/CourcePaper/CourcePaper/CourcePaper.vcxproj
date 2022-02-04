@@ -159,6 +159,7 @@
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_tables.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Creater.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSetting.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowStyle.hpp" />
     <ClInclude Include="block.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Creater.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSetting.h" />
     <ClInclude Include="Map.h" />

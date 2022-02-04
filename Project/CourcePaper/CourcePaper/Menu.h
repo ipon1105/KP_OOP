@@ -3,6 +3,7 @@
 #define INTERFACE_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Utilits.h"
 
 /*
 * Данная функция будет отрисовывать
@@ -20,11 +21,11 @@ int setting(sf::RenderWindow& window);
 * Данная функция нужна для реализации
 * движка игры.
 */
-int gameplay(sf::RenderWindow& window);
+int game(sf::RenderWindow& window, Utilits& tool);
 
 /*
 * Данная функция нужна для реализации
-* движка игры. ТЕСТОВАЯ
+* окна создания карты
 */
-int test(sf::RenderWindow& window);
+int mapCreater(sf::RenderWindow& window, Utilits& tool);
 #endif // !INTERFACE_HPP

@@ -118,7 +118,9 @@ void Game::interfaceInit(sf::RenderWindow& window) {
     window.setFramerateLimit(30);
 }
 
-Game::Game() {
+Game::Game(Utilits& tool) {
+    this->tools = tool;
+
 	map.initMap(50, 50);
 	map.createMap(7, 7, tools);
 }

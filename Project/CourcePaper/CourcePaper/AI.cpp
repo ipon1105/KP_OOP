@@ -46,4 +46,18 @@ void EnemyAI::updateEvent(sf::Event& event, sf::RenderWindow& window) {
 				this->personList[i].setHitboxing(false);
 		
 	}
+	if (event.type == event.MouseButtonPressed &&
+		event.mouseButton.button == sf::Mouse::Right)
+	{
+		sf::Vector2i mousePos = getOriginMousePos(window);
+
+		int col = mousePos.x / 32;
+		int row = mousePos.y / 32;
+
+		for (int i = 0; i < this->personList.size(); i++)
+			if (this->personList[i].getHitboxing()) {
+				this->personList[i].goToOriginPos(sf::Vector2i(col, row));
+				this->personList[i].goToOriginPos(mousePos);
+			}
+	}
 }

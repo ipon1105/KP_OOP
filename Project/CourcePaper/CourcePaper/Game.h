@@ -27,7 +27,7 @@ private:
 	void staticWindow(sf::RenderWindow& window);
 public:
 	//Конструктор класса
-	Game();
+	Game(Utilits& tool);
 
 	//Функция обновления игрового процесса
 	void update(const sf::Event& event, sf::RenderWindow& window);

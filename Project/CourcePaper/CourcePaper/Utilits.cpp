@@ -1,18 +1,21 @@
 #include "Utilits.h"
 
 Utilits::Utilits() {
+	finish = false;
+}
 
-	for(int i = 0; i < 9; i++)
-		for (int j = 0; j < 20; j++)
-			textureMap[i][j].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, i*32, 32, 32));
-
-
+void Utilits::startLoad() {
+	for (int i = 0; i < 9; i++)
+		for (int j = 0; j < 20; j++){
+			textureMap[i][j].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, i * 32, 32, 32));
+			progress = i * 20 + j;
+		}
+	finish = true;
 }
 
 sf::Texture& Utilits::getTexture(const int& num) {
 	if (num >= 180 || num < 0)
 		return textureMap[0][6];
-
 	return textureMap[num / 20][num % 20];
 }
 
@@ -71,4 +74,12 @@ sf::Texture& Utilits::getTexture(const block& title) {
 	}
 
 	return textureMap[0][6];
+}
+
+bool Utilits::isFinily(){
+	return finish;
+}
+
+int Utilits::getProgress(){
+	return progress;
 }
