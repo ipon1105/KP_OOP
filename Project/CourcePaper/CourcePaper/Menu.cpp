@@ -126,11 +126,18 @@ int setting(RenderWindow& window) {
     int k = 0;
 
     std::vector<sf::VideoMode> tmpArr = sf::VideoMode().getFullscreenModes();
+    for (int i = tmpArr.size() - 1; i > 0; i--) {
+        if (tmpArr[i].width < 800 && tmpArr[i].height < 600)
+            tmpArr.pop_back();
+        else
+            break;
+    }
+
     strings = new char*[tmpArr.size()];
     for (int i = 0; i < tmpArr.size(); i++)
         strings[i] = new char[10];
 
-    char textA[5], textB[5], separator = '*';
+    char textA[5], textB[5], separator = 'x';
     int var = 0, varGeneral = getSetting().generaVolume, varMusic = getSetting().musicVolume, varSound = getSetting().soundVolume;
     for (int i = 0; i < tmpArr.size(); i++) {
         if (getSetting().windowWidth == tmpArr[i].width && getSetting().windowHeight == tmpArr[i].height)
