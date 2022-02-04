@@ -19,25 +19,8 @@ void Game::staticWindow(sf::RenderWindow& window) {
         sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
         {
+
             ImGui::BeginGroup();
-            //Окно (window)
-            {
-                ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Окно:").x) * 0.5f);
-                ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Окно:");
-
-                ImGui::Text(u8"width = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa(window.getSize().x, tmp, 10));
-                ImGui::SameLine();
-
-                ImGui::Text(u8"; heigth = ");
-                ImGui::SameLine();
-
-                ImGui::Text(_itoa(window.getSize().y, tmp, 10));
-                ImGui::Spacing();
-            }
-
             //Мышка
             {
                 ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(u8"Мышка:").x) * 0.5f);
@@ -129,15 +112,31 @@ void Game::staticWindow(sf::RenderWindow& window) {
 void Game::menuInit(sf::RenderWindow& window)
 {
     bool menuWindow = true;
+    char tmp[12];
 
     ImGui::SetNextWindowBgAlpha(1.0f);
     ImGui::SetNextWindowPos( sf::Vector2f(0, 0) );
-    ImGui::SetNextWindowSize(ImVec2(window.getSize().x, 30));
+    ImGui::SetNextWindowSize(ImVec2(window.getSize().x, 40));
     ImGui::Begin(u8"Меню", &menuWindow, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
     
     if (ImGui::Button(u8"Выйти в главное меню")) 
         play = false;
-    
+    ImGui::SameLine();
+
+    //Игровая информация
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - (128 + ImGui::CalcTextSize(_itoa(woodCount, tmp, 10)).x + ImGui::CalcTextSize(_itoa(stoneCount, tmp, 10)).x));
+    ImGui::BeginGroup();
+    {
+        ImGui::Image(spriteWood);
+        ImGui::SameLine();
+        ImGui::Text(_itoa(woodCount, tmp,10));
+        ImGui::SameLine();
+        ImGui::Image(spriteStone);
+        ImGui::SameLine();
+        ImGui::Text(_itoa(stoneCount, tmp, 10));
+        ImGui::SameLine();
+    }
+    ImGui::EndGroup();
 
     ImGui::End();
 }
@@ -160,6 +159,13 @@ Game::Game(Utilits& tool) {
 	map.createMap(7, 7, tools);
 
     play = true;
+
+    spriteStone.setTexture(tool.getTexture(stoneRes));
+    spriteWood .setTexture(tool.getTexture(woodRes ));
+
+    woodCount = 0;
+    unitCount = 0;
+    stoneCount = 0;
 }
 
 void Game::run(sf::RenderWindow& window) {

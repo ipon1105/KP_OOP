@@ -9,6 +9,11 @@ enum block {
     stone,  //Камень    64,     64
     water,  //Вода      32,     64
 
+    //<!-- objects -->//
+
+    woodRes,    //Дерево
+    stoneRes,   //Камень
+
     //<!-- stone & grass-->//
 
     stone_grass_left_up,    //0,        96

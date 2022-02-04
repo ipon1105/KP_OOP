@@ -56,7 +56,7 @@ void loadFunc() {
 
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
 
-		_itoa((int)((((float)tool.getProgress()) / 180.0f) * 100.0f), text, 10);
+		_itoa((int)((((float)tool.getProgress()) / 276.0f) * 100.0f), text, 10);
 
 		loadText[18] = text[0];
 		loadText[19] = text[1];

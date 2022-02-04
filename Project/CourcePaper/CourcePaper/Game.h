@@ -20,6 +20,14 @@ private:
 	EnemyAI enemy;
 	sf::Clock deltaClock;
 
+	sf::Sprite spriteStone;	//Рисунок ресурса камня
+	sf::Sprite spriteWood;	//Рисунок ресурса дерева
+	sf::Sprite spriteUnit;	//Рисунок человеческого ресурса
+
+	int woodCount;			//Количество дерева
+	int unitCount;			//Количество челов
+	int stoneCount;			//Количество камня
+
 	//Состояние игры
 	bool play;
 
