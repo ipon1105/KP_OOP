@@ -25,7 +25,7 @@ void loadFunc() {
 
 	ImGui::SFML::Init(window);
 
-	window.create(sf::VideoMode().getDesktopMode(), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
+	window.create(sf::VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
 
 	sf::Thread loadThread(&Utilits::startLoad, &tool);
 	loadThread.launch();

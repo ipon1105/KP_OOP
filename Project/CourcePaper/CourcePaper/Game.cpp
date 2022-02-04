@@ -170,7 +170,6 @@ void Game::run(sf::RenderWindow& window) {
         ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
 
 	getCamera() = window.getView();
-    copyView(window.getView());
 	while (window.isOpen()) {
 
 		sf::Event event;
