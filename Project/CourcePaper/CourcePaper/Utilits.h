@@ -35,3 +35,4 @@ public:
 	//Вернёт прогресс процеса
 	int getProgress();
 };
+

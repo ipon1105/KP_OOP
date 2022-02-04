@@ -1,14 +1,24 @@
 #pragma once
+
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 #include "Map.h"
 #include "Utilits.h"
+#include "MyView.h"
 
 class Creater
 {
 private:
 	Utilits tools;
-	sf::Clock deltaClock;
 	Map map;
 
+	sf::Clock deltaClock;
+
+	const sf::Vector2i tableMin = sf::Vector2i(10,10);
+
+	//Инициализация
+	void interfaceInit(sf::RenderWindow& window);
 public:
 	//Конструктор класса
 	Creater(Utilits& tool);
@@ -23,13 +33,8 @@ public:
 	void run(sf::RenderWindow& window);
 //	EnemyAI enemy;
 //
-//	//Инициализация
-//	void interfaceInit(sf::RenderWindow& window);
-//
 //	//Создание окно статистики
 //	void staticWindow(sf::RenderWindow& window);
-//public:
-//
 
 };
 

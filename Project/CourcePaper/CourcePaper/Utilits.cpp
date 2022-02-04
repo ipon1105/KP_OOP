@@ -83,3 +83,4 @@ bool Utilits::isFinily(){
 int Utilits::getProgress(){
 	return progress;
 }
+
