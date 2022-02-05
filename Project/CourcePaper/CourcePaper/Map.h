@@ -3,6 +3,7 @@
 #include "block.h"
 #include "Title.h"
 #include "Utilits.h"
+#include "Unit.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -17,6 +18,9 @@ private:
     int seed;       //Ключ генерации карты
 
 	Title** map;    //Массив плиток
+
+    std::vector<Unit> unitList;     //Список всех юнитов на карте
+    //std::vector<Builds> buildList;  //Список всех построек на карте
 public:
     //Конструкторы
     Map();
@@ -45,16 +49,13 @@ public:
     void render(sf::RenderWindow& window);
 
     //Отвечате за обработку событий на карте
-    void update(const sf::Event& event, sf::RenderWindow& window);
+    void update(sf::Event& event, sf::RenderWindow& window);
 
     //Отвечате за обработку событий на единожды
-    void pollUpdate(const sf::Event& event, sf::RenderWindow& window);
+    void pollUpdate(sf::Event& event, sf::RenderWindow& window);
 
     //Вернуть ключ генерации карты
     int getSeed();
-    
-    //гранение
-   // void granenie(const int& row, const int& col, const Map& newMap, const Map& new_Map, Utilits& tool, const int seed = 164398502);
 
     //Освобождение памяти
     ~Map();

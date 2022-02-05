@@ -27,7 +27,7 @@ public:
 	void update(sf::Event& event, sf::RenderWindow& window);
 
 	//Обновить
-	void updateEvent(sf::Event& event, sf::RenderWindow& window);
+	void pollUpdate(sf::Event& event, sf::RenderWindow& window);
 
 	//Идти в 
 	void goTo(int index, sf::Vector2i originPos, Map& map);

@@ -38,11 +38,11 @@ void Unit::render(sf::RenderWindow& window) {
 		window.draw(hitShape);
 }
 
-void Unit::update(sf::Event& event) {
-	cooldown--;
+void Unit::update(sf::Event& event, sf::RenderWindow& window) {
+	if(cooldown--);
 }
 
-void Unit::updateEvent(sf::Event& event) {
+void Unit::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
 
 }
 
@@ -64,7 +64,7 @@ void Unit::setOriginPos(const sf::Vector2i& pos) {
 	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
 }
 
-void Unit::setColor(sf::Color& color) {
+void Unit::setColor(const sf::Color color) {
 	this->tintColor = color;
 	shape.setFillColor(color);
 }

@@ -159,7 +159,7 @@ void Game::interfaceInit(sf::RenderWindow& window) {
 Game::Game(Utilits& tool) {
     this->tools = tool;
 
-	map.initMap(10, 10);
+	map.initMap(200, 200);
 	map.createMap(7, 7, tools);
 
     play = true;
@@ -192,7 +192,9 @@ void Game::run(sf::RenderWindow& window) {
 
 			cameraUpdateZoom(event);
             map.update(event, window);
-            enemy.updateEvent(event, window);
+            map.pollUpdate(event, window);
+
+            enemy.pollUpdate(event, window);
 		}
         cameraUpdateMove(event);
 

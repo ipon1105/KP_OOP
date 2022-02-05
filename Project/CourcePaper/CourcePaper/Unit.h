@@ -16,7 +16,6 @@ private:
 	sf::Vector2i originPos;		//Позиция относительно карты (row(y/32), col(x/32));
 	sf::Color tintColor;		//Цвет окраски
 
-	sf::Texture texture;		//Текстура
 	sf::Sprite	sprite;			//Спрайт
 
 	//temp
@@ -39,7 +38,7 @@ public:
 	sf::Vector2i getOriginPos();
 
 	//Получить/Задать цвет
-	void setColor(sf::Color& color);
+	void setColor(const sf::Color color);
 	sf::Color getColor();
 
 	//Получить/Установить состояние
@@ -75,10 +74,10 @@ public:
 	void render(sf::RenderWindow& window);
 
 	//Обновить
-	void update(sf::Event& event);
+	void update(sf::Event& event, sf::RenderWindow& window);
 
 	//Обновить
-	void updateEvent(sf::Event& event);
+	void pollUpdate(sf::Event& event, sf::RenderWindow& window);
 
 };
 

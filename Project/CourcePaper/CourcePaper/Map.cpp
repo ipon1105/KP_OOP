@@ -10,8 +10,12 @@ void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
+    unitList.push_back(Unit());
+    unitList[0].setOriginPos(sf::Vector2i(4, 3));
+    unitList[0].setColor(sf::Color::Red);
 
-    this->~Map();
+    if(map != NULL)
+        this->~Map();
 
     map = new Title * [rowCount];
     for (int i = 0; i < rowCount; i++)
@@ -542,9 +546,9 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
     delete[] blockMap;
 }
 
-void Map::update(const sf::Event& event, sf::RenderWindow& window) {
-
-    if (event.type == event.MouseButtonPressed &&
+/*
+* Обработка нажатия на ПКМ
+if (event.type == event.MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Right)
     {
         for (int i = 0; i < rowCount; i++)
@@ -561,17 +565,65 @@ void Map::update(const sf::Event& event, sf::RenderWindow& window) {
 
         map[row][col].setHitBoxing( !map[row][col].getHitBoxing());
     }
+*/
+
+void Map::update(sf::Event& event, sf::RenderWindow& window) 
+{
+    //Одноразовое обновление юнитов
+    for (int i = 0; i < unitList.size(); i++)
+        unitList[i].update(event, window);
 }
 
-void Map::pollUpdate(const sf::Event& event, sf::RenderWindow& window)
+void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
 {
 
+    //Одноразовое обновление юнитов
+    for (int i = 0; i < unitList.size(); i++)
+        unitList[i].pollUpdate(event, window);
+
+    if (event.type == event.MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Left)
+    {
+        sf::Vector2i mousePos = getGlobalMousePos(window);
+
+        int col = mousePos.x / 32;
+        int row = mousePos.y / 32;
+
+        for (int i = 0; i < this->unitList.size(); i++)
+            if (this->unitList[i].getOriginPos().x == col &&
+                this->unitList[i].getOriginPos().y == row)
+                this->unitList[i].setHitboxing(!this->unitList[i].getHitboxing());
+            else
+                this->unitList[i].setHitboxing(false);
+
+    }
+    /*if (event.type == event.MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Right)
+    {
+        sf::Vector2i mousePos = getGlobalMousePos(window);
+
+        int col = mousePos.x / 32;
+        int row = mousePos.y / 32;
+
+        sf::Vector2i t(col, row);
+
+        for (int i = 0; i < this->personList.size(); i++)
+            if (this->personList[i].getHitboxing()) {
+                this->personList[i].goToOriginPos(t);
+                this->personList[i].goToGlobalPos(mousePos);
+            }
+    }*/
 }
 
 void Map::render(sf::RenderWindow& window){
+    //Отрисовать плитки
     for (int i = 0; i < this->rowCount; i++)
         for (int j = 0; j < this->colCount; j++)
             this->map[i][j].render(window);
+
+    //Отрисовка юнитов
+    for (int i = 0; i < unitList.size(); i++)
+        unitList[i].render(window);
 }
 
 Map::~Map(){

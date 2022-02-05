@@ -29,7 +29,7 @@ void EnemyAI::update(sf::Event& event, sf::RenderWindow& window) {
 
 }
 
-void EnemyAI::updateEvent(sf::Event& event, sf::RenderWindow& window) {
+void EnemyAI::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
 	if (event.type == event.MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Left)
 	{

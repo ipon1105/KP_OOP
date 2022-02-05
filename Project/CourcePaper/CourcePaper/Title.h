@@ -15,7 +15,7 @@ private:
 
 	sf::Vector2i position;		//Позиция клетки на карте
 
-	state titleState;			//Состояние плитки: free or busy
+	state titleState;			//Состояние плитки: freeState or busyState
 	types titleType;			//Тип поверхности
 	
 	sf::Sprite	sprite;			//Спрайт поверхности
