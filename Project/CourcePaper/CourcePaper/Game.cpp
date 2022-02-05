@@ -159,7 +159,7 @@ void Game::interfaceInit(sf::RenderWindow& window) {
 Game::Game(Utilits& tool) {
     this->tools = tool;
 
-	map.initMap(200, 200);
+	map.initMap(30, 30);
 	map.createMap(7, 7, tools);
 
     play = true;
@@ -181,6 +181,7 @@ void Game::run(sf::RenderWindow& window) {
         ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);  //Позволяет растенуть окно до краёв
 
 	getCamera() = window.getView();
+    window.setFramerateLimit(getSetting().FPS);
 	while (window.isOpen()) {
 
 		sf::Event event;
@@ -191,9 +192,7 @@ void Game::run(sf::RenderWindow& window) {
 				window.close();
 
 			cameraUpdateZoom(event);
-            map.update(event, window);
             map.pollUpdate(event, window);
-
             enemy.pollUpdate(event, window);
 		}
         cameraUpdateMove(event);
@@ -221,8 +220,9 @@ void Game::render(sf::RenderWindow& window) {
 	window.display();
 }
 
-void Game::update(const sf::Event& event, sf::RenderWindow& window) {
+void Game::update(sf::Event& event, sf::RenderWindow& window) {
     ImGui::SFML::Update(window, this->deltaClock.restart());
+    map.update(event, window);
 
     staticWindow(window);
     menuInit(window);

@@ -20,6 +20,7 @@ struct configurateStruct {
 	int musicVolume;	//Громкость музыкы
 	int soundVolume;	//Громкость звуков
 	int screenScale;	//Полноэкранный режим
+	int FPS;			//Кадров в секунду
 
 	void defaultVars(const configurateStruct& conf) {
 		//Разрешение экрана
@@ -33,6 +34,9 @@ struct configurateStruct {
 
 		//Полноэкранный режим
 		this->screenScale = conf.screenScale;
+
+		//Кадров в секунду
+		this->FPS = conf.FPS;
 	}
 
 	configurateStruct(const configurateStruct& conf) {

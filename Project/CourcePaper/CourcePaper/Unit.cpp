@@ -1,4 +1,7 @@
 #include "Unit.h"
+#include "GameSetting.h"
+
+sf::Vector2i temporyTarget;
 
 Unit::Unit() {
 	setGlobalPos(sf::Vector2i(0,0));
@@ -25,10 +28,12 @@ void Unit::kickEnemy(Unit& enemy)
 
 void Unit::goToOriginPos(sf::Vector2i& pos)
 {
+	temporyTarget = pos;
 }
 
 void Unit::goToGlobalPos(sf::Vector2i& pos)
 {
+	temporyTarget = pos;
 }
 
 void Unit::render(sf::RenderWindow& window) {
@@ -39,7 +44,31 @@ void Unit::render(sf::RenderWindow& window) {
 }
 
 void Unit::update(sf::Event& event, sf::RenderWindow& window) {
-	if(cooldown--);
+	if(cooldown >= 0) cooldown--;
+
+	if (this->hitBoxing){
+
+		if ((int)(this->shape.getPosition().x / 32) == temporyTarget.x && 
+			(int)(this->shape.getPosition().y / 32) == temporyTarget.y)
+			return;
+
+		float side = (((float)32) / ((float)getSetting().FPS));
+		sf::Vector2f pos = this->shape.getPosition();
+
+		if ((int)pos.x < temporyTarget.x * 32)
+			this->shape.move(sf::Vector2f(side, 0));
+
+		else if ((int)pos.x > temporyTarget.x * 32)
+			this->shape.move(sf::Vector2f(-side, 0));
+
+		else if ((int)pos.y < temporyTarget.y * 32)
+			this->shape.move(sf::Vector2f(0, side));
+
+		else if ((int)pos.y > temporyTarget.y * 32)
+			this->shape.move(sf::Vector2f(0, -side));
+
+		hitShape.setPosition(sf::Vector2f(pos.x + 2, pos.y + 2));
+	}
 }
 
 void Unit::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
@@ -51,6 +80,7 @@ void Unit::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
 void Unit::setGlobalPos(const sf::Vector2i& pos) {
 	this->globalPos = pos;
 	this->originPos = sf::Vector2i(pos.x / 32, pos.y / 32);
+	temporyTarget = originPos;
 
 	shape.setPosition(this->globalPos.x, this->globalPos.y);
 	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
@@ -59,6 +89,7 @@ void Unit::setGlobalPos(const sf::Vector2i& pos) {
 void Unit::setOriginPos(const sf::Vector2i& pos) {
 	this->originPos = pos;
 	this->globalPos = sf::Vector2i(pos.x * 32, pos.y * 32);
+	temporyTarget = originPos;
 
 	shape.setPosition(this->globalPos.x, this->globalPos.y);
 	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);

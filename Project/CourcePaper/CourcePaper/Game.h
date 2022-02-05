@@ -50,7 +50,7 @@ public:
 	Game(Utilits& tool);
 
 	//Функция обновления игрового процесса
-	void update(const sf::Event& event, sf::RenderWindow& window);
+	void update(sf::Event& event, sf::RenderWindow& window);
 
 	//Функция отрисовки графической оболочки
 	void render(sf::RenderWindow& window);

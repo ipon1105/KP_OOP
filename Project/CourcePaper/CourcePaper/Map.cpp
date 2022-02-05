@@ -569,7 +569,7 @@ if (event.type == event.MouseButtonPressed &&
 
 void Map::update(sf::Event& event, sf::RenderWindow& window) 
 {
-    //Одноразовое обновление юнитов
+    //обновление юнитов
     for (int i = 0; i < unitList.size(); i++)
         unitList[i].update(event, window);
 }
@@ -597,7 +597,7 @@ void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
                 this->unitList[i].setHitboxing(false);
 
     }
-    /*if (event.type == event.MouseButtonPressed &&
+    if (event.type == event.MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Right)
     {
         sf::Vector2i mousePos = getGlobalMousePos(window);
@@ -605,14 +605,15 @@ void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
         int col = mousePos.x / 32;
         int row = mousePos.y / 32;
 
-        sf::Vector2i t(col, row);
+        map[row][col].setHitBoxing(!map[row][col].getHitBoxing());
 
-        for (int i = 0; i < this->personList.size(); i++)
-            if (this->personList[i].getHitboxing()) {
-                this->personList[i].goToOriginPos(t);
-                this->personList[i].goToGlobalPos(mousePos);
-            }
-    }*/
+        sf::Vector2i t(col, row);
+        this->unitList[0].goToOriginPos(t);
+
+        //for (int i = 0; i < this->unitList.size(); i++)
+        //    if (this->unitList[i].getHitboxing()) {
+        //    }
+    }
 }
 
 void Map::render(sf::RenderWindow& window){

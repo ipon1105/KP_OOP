@@ -31,6 +31,9 @@ int saveConfigurate() {
 	//Полноэкранный режим
 	outData << confSetting.screenScale;
 
+	//Кадров в секунду
+	outData << confSetting.FPS;
+	
 	return 0;
 }
 
@@ -48,6 +51,9 @@ int defaultConfigurate() {
 
 	//Полноэкранный режим
 	confSetting.screenScale = 1;
+
+	//Кадров в секунду
+	confSetting.FPS = 60;
 
 	return (saveConfigurate()) ? 1 : 0;
 }
@@ -69,6 +75,9 @@ int loadConfigurate() {
 
 	//Полноэкранный режим
 	inData >> confSetting.screenScale;
+
+	//Кадров в секунду
+	inData >> confSetting.FPS;
 
 	return 0;
 }
