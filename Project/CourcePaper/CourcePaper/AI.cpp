@@ -66,9 +66,4 @@ void EnemyAI::updateEvent(sf::Event& event, sf::RenderWindow& window) {
 
 void EnemyAI::goTo(int index, sf::Vector2i originPos, Map& map)
 {
-	//1 - можно ходить
-	//0 - нельзя ходить
-	int** temp = map.getMapWeight();
-	
-	
 }

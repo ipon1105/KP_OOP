@@ -15,12 +15,8 @@ private:
     int rowCount;   //Количество строк карты
     int colCount;   //Количество колонок карты
     int seed;       //Ключ генерации карты
-    int tmp[2];     //Временный массив
 
 	Title** map;    //Массив плиток
-    int** wayMap;   //Карта для логики
-
-    std::vector<int[2]> setBoxList;    //Массив выделенных клеток
 public:
     //Конструкторы
     Map();
@@ -51,14 +47,14 @@ public:
     //Отвечате за обработку событий на карте
     void update(const sf::Event& event, sf::RenderWindow& window);
 
+    //Отвечате за обработку событий на единожды
+    void pollUpdate(const sf::Event& event, sf::RenderWindow& window);
+
     //Вернуть ключ генерации карты
     int getSeed();
     
     //гранение
    // void granenie(const int& row, const int& col, const Map& newMap, const Map& new_Map, Utilits& tool, const int seed = 164398502);
-
-    //Вернуть карту путей
-    int** getMapWeight();
 
     //Освобождение памяти
     ~Map();
