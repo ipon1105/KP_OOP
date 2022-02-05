@@ -9,7 +9,7 @@ void Title::setType(const types& type, Utilits& tool) {
     this->titleType = type;
     sprite.setTexture(tool.getTexture(type));
 
-    if (type == water || type >= water_grass_left_up && type <= grass_water_x_2) 
+    if (type == water)
         titleState = busyState;
     else
         titleState = freeState;

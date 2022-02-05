@@ -4,57 +4,202 @@ const int TITLE_SIZE = 32;  //Размер одной плитки
 
 //Поверхности
 enum types {
-    empty,  //Пустота   
-    grass,  //Земля     0,      64
-    stone,  //Камень    64,     64
-    water,  //Вода      32,     64
+    empty = -1,
 
-    //<!-- objects -->//
+    //<!--1-ый ряд-->//
 
-    woodRes,    //Дерево
-    stoneRes,   //Камень
+    water_grass_left_up,
+    water_grass_up,
+    water_grass_right_up,
+    grass_water_left_up,
+    grass_water_right_up,
+    stone_grass_left_up,
+    stone_grass_up,  
+    stone_grass_right_up,
+    grass_stone_left_up,
+    grass_stone_right_up,
+    water_stone_left_up,
+    water_stone_up,
+    water_stone_right_up,
+    stone_water_left_up,
+    stone_water_right_up,
 
-    //<!-- stone & grass-->//
+    //<!--2-ой ряд-->//
 
-    stone_grass_left_up,    //0,        96
-    stone_grass_left,       //0,        128
-    stone_grass_left_down,  //0,        160
-    stone_grass_up,         //32,       96
-    stone_grass_right_up,   //64,       96
-    stone_grass_right,      //64,       128
-    stone_grass_right_down, //64,       160
-    stone_grass_down,       //32,       160
+    water_grass_left,
+    water_grass_mid,
+    water_grass_right,
+    grass_water_left_down,
+    grass_water_right_down,
+    stone_grass_left,
+    stone_grass_mid,
+    stone_grass_right,
+    grass_stone_left_down,
+    grass_stone_right_down,
+    water_stone_left,
+    water_stone_mid,
+    water_stone_right,
+    stone_water_left_down,
+    stone_water_right_down,
 
-    grass_stone_left_up,    //96,       96
-    grass_stone_right_up,   //128,      96
-    grass_stone_left_down,  //96,       128
-    grass_stone_right_down, //128,      128
+    //<!--3-ий ряд-->//
 
-    grass_stone_x_1,        //96,       160
-    grass_stone_x_2,        //128,      160
+    water_grass_left_down,
+    water_grass_down,
+    water_grass_right_down,
+    water_grass_x_1,
+    water_grass_x_2,
+    stone_grass_left_down,
+    stone_grass_down,
+    stone_grass_right_down,
+    stone_grass_x_1,
+    stone_grass_x_2,
+    water_stone_left_down,  
+    water_stone_down,
+    water_stone_right_down,
+    water_stone_x_1,
+    water_stone_x_2,
 
-    //<!-- water & grass-->//
+    //<!--4-ый ряд-->//
 
-    water_grass_left_up,    //192,      96
-    water_grass_left,       //192,      128
-    water_grass_left_down,  //192,      160
-    water_grass_up,         //224,      96
-    water_grass_right_up,   //256,      96
-    water_grass_right,      //256,      128
-    water_grass_right_down, //256,      160
-    water_grass_down,       //224,      160
+    grass,
+    water,
+    stone,
+    wall_down_right,
+    wall_left_right,
+    wall_up_down,
+    wall_left_down,
+    wall_up_right,
+    wall_left_up,
+    wall_A,
+    wall_B,
+    woodRes,
+    stoneRes,
+    base,
+    home,
 
-    grass_water_left_up,    //288,      96
-    grass_water_right_up,   //324,      96
-    grass_water_left_down,  //288,      128
-    grass_water_right_down, //324,      128
+    //<!--5-ый ряд-->//
 
-    grass_water_x_1,        //288,      160
-    grass_water_x_2,        //324,      160
+    tree,
+    unit_human_warrior_left_0,
+    unit_human_warrior_left_1,
+    unit_human_warrior_left_2,
+    unit_human_warrior_up_0,
+    unit_human_warrior_up_1,
+    unit_human_warrior_up_2,
+    unit_human_warrior_down_0,
+    unit_human_warrior_down_1,
+    unit_human_warrior_down_2,
+    unit_human_warrior_right_0,
+    unit_human_warrior_right_1,
+    unit_human_warrior_right_2,
+    unit_human_vilager_left_0,
+    unit_human_vilager_left_1,
+
+    //<!--6-ой ряд-->//
+
+    unit_human_vilager_left_2,
+    unit_human_vilager_up_0,
+    unit_human_vilager_up_1,
+    unit_human_vilager_up_2,
+    unit_human_vilager_down_0,
+    unit_human_vilager_down_1,
+    unit_human_vilager_down_2,
+    unit_human_vilager_right_0,
+    unit_human_vilager_right_1,
+    unit_human_vilager_right_2,
+    unit_skeleton_warrior_left_0,
+    unit_skeleton_warrior_left_1,
+    unit_skeleton_warrior_left_2,
+    unit_skeleton_warrior_up_0,
+    unit_skeleton_warrior_up_1,
+
+    //<!--7-ой ряд-->//
+
+    unit_skeleton_warrior_up_2,
+    unit_skeleton_warrior_down_0,
+    unit_skeleton_warrior_down_1,
+    unit_skeleton_warrior_down_2,
+    unit_skeleton_warrior_right_0,
+    unit_skeleton_warrior_right_1,
+    unit_skeleton_warrior_right_2,
+    unit_skeleton_vilager_left_0,
+    unit_skeleton_vilager_left_1,
+    unit_skeleton_vilager_left_2,
+    unit_skeleton_vilager_up_0,
+    unit_skeleton_vilager_up_1,
+    unit_skeleton_vilager_up_2,
+    unit_skeleton_vilager_down_0,
+    unit_skeleton_vilager_down_1,
+
+    //<!--8-ой ряд-->//
+
+    unit_skeleton_vilager_down_2,
+    unit_skeleton_vilager_right_0,
+    unit_skeleton_vilager_right_1,
+    unit_skeleton_vilager_right_2,
+    unit_goblin_warrior_left_0,
+    unit_goblin_warrior_left_1,
+    unit_goblin_warrior_left_2,
+    unit_goblin_warrior_up_0,
+    unit_goblin_warrior_up_1,
+    unit_goblin_warrior_up_2,
+    unit_goblin_warrior_down_0,
+    unit_goblin_warrior_down_1,
+    unit_goblin_warrior_down_2,
+    unit_goblin_warrior_right_0,
+    unit_goblin_warrior_right_1,
+
+    //<!--9-ый ряд-->//
+
+    unit_goblin_warrior_right_2,
+    unit_goblin_vilager_left_0,
+    unit_goblin_vilager_left_1,
+    unit_goblin_vilager_left_2,
+    unit_goblin_vilager_up_0,
+    unit_goblin_vilager_up_1,
+    unit_goblin_vilager_up_2,
+    unit_goblin_vilager_down_0,
+    unit_goblin_vilager_down_1,
+    unit_goblin_vilager_down_2,
+    unit_goblin_vilager_right_0,
+    unit_goblin_vilager_right_1,
+    unit_goblin_vilager_right_2,
+    unit_russion_warrior_left_0,
+    unit_russion_warrior_left_1,
+
+    //<!--10-ый ряд-->//
+
+    unit_russion_warrior_left_2,
+    unit_russion_warrior_up_0,
+    unit_russion_warrior_up_1,
+    unit_russion_warrior_up_2,
+    unit_russion_warrior_down_0,
+    unit_russion_warrior_down_1,
+    unit_russion_warrior_down_2,
+    unit_russion_warrior_right_0,
+    unit_russion_warrior_right_1,
+    unit_russion_warrior_right_2,
+    unit_russion_vilager_left_0,
+    unit_russion_vilager_left_1,
+    unit_russion_vilager_left_2,
+    unit_russion_vilager_up_0,
+    unit_russion_vilager_up_1,
+
+    //<!--11-ый ряд-->//
+
+    unit_russion_vilager_up_2,
+    unit_russion_vilager_down_0,
+    unit_russion_vilager_down_1,
+    unit_russion_vilager_down_2,
+    unit_russion_vilager_right_0,
+    unit_russion_vilager_right_1,
+    unit_russion_vilager_right_2,
+
 
     //<!-- temporary floor-->//
 
-    shadowGrass = 100,  //Тень травы
+    shadowGrass = 200,  //Тень травы
     shadowStone         //Тень камня
 
 };

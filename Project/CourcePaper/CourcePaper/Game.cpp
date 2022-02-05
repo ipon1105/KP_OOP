@@ -166,7 +166,7 @@ Game::Game(Utilits& tool) {
 
     spriteStone.setTexture(tool.getTexture(stoneRes));
     spriteWood .setTexture(tool.getTexture(woodRes ));
-    spriteUnit.setTexture(tool.getUnitTexture(vil3_a5));
+    spriteUnit.setTexture(tool.getTexture(unit_russion_vilager_up_1));
 
     woodCount = 0;
     unitCount = 0;
