@@ -2,6 +2,7 @@
 
 #include "block.h"
 #include "Utilits.h"
+#include "state.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -16,6 +17,8 @@ private:
 	sf::Texture texture;		//Вырезанная текстура
 	sf::Sprite sprite;			//Спрайт поверхности
 	sf::RectangleShape hitBox;	//Квадрат хитбокса
+
+	state boxState;
 
 	const int hitBoxThickness = 2;
 	bool hitBoxing;				//Отображение границ
@@ -53,6 +56,9 @@ public:
 
 	//Установить отрисовку границ
 	void setHitBoxing(const bool& set);
+
+	//Получить состояние
+	state getState();
 
 	//Оператор присваивания
 	Box& operator = (const Box& box);

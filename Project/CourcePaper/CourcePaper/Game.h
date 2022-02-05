@@ -10,6 +10,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include <vector>
+
 //Объект данного класса будет представлять
 //всю обработку игры.
 class Game
@@ -20,6 +22,9 @@ private:
 	EnemyAI enemy;
 	sf::Clock deltaClock;
 
+	//Список всех юнитов игрока
+	std::vector<Unit> unitList;
+
 	sf::Sprite spriteStone;	//Рисунок ресурса камня
 	sf::Sprite spriteWood;	//Рисунок ресурса дерева
 	sf::Sprite spriteUnit;	//Рисунок человеческого ресурса
@@ -27,6 +32,7 @@ private:
 	int woodCount;			//Количество дерева
 	int unitCount;			//Количество челов
 	int stoneCount;			//Количество камня
+	int maxUnitCount;		//Максимальное кол. юнитов
 
 	//Состояние игры
 	bool play;

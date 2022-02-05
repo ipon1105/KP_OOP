@@ -293,3 +293,27 @@ Map::~Map(){
  int Map::getSeed() {
      return this->seed;
  }
+
+ int** Map::getMapWeight()
+ {
+     if (wayMap != NULL)
+     {
+         for (int i = 0; i < rowCount; i++)
+             delete[] wayMap[i];
+         delete[] wayMap;
+         wayMap = NULL;
+     }
+
+     wayMap = new int*[rowCount];
+     for(int i = 0; i < rowCount; i++)
+        wayMap[i] = new int[colCount];
+
+     for (int i = 0; i < rowCount; i++)
+         for (int j = 0; j < colCount; j++)
+             if (map[i][j].getState() == passable)
+                 wayMap[i][j] = 1;
+             else
+                 wayMap[i][j] = 0;
+
+     return wayMap;
+ }

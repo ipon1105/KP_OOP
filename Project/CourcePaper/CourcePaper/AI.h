@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Unit.h"
+#include "Map.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -27,5 +28,8 @@ public:
 
 	//Обновить
 	void updateEvent(sf::Event& event, sf::RenderWindow& window);
+
+	//Идти в 
+	void goTo(int index, sf::Vector2i originPos, Map& map);
 };
 

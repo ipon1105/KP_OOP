@@ -18,6 +18,7 @@ private:
     int tmp[2];     //Временный массив
 
 	Box** map;      //Массив карты
+    int** wayMap;   //Карта для логики
 
     std::vector<int[2]> setBoxList;    //Массив выделенных клеток
 public:
@@ -52,6 +53,9 @@ public:
 
     //Вернуть ключ генерации карты
     int getSeed();
+
+    //Вернуть карту путей
+    int** getMapWeight();
 
     //Освобождение памяти
     ~Map();

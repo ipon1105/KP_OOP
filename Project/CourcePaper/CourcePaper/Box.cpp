@@ -20,6 +20,10 @@ void Box::setType(const block& type, Utilits& tool) {
     //Примечание: Реализовать класс, который будет хранить массив вырезанных текстур, для быстрой загрузки
     this->type = type;
     sprite.setTexture(tool.getTexture(type));
+    if (type == water || type >= water_grass_left_up && type <= grass_water_x_2) 
+        boxState = impassable;
+    else
+        boxState = passable;
 }
 
 block& Box::getType() {
@@ -82,6 +86,10 @@ void Box::render(sf::RenderWindow& window) {
 
     if (this->hitBoxing)
         window.draw(this->hitBox);
+}
+state Box::getState()
+{
+    return boxState;
 }
 void Box::update(const sf::Event& event) {
 
