@@ -1,6 +1,6 @@
 #pragma once
 
-const int BOX_SIZE = 32;  //Размер одной плитки
+const int TITLE_SIZE = 32;  //Размер одной плитки
 
 //Поверхности
 enum block {

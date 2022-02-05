@@ -7,11 +7,10 @@
 #include <SFML/Graphics.hpp>
 
 //Класс, который представляет с собой одну плитку на карте
-class Box
+class TITLE
 {
 private:
-	sf::Vector2i globalPos;		//Глобальная позиция (x,y)
-	sf::Vector2i originPos;		//Позиция относительно карты (row(y/32), col(x/32));
+	sf::Vector2i position;		//Позиция клетки на карте
 
 	block type;					//Тип поверхности
 	sf::Texture texture;		//Вырезанная текстура
@@ -30,8 +29,8 @@ private:
 	void initHitBox();
 public:
 	//Конструкторы
-	Box();
-	Box(const Box& box);
+	TITLE();
+	TITLE(const TITLE& box);
 
 	//Инициализация типа
 	void setType(const block& type, Utilits& tool);
@@ -48,9 +47,6 @@ public:
 	//Вернуть глобальную позицию
 	sf::Vector2i getGlobalPos();
 
-	//Вернуть относительную позицию
-	sf::Vector2i getOriginPos();
-
 	//Получить отрисовку границ
 	bool getHitBoxing();
 
@@ -61,7 +57,7 @@ public:
 	state getState();
 
 	//Оператор присваивания
-	Box& operator = (const Box& box);
+	TITLE& operator = (const TITLE& box);
 
 	//Функция отрисовки плитки на экране
 	void render(sf::RenderWindow& window);

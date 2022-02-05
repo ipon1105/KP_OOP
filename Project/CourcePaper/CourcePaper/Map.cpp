@@ -10,11 +10,12 @@ void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
+
     this->~Map();
 
-    map = new Box * [rowCount];
+    map = new TITLE * [rowCount];
     for (int i = 0; i < rowCount; i++)
-        map[i] = new Box[this->colCount];
+        map[i] = new TITLE[this->colCount];
         
 }
 
@@ -22,9 +23,9 @@ Map::Map(const int& row, const int& col) {
     this->colCount = col;
     this->rowCount = row;
 
-    map = new Box*[this->rowCount];
+    map = new TITLE*[this->rowCount];
     for (int i = 0; i < this->rowCount; i++)
-        map[i] = new Box[this->colCount];
+        map[i] = new TITLE[this->colCount];
 
     this->tmp[0] = this->tmp[1] = 0;
 }
@@ -37,7 +38,7 @@ int Map::getColCount() {
     return this->colCount;
 }
 
-Box** Map::getMap() {
+TITLE** Map::getMap() {
     return map;
 }
 
@@ -45,9 +46,9 @@ Map::Map(const Map& newMap) {
     this->colCount = newMap.colCount;
     this->rowCount = newMap.rowCount;
 
-    map = new Box * [this->rowCount];
+    map = new TITLE * [this->rowCount];
     for (int i = 0; i < this->rowCount; i++)
-        map[i] = new Box[this->colCount];
+        map[i] = new TITLE[this->colCount];
 }
 
 void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed) {

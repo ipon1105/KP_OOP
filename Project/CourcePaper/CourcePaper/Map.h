@@ -17,7 +17,7 @@ private:
     int seed;       //Ключ генерации карты
     int tmp[2];     //Временный массив
 
-	Box** map;      //Массив карты
+	TITLE** map;      //Массив карты
     int** wayMap;   //Карта для логики
 
     std::vector<int[2]> setBoxList;    //Массив выделенных клеток
@@ -40,7 +40,7 @@ public:
     int getColCount();
 
     //Вернуть массив плиток
-    Box** getMap();
+    TITLE** getMap();
 
     //Оператор присваивания
     Map& operator = (const Map & newMap);

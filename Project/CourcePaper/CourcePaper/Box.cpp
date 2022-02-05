@@ -1,13 +1,13 @@
 #include "Box.h"
 
-Box::Box() {
+TITLE::TITLE() {
     this->setGlobalPos(sf::Vector2i(0,0));
     initHitBox();
 }
 
-Box::Box(const Box& box) {
-    this->globalPos = box.globalPos;
-    this->originPos = box.originPos;
+TITLE::TITLE(const TITLE& box) {
+    this->position = box.position;
+    //this->originPos = box.originPos;
     this->hitBoxing = box.hitBoxing;
     this->texture   = box.texture;
     this->sprite    = box.sprite;
@@ -16,7 +16,7 @@ Box::Box(const Box& box) {
 
 }
 
-void Box::setType(const block& type, Utilits& tool) {
+void TITLE::setType(const block& type, Utilits& tool) {
     //Примечание: Реализовать класс, который будет хранить массив вырезанных текстур, для быстрой загрузки
     this->type = type;
     sprite.setTexture(tool.getTexture(type));
@@ -26,25 +26,25 @@ void Box::setType(const block& type, Utilits& tool) {
         boxState = passable;
 }
 
-block& Box::getType() {
+block& TITLE::getType() {
     return type; 
 }
 
-void Box::setHitBoxing(const bool& set) {
+void TITLE::setHitBoxing(const bool& set) {
     this->hitBoxing = set;
 }
 
-bool Box::getHitBoxing() {
+bool TITLE::getHitBoxing() {
     return hitBoxing;
 }
 
-void Box::initSprite() {
-    this->sprite.setPosition(this->globalPos.x, this->globalPos.y);
+void TITLE::initSprite() {
+    this->sprite.setPosition(this->position.x, this->position.y);
 }
 
-void Box::initHitBox() {
-    this->hitBox.setPosition(this->globalPos.x + this->hitBoxThickness, this->globalPos.y + this->hitBoxThickness);
-    this->hitBox.setSize(sf::Vector2f((float) BOX_SIZE - this->hitBoxThickness * 2, (float) BOX_SIZE - this->hitBoxThickness * 2));
+void TITLE::initHitBox() {
+    this->hitBox.setPosition(this->position.x * TITLE_SIZE + this->hitBoxThickness, this->position.y * TITLE_SIZE + this->hitBoxThickness);
+    this->hitBox.setSize(sf::Vector2f((float) TITLE_SIZE - this->hitBoxThickness * 2, (float) TITLE_SIZE - this->hitBoxThickness * 2));
     this->hitBox.setFillColor(sf::Color::Transparent);
     this->hitBox.setOutlineColor(sf::Color::Green);
     this->hitBox.setOutlineThickness(this->hitBoxThickness);
@@ -52,45 +52,41 @@ void Box::initHitBox() {
     this->setHitBoxing(false);
 }
 
-void Box::setGlobalPos(const sf::Vector2i& pos) {
-    this->globalPos = pos;
-    this->originPos = sf::Vector2i(pos.x / BOX_SIZE , pos.y / BOX_SIZE);
+void TITLE::setGlobalPos(const sf::Vector2i& pos) {
+    this->position = pos;
+    //this->originPos = sf::Vector2i(pos.x / TITLE_SIZE , pos.y / TITLE_SIZE);
 
     initSprite();
     initHitBox();
 }
 
-void Box::setOriginPos(const sf::Vector2i& pos) {
-    this->globalPos = sf::Vector2i(pos.x * BOX_SIZE, pos.y * BOX_SIZE);
-    this->originPos = pos;
+void TITLE::setOriginPos(const sf::Vector2i& pos) {
+    this->position = sf::Vector2i(pos.x * TITLE_SIZE, pos.y * TITLE_SIZE);
+    //this->originPos = pos;
 
     initSprite();
     initHitBox();
 }
 
-sf::Vector2i Box::getGlobalPos() {
-    return this->globalPos;
+sf::Vector2i TITLE::getGlobalPos() {
+    return this->position;
 }
 
-sf::Vector2i Box::getOriginPos() {
-    return this->originPos;
-}
-
-Box& Box::operator = (const Box& box) {
-    Box newBox(box);
+TITLE& TITLE::operator = (const TITLE& box) {
+    TITLE newBox(box);
     return newBox;
 }
 
-void Box::render(sf::RenderWindow& window) {
+void TITLE::render(sf::RenderWindow& window) {
     window.draw(this->sprite);
 
     if (this->hitBoxing)
         window.draw(this->hitBox);
 }
-state Box::getState()
+state TITLE::getState()
 {
     return boxState;
 }
-void Box::update(const sf::Event& event) {
+void TITLE::update(const sf::Event& event) {
 
 }
