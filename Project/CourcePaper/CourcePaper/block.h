@@ -3,7 +3,7 @@
 const int TITLE_SIZE = 32;  //Размер одной плитки
 
 //Поверхности
-enum block {
+enum types {
     empty,  //Пустота   
     grass,  //Земля     0,      64
     stone,  //Камень    64,     64

@@ -12,6 +12,6 @@ enum state {
 	runOut,		//Бежать от врага
 
 	//Состояние плиток
-	impassable,	//Непрохадимый
-	passable	//Проходимый
+	busyState,	//Занята
+	freeState	//Не занята
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "block.h"
-#include "Box.h"
+#include "Title.h"
 #include "Utilits.h"
 
 #include <SFML/Graphics.hpp>
@@ -17,7 +17,7 @@ private:
     int seed;       //Ключ генерации карты
     int tmp[2];     //Временный массив
 
-	TITLE** map;      //Массив карты
+	Title** map;    //Массив плиток
     int** wayMap;   //Карта для логики
 
     std::vector<int[2]> setBoxList;    //Массив выделенных клеток
@@ -40,7 +40,7 @@ public:
     int getColCount();
 
     //Вернуть массив плиток
-    TITLE** getMap();
+    Title** getMap();
 
     //Оператор присваивания
     Map& operator = (const Map & newMap);

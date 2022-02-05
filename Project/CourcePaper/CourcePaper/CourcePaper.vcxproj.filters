@@ -66,7 +66,7 @@
     <ClCompile Include="Game.cpp">
       <Filter>Исходные файлы\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
+    <ClCompile Include="Title.cpp">
       <Filter>Исходные файлы\Game</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
@@ -419,7 +419,7 @@
     <ClInclude Include="MyView.h">
       <Filter>Файлы заголовков\Game\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Box.h">
+    <ClInclude Include="Title.h">
       <Filter>Файлы заголовков\Game</Filter>
     </ClInclude>
     <ClInclude Include="block.h">

@@ -63,7 +63,7 @@ sf::Texture& Utilits::getTexture(const int& row, const int& col) {
 	return textureMap[row][col];
 }
 
-sf::Texture& Utilits::getTexture(const block& title) {
+sf::Texture& Utilits::getTexture(const types& title) {
 
 	switch (title) {
 		case empty: return textureMap[0][6]; break;

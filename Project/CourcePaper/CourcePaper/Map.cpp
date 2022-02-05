@@ -13,9 +13,9 @@ void Map::initMap(const int& row, const int& col) {
 
     this->~Map();
 
-    map = new TITLE * [rowCount];
+    map = new Title * [rowCount];
     for (int i = 0; i < rowCount; i++)
-        map[i] = new TITLE[this->colCount];
+        map[i] = new Title[this->colCount];
         
 }
 
@@ -23,9 +23,9 @@ Map::Map(const int& row, const int& col) {
     this->colCount = col;
     this->rowCount = row;
 
-    map = new TITLE*[this->rowCount];
+    map = new Title*[this->rowCount];
     for (int i = 0; i < this->rowCount; i++)
-        map[i] = new TITLE[this->colCount];
+        map[i] = new Title[this->colCount];
 
     this->tmp[0] = this->tmp[1] = 0;
 }
@@ -38,7 +38,7 @@ int Map::getColCount() {
     return this->colCount;
 }
 
-TITLE** Map::getMap() {
+Title** Map::getMap() {
     return map;
 }
 
@@ -46,9 +46,9 @@ Map::Map(const Map& newMap) {
     this->colCount = newMap.colCount;
     this->rowCount = newMap.rowCount;
 
-    map = new TITLE * [this->rowCount];
+    map = new Title * [this->rowCount];
     for (int i = 0; i < this->rowCount; i++)
-        map[i] = new TITLE[this->colCount];
+        map[i] = new Title[this->colCount];
 }
 
 void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed) {
@@ -56,9 +56,9 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
     srand(seed);
 
     int r = 0, c = 0;
-    block** blockMap = new block*[this->rowCount];
+    types** blockMap = new types*[this->rowCount];
     for (int i = 0; i < rowCount; i++)
-        blockMap[i] = new block[this->colCount];
+        blockMap[i] = new types[this->colCount];
     
     for (int i = 0; i < rowCount; i++)
         for (int j = 0; j < colCount; j++)
@@ -536,7 +536,7 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
         for (int j = 0; j < colCount; j++) 
         {
             map[i][j].setType(blockMap[i][j], tool);
-            map[i][j].setOriginPos(sf::Vector2i(j, i));
+            map[i][j].setPosition(sf::Vector2i(j, i));
         }
 
     for (int i = 0; i < rowCount; i++)
@@ -607,7 +607,7 @@ Map::~Map(){
 
      for (int i = 0; i < rowCount; i++)
          for (int j = 0; j < colCount; j++)
-             if (map[i][j].getState() == passable)
+             if (map[i][j].getState() == freeState)
                  wayMap[i][j] = 1;
              else
                  wayMap[i][j] = 0;

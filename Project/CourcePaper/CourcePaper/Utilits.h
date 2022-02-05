@@ -144,7 +144,7 @@ public:
 	sf::Texture& getTexture(const int& row, const int& col);
 
 	//Вернёт текстуру по перечислению block
-	sf::Texture& getTexture(const block& title);
+	sf::Texture& getTexture(const types& title);
 
 	//Вернёт текстуру по перечислению unit_block
 	sf::Texture& getUnitTexture(const unit_block& title);
