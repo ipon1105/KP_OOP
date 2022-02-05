@@ -25,7 +25,7 @@ void loadFunc() {
 
 	ImGui::SFML::Init(window);
 
-	window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
+	window.create(sf::VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
 
 	sf::Thread loadThread(&Utilits::startLoad, &tool);
 	loadThread.launch();
@@ -51,19 +51,19 @@ void loadFunc() {
 
         //Во весь экран
         ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(getSetting().windowWidth, getSetting().windowHeight));
+        ImGui::SetNextWindowSize(window.getSize());
         ImGui::SetNextWindowBgAlpha(0.0f);
 
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
 
-		_itoa((int)((((float)tool.getProgress()) / 180.0f) * 100.0f), text, 10);
+		_itoa((int)((((float)tool.getProgress()) / 276.0f) * 100.0f), text, 10);
 
 		loadText[18] = text[0];
 		loadText[19] = text[1];
 		loadText[20] = '\0';
 
-        ImGui::SetCursorPosX((getSetting().windowWidth - ImGui::CalcTextSize(loadText).x) * 0.5f);
-        ImGui::SetCursorPosY(getSetting().windowHeight * 0.5f);
+        ImGui::SetCursorPosX((window.getSize().x - ImGui::CalcTextSize(loadText).x) * 0.5f);
+        ImGui::SetCursorPosY(window.getSize().y * 0.5f);
 		ImGui::Text(loadText);
 
         ImGui::End();

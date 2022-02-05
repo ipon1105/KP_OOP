@@ -26,6 +26,7 @@ Map::Map(const int& row, const int& col) {
     for (int i = 0; i < this->rowCount; i++)
         map[i] = new Box[this->colCount];
 
+    this->tmp[0] = this->tmp[1] = 0;
 }
 
 int Map::getRowCount() {
@@ -547,10 +548,16 @@ void Map::update(const sf::Event& event, sf::RenderWindow& window) {
     if (event.type == event.MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Right)
     {
+
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         
-        int col = getOriginMousePos(window).x / 32;
-        int row = getOriginMousePos(window).y / 32;
+        map[tmp[0]][tmp[1]].setHitBoxing(false);
+
+        int col = getGlobalMousePos(window).x / 32;
+        int row = getGlobalMousePos(window).y / 32;
+
+        tmp[0] = row;
+        tmp[1] = col;
 
         if (col >= this->colCount || row >= this->rowCount || col < 0 || row < 0)
             return;
@@ -581,4 +588,28 @@ Map::~Map(){
 
  int Map::getSeed() {
      return this->seed;
+ }
+
+ int** Map::getMapWeight()
+ {
+     if (wayMap != NULL)
+     {
+         for (int i = 0; i < rowCount; i++)
+             delete[] wayMap[i];
+         delete[] wayMap;
+         wayMap = NULL;
+     }
+
+     wayMap = new int*[rowCount];
+     for(int i = 0; i < rowCount; i++)
+        wayMap[i] = new int[colCount];
+
+     for (int i = 0; i < rowCount; i++)
+         for (int j = 0; j < colCount; j++)
+             if (map[i][j].getState() == passable)
+                 wayMap[i][j] = 1;
+             else
+                 wayMap[i][j] = 0;
+
+     return wayMap;
  }

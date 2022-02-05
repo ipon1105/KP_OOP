@@ -5,17 +5,22 @@
 #include "Utilits.h"
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 //Класс, который манипулирует всеми плитками и
 //всем игровым процессом
 class Map
 {
 private:
-    int rowCount;       //Количество строк карты
-    int colCount;       //Количество колонок карты
-    int seed;           //Ключ генерации карты
+    int rowCount;   //Количество строк карты
+    int colCount;   //Количество колонок карты
+    int seed;       //Ключ генерации карты
+    int tmp[2];     //Временный массив
 
-	Box** map;          //Массив карты
+	Box** map;      //Массив карты
+    int** wayMap;   //Карта для логики
+
+    std::vector<int[2]> setBoxList;    //Массив выделенных клеток
 public:
     //Конструкторы
     Map();
@@ -51,6 +56,9 @@ public:
     
     //гранение
    // void granenie(const int& row, const int& col, const Map& newMap, const Map& new_Map, Utilits& tool, const int seed = 164398502);
+
+    //Вернуть карту путей
+    int** getMapWeight();
 
     //Освобождение памяти
     ~Map();

@@ -36,4 +36,4 @@ void setMinZoomCount(int minZoom);
 int getZoom();
 
 //Возвращает отностельные координаты мыши с условием приближения и смещения
-sf::Vector2i getOriginMousePos(sf::RenderWindow& window);
+sf::Vector2i getGlobalMousePos(sf::RenderWindow& window);

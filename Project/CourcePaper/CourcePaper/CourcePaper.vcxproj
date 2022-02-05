@@ -303,6 +303,7 @@
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector3.inl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\Downloads\Fense.png" />
     <Image Include="bitmap1.bmp" />
     <Image Include="resource\spriteList.png" />
   </ItemGroup>
