@@ -110,23 +110,7 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
                     blockMap[i][j] = stone;
             }
 
-        for (int i = 1; i < rowCount - 1; i++)
-            for (int j = 1; j < colCount - 1; j++) {
-                if (((i - 1 >= 0) && (j - 1 >= 0)) || ((i + 1 < rowCount - 1) && (j + 1 < colCount - 1)))
-                {
-                    if (
-                        blockMap[i][j] == grass && (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] == stone)
-                        || (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone)
-                        || (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j + 1] == stone)
-                        || (blockMap[i + 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] == stone)
-                        || (blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] == stone)
-                        )
-                    {
-                        blockMap[i][j] = stone;
-                    }
-
-                }
-            }
+        
 
         //Проверка
         gen = false;
@@ -145,97 +129,409 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
 
     //Гранение:
 
-    for (int i = 0; i < rowCount-1; i++)
-        for (int j = 0; j < colCount-1; j++)
-        {
-            if ((blockMap[i][j] == grass) && (i - 1 >= 0) && (j - 1 >= 0) && (i + 1 <= rowCount) && (j + 1 <= colCount))
-            {
-            
-                if (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
+    for (int k = 0; k < rowCount*colCount; k++)
+        for (int i = 0; i < rowCount; i++)
+            for (int j = 0; j < colCount; j++) {
+                if (((i - 1 >= 0) && (j - 1 >= 0)) && ((i + 1 < rowCount) && (j + 1 < colCount)))
                 {
-                    blockMap[i - 1][j] = stone_grass_up;//горизонтальная полоса
-                    blockMap[i + 1][j] = stone_grass_down;
-                }
-                else
-                if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] == stone)
-                {
-                    blockMap[i][j - 1] = stone_grass_left;//вертикальная полоса
-                    blockMap[i][j + 1] = stone_grass_right;
-                }
-                else
-                if ( blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] != stone)
-                {
-                    blockMap[i][j] = stone_grass_left_up;//лево верх
-                }
-                else
-                if (blockMap[i + 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] != stone)
-                {
-                    blockMap[i][j] = stone_grass_left_down;//лево низ
-                }
-                else
-                if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] != stone)
-                {
-                    blockMap[i][j] = stone_grass_right_down;//право низ
-                }
-                else
-                if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] != stone)
-                {
-                    blockMap[i][j] = stone_grass_right_up;//право
-                }
-                else
-                if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
-                {
-                    blockMap[i][j] = stone_grass_up;//верх
-                }
-                else
-                if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
-                {
-                    blockMap[i][j] = stone_grass_down;//низ
-                }
-                else
-                if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j - 1] == stone)
-                {
-                    blockMap[i][j] = stone_grass_left;//лево
-                }
-                else
-                if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j + 1] == stone)
-                {
-                    blockMap[i][j] = stone_grass_right;//право
-                }
-               
-            }
-        }
-
-
-    for (int i = 0; i < rowCount-1; i++)
-        for (int j = 0; j < colCount-1; j++)
-        {
-            if (i - 1 >= 0 && j - 1 >= 0 && i + 1 <= rowCount && j + 1 <= colCount)
-            {
-                //угол право верх
-                if (blockMap[i][j] == grass && ((blockMap[i][j - 1] == stone_grass_down) || (blockMap[i][j - 1] == stone_grass_left_down)) && ((blockMap[i + 1][j] == stone_grass_left) ||  (blockMap[i + 1][j] == stone_grass_left_down)))
-                {
-                    blockMap[i][j] = grass_stone_right_up;
-                }
-                //угол право низ
-                if (blockMap[i][j] == grass && ((blockMap[i - 1][j] == stone_grass_left)  || (blockMap[i - 1][j] == stone_grass_left_up)) && ((blockMap[i][j - 1] == stone_grass_up) || (blockMap[i][j - 1] == stone_grass_left_up)))
-                {
-                    blockMap[i][j] = grass_stone_right_down;
-                }
-                //угол лево верх
-                if (blockMap[i][j] == grass && ((blockMap[i + 1][j] == stone_grass_right) || (blockMap[i + 1][j] == stone_grass_right_down)) && ((blockMap[i][j + 1] == stone_grass_down) || (blockMap[i][j + 1] == stone_grass_right_down)))
-                {
-                    blockMap[i][j] = grass_stone_left_up;
-                }
-                //угол лево низ
-                if (blockMap[i][j] == grass && ((blockMap[i - 1][j] == stone_grass_right) || (blockMap[i - 1][j] == stone_grass_right_up)) && ((blockMap[i][j + 1] == stone_grass_up) || (blockMap[i][j + 1] == stone_grass_right_up)))
-                {
-                    blockMap[i][j] = grass_stone_left_down;
+                    if (
+                        blockMap[i][j] != stone && (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] == stone)
+                        || (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone)
+                        || (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j + 1] == stone)
+                        || (blockMap[i + 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] == stone)
+                        || (blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] == stone)
+                        || (blockMap[i - 1][j-1] != stone && blockMap[i+1][j +1] != stone && blockMap[i-1][j + 1] == stone && blockMap[i +1][j - 1] == stone)
+                        || (blockMap[i - 1][j - 1] == stone && blockMap[i + 1][j + 1] == stone && blockMap[i - 1][j + 1] != stone && blockMap[i + 1][j - 1] != stone)
+                        )
+                    {
+                        blockMap[i][j] = stone;
+                    }
                 }
             }
-        }
+    for (int k = 0; k < rowCount * colCount; k++)
+        for (int i = 0; i < rowCount; i++)
+            for (int j = 0; j < colCount; j++)
+            {
+                if (blockMap[i][j] != stone) {
+                    //внутри
+                    if ((i - 1 >= 0) && (j - 1 >= 0) && (i + 1 <= rowCount - 1) && (j + 1 <= colCount - 1))
+                    {
 
+                        if (blockMap[i + 1][j] == stone && blockMap[i - 1][j] == stone && blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
+                        {
+                            blockMap[i][j] = stone;//горизонтальная полоса
 
+                        }
+                        else
+                            if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] == stone)
+                            {
+                                blockMap[i][j] = stone;//вертикальная полоса
+
+                            }
+                            else
+                                if (blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] != stone)
+                                {
+                                    blockMap[i][j] = stone_grass_left_up;//лево верх
+                                }
+                                else
+                                    if (blockMap[i + 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] != stone)
+                                    {
+                                        blockMap[i][j] = stone_grass_left_down;//лево низ
+                                    }
+                                    else
+                                        if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] != stone)
+                                        {
+                                            blockMap[i][j] = stone_grass_right_down;//право низ
+                                        }
+                                        else
+                                            if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] != stone)
+                                            {
+                                                blockMap[i][j] = stone_grass_right_up;//право верх
+                                            }
+                                            else
+                                                if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
+                                                {
+                                                    blockMap[i][j] = stone_grass_up;//верх
+                                                }
+                                                else
+                                                    if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
+                                                    {
+                                                        blockMap[i][j] = stone_grass_down;//низ
+                                                    }
+                                                    else
+                                                        if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j - 1] == stone)
+                                                        {
+                                                            blockMap[i][j] = stone_grass_left;//лево
+                                                        }
+                                                        else
+                                                            if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j + 1] == stone)
+                                                            {
+                                                                blockMap[i][j] = stone_grass_right;//право
+                                                            }
+
+                    }
+                    else
+
+                        if (i - 1 < 0 && j - 1 < 0)//верхний левый угол карты
+                        {
+                            if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] != stone)
+                            {
+                                blockMap[i][j] = stone_grass_down;//низ
+                            }
+                            else
+                                if (blockMap[i + 1][j] != stone && blockMap[i][j + 1] == stone)
+                                {
+                                    blockMap[i][j] = stone_grass_right;//право
+                                }
+                                else
+                                    //угол право верх
+                                    if ((blockMap[i][j - 1] == stone_grass_down) || (blockMap[i][j - 1] == stone_grass_left_down) && ((blockMap[i + 1][j] == stone_grass_left) || (blockMap[i + 1][j] == stone_grass_left_down)))
+                                    {
+                                        blockMap[i][j] = grass_stone_right_up;
+                                    }
+                                    else
+                                        if (blockMap[i + 1][j] != stone && blockMap[i][j + 1] != stone)
+                                        {
+                                            blockMap[i][j] = grass;//вокруг трава
+                                        }
+                                        else
+                                            blockMap[i][j] = stone;
+                        }
+                        else
+                            if ((i - 1 < 0) && (j + 1 > colCount - 1))//верх правый угол
+                            {
+                                if (blockMap[i + 1][j] == stone && blockMap[i][j - 1] != stone)
+                                {
+                                    blockMap[i][j] = stone_grass_down;//низ
+                                }
+                                else
+                                    if (blockMap[i + 1][j] != stone && blockMap[i][j - 1] == stone)
+                                    {
+                                        blockMap[i][j] = stone_grass_left;//лево
+                                    }
+                                    else
+                                        if ((blockMap[i][j - 1] == stone_grass_down) || (blockMap[i][j - 1] == stone_grass_left_down) && ((blockMap[i + 1][j] == stone_grass_left) || (blockMap[i + 1][j] == stone_grass_left_down)))
+                                        {
+                                            blockMap[i][j] = grass_stone_right_up;
+                                        }
+                                        else
+                                            if (blockMap[i + 1][j] != stone && blockMap[i][j - 1] != stone)
+                                            {
+                                                blockMap[i][j] = grass;//вокруг трава
+                                            }
+                                            else
+                                                blockMap[i][j] = stone;
+                            }
+                            else
+                                if (i - 1 < 0)//верх
+                                {
+                                    if (blockMap[i + 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] != stone)
+                                    {
+                                        blockMap[i][j] = stone_grass_left_down;//лево низ
+                                    }
+                                    else
+                                        if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] != stone)
+                                        {
+                                            blockMap[i][j] = stone_grass_right_down;//право низ
+                                        }
+                                        else
+                                            if (blockMap[i + 1][j] == stone && blockMap[i][j - 1] != stone)
+                                            {
+                                                blockMap[i][j] = stone_grass_down;//низ
+                                            }
+                                            else
+                                                if (blockMap[i + 1][j] != stone && blockMap[i][j - 1] == stone)
+                                                {
+                                                    blockMap[i][j] = stone_grass_left;//лево
+                                                }
+                                                else
+                                                    if (blockMap[i + 1][j] != stone && blockMap[i][j + 1] == stone)
+                                                    {
+                                                        blockMap[i][j] = stone_grass_right;//право
+                                                    }
+                                                    else
+                                                        if ((blockMap[i + 1][j] == stone_grass_right) || (blockMap[i + 1][j] == stone_grass_right_down) && ((blockMap[i][j + 1] == stone_grass_down) || (blockMap[i][j + 1] == stone_grass_right_down)))
+                                                        {
+                                                            blockMap[i][j] = grass_stone_left_up;
+                                                        }
+                                                        else
+                                                            if ((blockMap[i][j - 1] == stone_grass_down) || (blockMap[i][j - 1] == stone_grass_left_down) && ((blockMap[i + 1][j] == stone_grass_left) || (blockMap[i + 1][j] == stone_grass_left_down)))
+                                                            {
+                                                                blockMap[i][j] = grass_stone_right_up;
+                                                            }
+                                                            else
+                                                                if (blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
+                                                                {
+                                                                    blockMap[i][j] = grass;//вокруг трава
+                                                                }
+                                                                else
+                                                                    blockMap[i][j] = stone;
+                                }
+                                else
+                                    if (j - 1 < 0 && i + 1 > rowCount - 1)//лево низ
+                                    {
+                                        if (blockMap[i][j + 1] == stone && blockMap[i - 1][j] != stone)
+                                        {
+                                            blockMap[i][j] = stone_grass_right;//право
+                                        }
+                                        else
+                                            if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] != stone)
+                                            {
+                                                blockMap[i][j] = stone_grass_up;//верх
+                                            }
+                                            else
+                                                if ((blockMap[i - 1][j] == stone_grass_left) || (blockMap[i - 1][j] == stone_grass_left_up) && ((blockMap[i][j - 1] == stone_grass_up) || (blockMap[i][j - 1] == stone_grass_left_up)))
+                                                {
+                                                    blockMap[i][j] = grass_stone_right_down;
+                                                }
+                                                else
+                                                    if (blockMap[i - 1][j] != stone && blockMap[i][j + 1] != stone)
+                                                    {
+                                                        blockMap[i][j] = grass;//вокруг трава
+                                                    }
+                                                    else
+                                                        blockMap[i][j] = stone;
+                                    }
+                                    else
+                                        if (j - 1 < 0)//лево 
+                                        {
+                                            if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] != stone)
+                                            {
+                                                blockMap[i][j] = stone_grass_up;//верх
+                                            }
+                                            else
+                                                if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] != stone)
+                                                {
+                                                    blockMap[i][j] = stone_grass_down;//низ
+                                                }
+                                                else
+                                                    if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j + 1] == stone)
+                                                    {
+                                                        blockMap[i][j] = stone_grass_right;//право
+                                                    }
+                                                    else
+                                                        if (blockMap[i + 1][j] == stone && blockMap[i][j + 1] == stone)
+                                                        {
+                                                            blockMap[i][j] = stone_grass_right_down;//право низ
+                                                        }
+                                                        else
+                                                            if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] == stone)
+                                                            {
+                                                                blockMap[i][j] = stone_grass_right_up;//право верх
+                                                            }
+                                                            else
+                                                                //угол лево верх
+                                                                if ((blockMap[i + 1][j] == stone_grass_right) || (blockMap[i + 1][j] == stone_grass_right_down) && ((blockMap[i][j + 1] == stone_grass_down) || (blockMap[i][j + 1] == stone_grass_right_down)))
+                                                                {
+                                                                    blockMap[i][j] = grass_stone_left_up;
+                                                                }
+                                                                else
+                                                                    //угол лево низ
+                                                                    if ((blockMap[i - 1][j] == stone_grass_right) || (blockMap[i - 1][j] == stone_grass_right_up) && ((blockMap[i][j + 1] == stone_grass_up) || (blockMap[i][j + 1] == stone_grass_right_up)))
+                                                                    {
+                                                                        blockMap[i][j] = grass_stone_left_down;
+                                                                    }
+                                                                    else
+                                                                        if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone)
+                                                                        {
+                                                                            blockMap[i][j] = grass;//вокруг трава
+                                                                        }
+                                                                        else
+                                                                            blockMap[i][j] = stone;
+                                        }
+                                        else
+                                            if (i + 1 > rowCount - 1 && j + 1 > colCount - 1)//право низ
+                                            {
+                                                if (blockMap[i][j - 1] == stone && blockMap[i - 1][j] != stone)
+                                                {
+                                                    blockMap[i][j] = stone_grass_left;//лево
+                                                }
+                                                else
+                                                    if (blockMap[i - 1][j] == stone && blockMap[i][j - 1] != stone)
+                                                    {
+                                                        blockMap[i][j] = stone_grass_up;//верх
+                                                    }
+                                                    else
+                                                        if ((blockMap[i - 1][j] == stone_grass_left) || (blockMap[i - 1][j] == stone_grass_left_up) && ((blockMap[i][j - 1] == stone_grass_up) || (blockMap[i][j - 1] == stone_grass_left_up)))
+                                                        {
+                                                            blockMap[i][j] = grass_stone_right_down;
+                                                        }
+                                                        else
+                                                            if (blockMap[i - 1][j] != stone && blockMap[i][j - 1] != stone)
+                                                            {
+                                                                blockMap[i][j] = grass;//вокруг трава
+                                                            }
+                                                            else
+                                                                blockMap[i][j] = stone;
+                                            }
+                                            else
+                                                if (i + 1 > rowCount - 1)//низ
+                                                {
+                                                    if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
+                                                    {
+                                                        blockMap[i][j] = stone_grass_up;//верх
+                                                    }
+                                                    else
+                                                        if (blockMap[i - 1][j] != stone && blockMap[i][j - 1] == stone)
+                                                        {
+                                                            blockMap[i][j] = stone_grass_left;//лево
+                                                        }
+                                                        else
+                                                            if (blockMap[i - 1][j] != stone && blockMap[i][j + 1] == stone)
+                                                            {
+                                                                blockMap[i][j] = stone_grass_right;//право
+                                                            }
+                                                            else
+                                                                //угол право низ
+                                                                if ((blockMap[i - 1][j] == stone_grass_left) || (blockMap[i - 1][j] == stone_grass_left_up) && ((blockMap[i][j - 1] == stone_grass_up) || (blockMap[i][j - 1] == stone_grass_left_up)))
+                                                                {
+                                                                    blockMap[i][j] = grass_stone_right_down;
+                                                                }
+                                                                else
+                                                                    //угол лево низ
+                                                                    if ((blockMap[i - 1][j] == stone_grass_right) || (blockMap[i - 1][j] == stone_grass_right_up) && ((blockMap[i][j + 1] == stone_grass_up) || (blockMap[i][j + 1] == stone_grass_right_up)))
+                                                                    {
+                                                                        blockMap[i][j] = grass_stone_left_down;
+                                                                    }
+                                                                    else
+                                                                        if (blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i][j + 1] != stone)
+                                                                        {
+                                                                            blockMap[i][j] = stone_grass_left_up;//лево верх
+                                                                        }
+                                                                        else
+                                                                            if (blockMap[i - 1][j] == stone && blockMap[i][j + 1] == stone && blockMap[i][j - 1] != stone)
+                                                                            {
+                                                                                blockMap[i][j] = stone_grass_right_up;//право верх
+                                                                            }
+                                                                            else
+                                                                                if (blockMap[i][j + 1] != stone && blockMap[i][j - 1] != stone)
+                                                                                {
+                                                                                    blockMap[i][j] = grass;//вокруг трава
+                                                                                }
+                                                                                else
+                                                                                    blockMap[i][j] = stone;
+                                                }
+                                                else
+                                                    if (j + 1 > colCount - 1)//право 
+                                                    {
+                                                        if (blockMap[i - 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i + 1][j] != stone)
+                                                        {
+                                                            blockMap[i][j] = stone_grass_left_up;//лево верх
+                                                        }
+                                                        else
+                                                            if (blockMap[i + 1][j] == stone && blockMap[i][j - 1] == stone && blockMap[i - 1][j] != stone)
+                                                            {
+                                                                blockMap[i][j] = stone_grass_left_down;//лево низ
+                                                            }
+                                                            else
+                                                                if (blockMap[i - 1][j] == stone && blockMap[i][j - 1] != stone)
+                                                                {
+                                                                    blockMap[i][j] = stone_grass_up;//верх
+                                                                }
+                                                                else
+                                                                    if (blockMap[i + 1][j] == stone && blockMap[i][j - 1] != stone)
+                                                                    {
+                                                                        blockMap[i][j] = stone_grass_down;//низ
+                                                                    }
+                                                                    else
+                                                                        if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone && blockMap[i][j - 1] == stone)
+                                                                        {
+                                                                            blockMap[i][j] = stone_grass_left;//лево
+                                                                        }
+                                                                        else
+                                                                            if ((blockMap[i][j - 1] == stone_grass_down) || (blockMap[i][j - 1] == stone_grass_left_down) && ((blockMap[i + 1][j] == stone_grass_left) || (blockMap[i + 1][j] == stone_grass_left_down)))
+                                                                            {
+                                                                                blockMap[i][j] = grass_stone_right_up;
+                                                                            }
+                                                                            else
+                                                                                //угол право низ
+                                                                                if ((blockMap[i - 1][j] == stone_grass_left) || (blockMap[i - 1][j] == stone_grass_left_up) && ((blockMap[i][j - 1] == stone_grass_up) || (blockMap[i][j - 1] == stone_grass_left_up)))
+                                                                                {
+                                                                                    blockMap[i][j] = grass_stone_right_down;
+                                                                                }
+                                                                                else
+                                                                                    if (blockMap[i + 1][j] != stone && blockMap[i - 1][j] != stone)
+                                                                                    {
+                                                                                        blockMap[i][j] = grass;//вокруг трава
+                                                                                    }
+                                                                                    else
+                                                                                        blockMap[i][j] = stone;
+                                                    }
+
+                }
+            }
+        for (int i = 0; i < rowCount - 1; i++)
+            for (int j = 0; j < colCount - 1; j++)
+            {
+                if (blockMap[i][j] == grass && i - 1 >= 0 && j - 1 >= 0 && i + 1 <= rowCount && j + 1 <= colCount)//поменять grass на != stone
+                {
+                    //угол право верх
+                    if ((blockMap[i][j - 1] == stone_grass_down) || (blockMap[i][j - 1] == stone_grass_left_down) && ((blockMap[i + 1][j] == stone_grass_left) || (blockMap[i + 1][j] == stone_grass_left_down)))
+                    {
+                        blockMap[i][j] = grass_stone_right_up;
+                    }
+                    else
+                        //угол право низ
+                        if ((blockMap[i - 1][j] == stone_grass_left) || (blockMap[i - 1][j] == stone_grass_left_up) && ((blockMap[i][j - 1] == stone_grass_up) || (blockMap[i][j - 1] == stone_grass_left_up)))
+                        {
+                            blockMap[i][j] = grass_stone_right_down;
+                        }
+                        else
+                            //угол лево верх
+                            if ((blockMap[i + 1][j] == stone_grass_right) || (blockMap[i + 1][j] == stone_grass_right_down) && ((blockMap[i][j + 1] == stone_grass_down) || (blockMap[i][j + 1] == stone_grass_right_down)))
+                            {
+                                blockMap[i][j] = grass_stone_left_up;
+                            }
+                            else
+                                //угол лево низ
+                                if ((blockMap[i - 1][j] == stone_grass_right) || (blockMap[i - 1][j] == stone_grass_right_up) && ((blockMap[i][j + 1] == stone_grass_up) || (blockMap[i][j + 1] == stone_grass_right_up)))
+                                {
+                                    blockMap[i][j] = grass_stone_left_down;
+                                }
+                }
+                
+            }
+    
     for (int i = 0; i < rowCount; i++)
         for (int j = 0; j < colCount; j++) 
         {

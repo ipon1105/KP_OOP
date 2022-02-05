@@ -53,6 +53,9 @@ public:
 
     //Вернуть ключ генерации карты
     int getSeed();
+    
+    //гранение
+   // void granenie(const int& row, const int& col, const Map& newMap, const Map& new_Map, Utilits& tool, const int seed = 164398502);
 
     //Вернуть карту путей
     int** getMapWeight();

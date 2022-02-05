@@ -159,7 +159,7 @@ void Game::interfaceInit(sf::RenderWindow& window) {
 Game::Game(Utilits& tool) {
     this->tools = tool;
 
-	map.initMap(50, 50);
+	map.initMap(10, 10);
 	map.createMap(7, 7, tools);
 
     play = true;
