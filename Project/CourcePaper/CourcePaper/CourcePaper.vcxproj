@@ -158,6 +158,7 @@
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_draw.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_tables.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Objects.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Creater.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Window.hpp" />
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowHandle.hpp" />
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowStyle.hpp" />
+    <ClInclude Include="Objects.h" />
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="Title.h" />

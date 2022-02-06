@@ -4,6 +4,7 @@
 #include "Title.h"
 #include "Utilits.h"
 #include "Unit.h"
+#include "Objects.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -20,12 +21,11 @@ private:
 	Title** map;    //Массив плиток
 
     std::vector<Unit> unitList;     //Список всех юнитов на карте
-    //std::vector<Builds> buildList;  //Список всех построек на карте
+    std::vector<Objects> objectsList;  //Список всех построек на карте
 
     //Генерация карты с помощью шума перлина
     void perlinCreate(Utilits& tool);
     void faceting(Utilits& tool);
-    int facetingData(Utilits& tool);
     types getTypes(const int& i, const int& j);
 public:
     //Конструкторы

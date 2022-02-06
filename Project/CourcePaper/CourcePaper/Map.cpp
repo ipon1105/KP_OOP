@@ -207,6 +207,8 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
 
     perlinCreate(tool);
     faceting(tool);
+    objectsList.push_back(Objects(base, tool));
+    objectsList[0].setTitlePos(sf::Vector2i(7, 7));
    
 }
 
@@ -236,26 +238,28 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
     //обновление юнитов
     for (int i = 0; i < unitList.size(); i++)
         unitList[i].update(event, window);
+
+    //Обновление объектов
+    for (int i = 0; i < objectsList.size(); i++)
+        objectsList[i].update(window, event);
 }
 
 void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
 {
 
-    //Одноразовое обновление юнитов
-    for (int i = 0; i < unitList.size(); i++)
-        unitList[i].pollUpdate(event, window);
 
     if (event.type == event.MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Left)
     {
-        sf::Vector2i mousePos = getGlobalMousePos(window);
-
-        int col = mousePos.x / 32;
-        int row = mousePos.y / 32;
 
         for (int i = 0; i < this->unitList.size(); i++)
-            if (this->unitList[i].getOriginPos().x == col &&
-                this->unitList[i].getOriginPos().y == row)
+            unitList[i].setHitboxing(false);
+
+        sf::Vector2i mousePos = getGlobalMousePos(window);
+        sf::Vector2i titlePos(mousePos.x / 32, mousePos.y / 32);
+
+        for (int i = 0; i < this->unitList.size(); i++)
+            if (this->unitList[i].getOriginPos() == titlePos)
                 this->unitList[i].setHitboxing(!this->unitList[i].getHitboxing());
             else
                 this->unitList[i].setHitboxing(false);
@@ -278,6 +282,14 @@ void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
         //    if (this->unitList[i].getHitboxing()) {
         //    }
     }
+
+    //Одноразовое обновление юнитов
+    for (int i = 0; i < unitList.size(); i++)
+        unitList[i].pollUpdate(event, window);
+
+    //Одноразовое обновление юнитов
+    for (int i = 0; i < objectsList.size(); i++)
+        objectsList[i].pollUpdate(window, event);
 }
 
 void Map::render(sf::RenderWindow& window){
@@ -289,6 +301,10 @@ void Map::render(sf::RenderWindow& window){
     //Отрисовка юнитов
     for (int i = 0; i < unitList.size(); i++)
         unitList[i].render(window);
+
+    //Отрисовка объектов
+    for (int i = 0; i < objectsList.size(); i++)
+        objectsList[i].render(window);
 }
 
 Map::~Map(){

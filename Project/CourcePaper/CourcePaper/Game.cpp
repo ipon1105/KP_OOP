@@ -166,7 +166,7 @@ Game::Game(Utilits& tool) {
 
     spriteStone.setTexture(tool.getTexture(stoneRes));
     spriteWood .setTexture(tool.getTexture(woodRes ));
-    spriteUnit.setTexture(tool.getTexture(unit_russion_vilager_up_1));
+    spriteUnit.setTexture(tool.getTexture(unit_russion_villager_down_1));
 
     woodCount = 0;
     unitCount = 0;
@@ -222,7 +222,13 @@ void Game::render(sf::RenderWindow& window) {
 
 void Game::update(sf::Event& event, sf::RenderWindow& window) {
     ImGui::SFML::Update(window, this->deltaClock.restart());
+
+    ImGui::SetNextWindowBgAlpha(0.2f);
+    
+    ImGui::Begin(u8"Информация");
+    
     map.update(event, window);
+    ImGui::End();
 
     staticWindow(window);
     menuInit(window);

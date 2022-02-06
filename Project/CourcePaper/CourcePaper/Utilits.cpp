@@ -8,28 +8,21 @@ Utilits::Utilits() {
 void Utilits::startLoad() {
 	//Загрузка первых 3-ёх рядов
 	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 15; j++){
-			textureMap[i * 15 + j].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, i * 32, 32, 32));
-			progress++;
-		}
+		for (int j = 0; j < 15; j++)
+			textureMap[progress++].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, i * 32, 32, 32));
 	
-	for(int j = 0; j < 13; j++){
-		textureMap[45 + j].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, 96, 32, 32));
-		progress++;
-	}
+	for(int j = 0; j < 13; j++)
+		textureMap[progress++].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, 96, 32, 32));
+	
 
-	textureMap[58].loadFromFile("resource//spriteList.png", sf::IntRect(384, 128, 96, 96));
-	progress++;
-	textureMap[59].loadFromFile("resource//spriteList.png", sf::IntRect(384, 224, 64, 64));
-	progress++;
-	textureMap[60].loadFromFile("resource//spriteList.png", sf::IntRect(448, 224, 32, 64));
-	progress++;
+	textureMap[progress++].loadFromFile("resource//spriteList.png", sf::IntRect(384, 128, 96, 96));
+	textureMap[progress++].loadFromFile("resource//spriteList.png", sf::IntRect(384, 224, 64, 64));
+	textureMap[progress++].loadFromFile("resource//spriteList.png", sf::IntRect(448, 224, 32, 64));
 
 	for(int i = 0; i < 8; i++)
-		for (int j = 0; j < 12; j++){
-			textureMap[i * 8 + 61 + j].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, i * 32 + 128, 32, 32));
-			progress++;
-		}
+		for (int j = 0; j < 12; j++)
+			textureMap[progress++].loadFromFile("resource//spriteList.png", sf::IntRect(j * 32, i * 32 + 128, 32, 32));
+		
 
 	finish = true; 
 }
