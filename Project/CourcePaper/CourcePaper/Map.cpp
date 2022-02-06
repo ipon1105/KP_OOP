@@ -105,7 +105,7 @@ void Map::faceting(Utilits& tool) {
         {
             nowType = map[i][j].getType();
             secretNumWater = secretNumStone = 0;
-
+            
             secretNumWater += ((tmpType = getTypes(i - 1, j)) == empty ? nowType : tmpType) == water ? 1 : 0;   //вверх water
             secretNumStone += (tmpType == empty ? nowType : tmpType) == stone ? 1 : 0;                          //вверх stone
             secretNumWater += ((tmpType = getTypes(i, j + 1)) == empty ? nowType : tmpType) == water ? 2 : 0;   //право water
@@ -119,6 +119,16 @@ void Map::faceting(Utilits& tool) {
                 map[i][j].setType(water, tool);
             if(secretNumStone == 10 || secretNumStone == 5 || secretNumStone == 15)
                 map[i][j].setType(stone, tool);
+            switch (secretNumStone) {
+                case 14: case 13: case 11: case 7:
+                    map[i][j].setType(stone, tool);
+                break;
+            }
+            switch (secretNumWater) {
+                case 14: case 13: case 11: case 7:
+                    map[i][j].setType(water, tool);
+                break;
+            }
                 
         }
 
@@ -130,17 +140,25 @@ void Map::faceting(Utilits& tool) {
             if (nowType == grass) {
 
                 secretNumWater = secretNumStone = 0;
-                secretNumWater += ((tmpType = getTypes(i - 1, j)) == empty ? nowType : tmpType) == water ? 1 : 0;//вверх
-                secretNumWater += ((tmpType = getTypes(i, j + 1)) == empty ? nowType : tmpType) == water ? 2 : 0;//право
-                secretNumWater += ((tmpType = getTypes(i + 1, j)) == empty ? nowType : tmpType) == water ? 4 : 0;//низ
-                secretNumWater += ((tmpType = getTypes(i, j - 1)) == empty ? nowType : tmpType) == water ? 8 : 0;//лево
-                secretNumStone += ((tmpType = getTypes(i - 1, j)) == empty ? nowType : tmpType) == stone ? 1 : 0;//вверх
-                secretNumStone += ((tmpType = getTypes(i, j + 1)) == empty ? nowType : tmpType) == stone ? 2 : 0;//право
-                secretNumStone += ((tmpType = getTypes(i + 1, j)) == empty ? nowType : tmpType) == stone ? 4 : 0;//низ
-                secretNumStone += ((tmpType = getTypes(i, j - 1)) == empty ? nowType : tmpType) == stone ? 8 : 0;//лево
+                secretNumWater += ((tmpType = getTypes(i - 1, j)) == empty ? nowType : tmpType) == water ? 1 : 0;   //вверх water
+                secretNumStone += (tmpType == empty ? nowType : tmpType) == stone ? 1 : 0;                          //вверх stone
+                secretNumWater += ((tmpType = getTypes(i, j + 1)) == empty ? nowType : tmpType) == water ? 2 : 0;   //право water
+                secretNumStone += (tmpType == empty ? nowType : tmpType) == stone ? 2 : 0;                          //право stone
+                secretNumWater += ((tmpType = getTypes(i + 1, j)) == empty ? nowType : tmpType) == water ? 4 : 0;   //низ water
+                secretNumStone += (tmpType == empty ? nowType : tmpType) == stone ? 4 : 0;                          //низ stone
+                secretNumWater += ((tmpType = getTypes(i, j - 1)) == empty ? nowType : tmpType) == water ? 8 : 0;   //лево water
+                secretNumStone += (tmpType == empty ? nowType : tmpType) == stone ? 8 : 0;                          //лево stone
 
                 tmpType = grass;
                 switch (secretNumWater) {
+                    case 1:     tmpType = water_grass_up;           break;
+                    case 2:     tmpType = water_grass_right;        break;
+                    case 3:     tmpType = water_grass_right_up;     break;
+                    case 4:     tmpType = water_grass_down;         break;
+                    case 6:     tmpType = water_grass_right_down;   break;
+                    case 8:     tmpType = water_grass_left;         break;
+                    case 9:     tmpType = water_grass_left_up;      break;
+                    case 12:    tmpType = water_grass_left_down;    break;
                     case 0:
                         if (getTypes(i + 1, j + 1) == water)
                             tmpType = grass_water_left_up;
@@ -151,17 +169,17 @@ void Map::faceting(Utilits& tool) {
                         else if(getTypes(i + 1, j - 1) == water)
                             tmpType = grass_water_right_up;
                     break;
-                    case 1:     tmpType = water_grass_up;           break;
-                    case 2:     tmpType = water_grass_right;        break;
-                    case 3:     tmpType = water_grass_right_up;     break;
-                    case 4:     tmpType = water_grass_down;         break;
-                    case 6:     tmpType = water_grass_right_down;   break;
-                    case 8:     tmpType = water_grass_left;         break;
-                    case 9:     tmpType = water_grass_left_up;      break;
-                    case 12:    tmpType = water_grass_left_down;    break;
                 }
 
                 switch (secretNumStone) {
+                    case 1:     tmpType = stone_grass_up;           break;
+                    case 2:     tmpType = stone_grass_right;        break;
+                    case 3:     tmpType = stone_grass_right_up;     break;
+                    case 4:     tmpType = stone_grass_down;         break;
+                    case 6:     tmpType = stone_grass_right_down;   break;
+                    case 8:     tmpType = stone_grass_left;         break;
+                    case 9:     tmpType = stone_grass_left_up;      break;
+                    case 12:    tmpType = stone_grass_left_down;    break;
                     case 0:
                         if (getTypes(i + 1, j + 1) == stone)
                             tmpType = grass_stone_left_up;
@@ -172,14 +190,6 @@ void Map::faceting(Utilits& tool) {
                         else if (getTypes(i + 1, j - 1) == stone)
                             tmpType = grass_stone_right_up;
                         break;
-                    case 1:     tmpType = stone_grass_up;           break;
-                    case 2:     tmpType = stone_grass_right;        break;
-                    case 3:     tmpType = stone_grass_right_up;     break;
-                    case 4:     tmpType = stone_grass_down;         break;
-                    case 6:     tmpType = stone_grass_right_down;   break;
-                    case 8:     tmpType = stone_grass_left;         break;
-                    case 9:     tmpType = stone_grass_left_up;      break;
-                    case 12:    tmpType = stone_grass_left_down;    break;
                 }
 
                 if (nowType != tmpType)
