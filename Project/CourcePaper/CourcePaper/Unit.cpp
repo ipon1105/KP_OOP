@@ -1,9 +1,12 @@
 #include "Unit.h"
 #include "GameSetting.h"
 
-sf::Vector2i temporyTarget;
+#include "imgui.h"
+#include "imgui-SFML.h"
 
-Unit::Unit() {
+#include "MyView.h"
+
+Unit::Unit(Utilits& tool) {
 	setGlobalPos(sf::Vector2i(0,0));
 	setOriginPos(sf::Vector2i(0,0));
 	shape.setFillColor(tintColor);
@@ -14,6 +17,9 @@ Unit::Unit() {
 	hitShape.setOutlineThickness(2);
 	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
 	hitShape.setRadius(14);
+	hp = maxHp = 30;
+
+	this->tool = tool;
 }
 
 
@@ -28,12 +34,12 @@ void Unit::kickEnemy(Unit& enemy)
 
 void Unit::goToOriginPos(sf::Vector2i& pos)
 {
-	temporyTarget = pos;
+	targetPos = pos;
 }
 
 void Unit::goToGlobalPos(sf::Vector2i& pos)
 {
-	temporyTarget = pos;
+	targetPos = pos;
 }
 
 void Unit::render(sf::RenderWindow& window) {
@@ -48,23 +54,23 @@ void Unit::update(sf::Event& event, sf::RenderWindow& window) {
 
 	if (this->hitBoxing){
 
-		if ((int)(this->shape.getPosition().x / 32) == temporyTarget.x && 
-			(int)(this->shape.getPosition().y / 32) == temporyTarget.y)
+		if ((int)(this->shape.getPosition().x / 32) == targetPos.x && 
+			(int)(this->shape.getPosition().y / 32) == targetPos.y)
 			return;
 
 		float side = (((float)32) / ((float)getSetting().FPS));
 		sf::Vector2f pos = this->shape.getPosition();
 
-		if ((int)pos.x < temporyTarget.x * 32)
+		if ((int)pos.x < targetPos.x * 32)
 			this->shape.move(sf::Vector2f(side, 0));
 
-		else if ((int)pos.x > temporyTarget.x * 32)
+		else if ((int)pos.x > targetPos.x * 32)
 			this->shape.move(sf::Vector2f(-side, 0));
 
-		else if ((int)pos.y < temporyTarget.y * 32)
+		else if ((int)pos.y < targetPos.y * 32)
 			this->shape.move(sf::Vector2f(0, side));
 
-		else if ((int)pos.y > temporyTarget.y * 32)
+		else if ((int)pos.y > targetPos.y * 32)
 			this->shape.move(sf::Vector2f(0, -side));
 
 		hitShape.setPosition(sf::Vector2f(pos.x + 2, pos.y + 2));
@@ -72,7 +78,18 @@ void Unit::update(sf::Event& event, sf::RenderWindow& window) {
 }
 
 void Unit::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
+	if (event.type == event.MouseButtonPressed &&
+		event.mouseButton.button == sf::Mouse::Left)
+	{
+		sf::Vector2i pos = getGlobalMousePos(window);
+		if (tempBool)
+			return;
 
+		if (originPos == sf::Vector2i(pos.x/32,pos.y/32))
+			hitBoxing = !hitBoxing;
+		else
+			hitBoxing = false;
+	}
 }
 
 //<!-- сеттеры -->
@@ -80,7 +97,7 @@ void Unit::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
 void Unit::setGlobalPos(const sf::Vector2i& pos) {
 	this->globalPos = pos;
 	this->originPos = sf::Vector2i(pos.x / 32, pos.y / 32);
-	temporyTarget = originPos;
+	targetPos = originPos;
 
 	shape.setPosition(this->globalPos.x, this->globalPos.y);
 	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
@@ -89,7 +106,7 @@ void Unit::setGlobalPos(const sf::Vector2i& pos) {
 void Unit::setOriginPos(const sf::Vector2i& pos) {
 	this->originPos = pos;
 	this->globalPos = sf::Vector2i(pos.x * 32, pos.y * 32);
-	temporyTarget = originPos;
+	targetPos = originPos;
 
 	shape.setPosition(this->globalPos.x, this->globalPos.y);
 	hitShape.setPosition(this->globalPos.x + 2, this->globalPos.y + 2);
@@ -160,4 +177,32 @@ void Unit::setHitboxing(const bool& set)
 bool Unit::getHitboxing()
 {
 	return hitBoxing;
+}
+
+void Unit::startInfo(sf::RenderWindow& window)
+{
+	if (this->hitBoxing) {
+
+		ImGui::BeginGroup();
+
+		ImGui::Text(u8"Персонаж");
+		ImGui::Text("%d/%d", hp, maxHp);
+		ImGui::SetCursorPos(ImVec2(100, 25));
+		ImGui::Image(sf::Sprite(sprite));
+
+		sf::Vector2i pos = getGlobalMousePos(window);
+		if (pos.x >= ImGui::GetWindowPos().x && pos.x <= ImGui::GetWindowPos().x + ImGui::GetWindowSize().x &&
+			pos.y >= ImGui::GetWindowPos().y && pos.y <= ImGui::GetWindowPos().y + ImGui::GetWindowSize().y)
+			tempBool = true;
+		else
+			tempBool = false;
+	}
+}
+
+void Unit::stopInfo()
+{
+	if (this->hitBoxing) {
+
+		ImGui::EndGroup();
+	}
 }

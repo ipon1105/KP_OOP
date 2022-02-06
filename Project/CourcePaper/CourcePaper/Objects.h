@@ -20,6 +20,7 @@ private:
 
 	types type;
 	bool hitBoxing;
+	bool tempBool = false;
 	Utilits tool;
 public:
 	//Конструкторы
@@ -39,6 +40,11 @@ public:
 	//Получить/Задать общую позицию
 	sf::Vector2f getPosition();
 	void setPosition(const sf::Vector2f& pos);
+
+	void startInfo(sf::RenderWindow& window);
+	void stopInfo(sf::RenderWindow& window);
+
+	types getType();
 
 	void update(sf::RenderWindow& window, sf::Event& event);
 

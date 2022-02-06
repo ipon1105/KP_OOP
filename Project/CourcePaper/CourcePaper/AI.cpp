@@ -1,21 +1,28 @@
 #include "AI.h"
 #include "MyView.h"
 
-EnemyAI::EnemyAI(sf::Color color)
+EnemyAI::EnemyAI(sf::Color color, Utilits& tool)
 {
+	this->tool = tool;
 	this->color = color;
 	initPersonList();
 }
 
 EnemyAI::EnemyAI()
 {
+	this->tool = tool;
 	this->color = sf::Color::Red;
 	initPersonList();
 }
 
+void EnemyAI::setTool(Utilits& tool)
+{
+	this->tool = tool;
+}
+
 void EnemyAI::initPersonList()
 {
-	Unit person;
+	Unit person(tool);
 	person.setOriginPos(sf::Vector2i(3, 3));
 	personList.push_back(person);
 }

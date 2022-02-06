@@ -2,18 +2,22 @@
 
 #include <SFML/Graphics.hpp>
 #include "state.h"
+#include "Utilits.h"
 
 class Unit
 {
 private:
 	int hp;						//Здоровье
+	int maxHp;					//Максимальное здоровье
 	int damage;					//Урон, который можно нанести врагу
 	int cooldown;				//Время перед новым ударом
 
 	bool hitBoxing;				//Установить отображение хитбокса
+	bool tempBool;				//Установить отображение хитбокса
 
 	sf::Vector2i globalPos;		//Глобальная позиция (x,y)
 	sf::Vector2i originPos;		//Позиция относительно карты (row(y/32), col(x/32));
+	sf::Vector2i targetPos;		//Позиция цели
 	sf::Color tintColor;		//Цвет окраски
 
 	sf::Sprite	sprite;			//Спрайт
@@ -24,10 +28,11 @@ private:
 	//endtemp
 
 	state stateNow;				//Состояние существа
+	Utilits tool;
 
 public:
 	//Конструкторы
-	Unit();
+	Unit(Utilits& tool);
 
 	//Получить/Задать глобальную позицию
 	void setGlobalPos(const sf::Vector2i& pos);
@@ -60,6 +65,9 @@ public:
 	//Получить/Установить отображение хитбокса
 	void setHitboxing(const bool& set);
 	bool getHitboxing();
+
+	void startInfo(sf::RenderWindow& window);
+	void stopInfo();
 
 	//Ударить врага
 	void kickEnemy(Unit& enemy);

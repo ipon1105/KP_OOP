@@ -3,6 +3,9 @@
 #include "GameSetting.h"
 #include "PerlinNoise.h"
 
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 Map::Map() {
 
 }
@@ -11,7 +14,7 @@ void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
-    unitList.push_back(Unit());
+    unitList.push_back(Unit(tool));
     unitList[0].setOriginPos(sf::Vector2i(4, 3));
     unitList[0].setColor(sf::Color::Red);
 
@@ -205,6 +208,8 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
     this->seed = seed;
     srand(seed);
 
+    this->tool = tool;
+
     perlinCreate(tool);
     faceting(tool);
     objectsList.push_back(Objects(base, tool));
@@ -236,52 +241,70 @@ if (event.type == event.MouseButtonPressed &&
 void Map::update(sf::Event& event, sf::RenderWindow& window) 
 {
     //обновление юнитов
-    for (int i = 0; i < unitList.size(); i++)
+    for (int i = 0; i < unitList.size(); i++) {
+        unitList[i].startInfo(window);
+        if (unitList[i].getHitboxing() && unitList[i].getColor() == sf::Color::Green)
+        {
+
+        }
+        unitList[i].stopInfo();
         unitList[i].update(event, window);
+    }
 
     //Обновление объектов
-    for (int i = 0; i < objectsList.size(); i++)
+    for (int i = 0; i < objectsList.size(); i++){
+        objectsList[i].startInfo(window);
+        if (objectsList[i].getHitBoxing() && objectsList[i].getType() == base) {
+            ImGui::Text(u8"Меню создания:");
+            ImGui::Image(sf::Sprite(tool.getTexture(unit_human_warrior_left_0)));
+            ImGui::SameLine();
+            ImGui::Image(sf::Sprite(tool.getTexture(unit_human_warrior_left_1)));
+        }
+        objectsList[i].stopInfo(window);
         objectsList[i].update(window, event);
+    }
 }
 
 void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
 {
 
 
-    if (event.type == event.MouseButtonPressed &&
-        event.mouseButton.button == sf::Mouse::Left)
-    {
+    //if (event.type == event.MouseButtonPressed &&
+    //    event.mouseButton.button == sf::Mouse::Left)
+    //{
 
-        for (int i = 0; i < this->unitList.size(); i++)
-            unitList[i].setHitboxing(false);
+    //    for (int i = 0; i < this->unitList.size(); i++)
+    //        unitList[i].setHitboxing(false);
 
-        sf::Vector2i mousePos = getGlobalMousePos(window);
-        sf::Vector2i titlePos(mousePos.x / 32, mousePos.y / 32);
+    //    sf::Vector2i mousePos = getGlobalMousePos(window);
+    //    sf::Vector2i titlePos(mousePos.x / 32, mousePos.y / 32);
 
-        for (int i = 0; i < this->unitList.size(); i++)
-            if (this->unitList[i].getOriginPos() == titlePos)
-                this->unitList[i].setHitboxing(!this->unitList[i].getHitboxing());
-            else
-                this->unitList[i].setHitboxing(false);
+    //    for (int i = 0; i < this->unitList.size(); i++)
+    //        if (this->unitList[i].getOriginPos() == titlePos)
+    //            this->unitList[i].setHitboxing(!this->unitList[i].getHitboxing());
+    //        else
+    //            this->unitList[i].setHitboxing(false);
 
-    }
-    if (event.type == event.MouseButtonPressed &&
-        event.mouseButton.button == sf::Mouse::Right)
-    {
-        sf::Vector2i mousePos = getGlobalMousePos(window);
+    //}
+    //if (event.type == event.MouseButtonPressed &&
+    //    event.mouseButton.button == sf::Mouse::Right)
+    //{
+    //    sf::Vector2i mousePos = getGlobalMousePos(window);
 
-        int col = mousePos.x / 32;
-        int row = mousePos.y / 32;
+    //    int col = mousePos.x / 32;
+    //    int row = mousePos.y / 32;
 
-        map[row][col].setHitBoxing(!map[row][col].getHitBoxing());
+    //    map[row][col].setHitBoxing(!map[row][col].getHitBoxing());
 
-        sf::Vector2i t(col, row);
-        this->unitList[0].goToOriginPos(t);
+    //    sf::Vector2i t(col, row);
+    //    this->unitList[0].goToOriginPos(t);
 
-        //for (int i = 0; i < this->unitList.size(); i++)
-        //    if (this->unitList[i].getHitboxing()) {
-        //    }
-    }
+    //    //for (int i = 0; i < this->unitList.size(); i++)
+    //    //    if (this->unitList[i].getHitboxing()) {
+    //    //    }
+    //}
+
+    
 
     //Одноразовое обновление юнитов
     for (int i = 0; i < unitList.size(); i++)

@@ -158,6 +158,7 @@ void Game::interfaceInit(sf::RenderWindow& window) {
 
 Game::Game(Utilits& tool) {
     this->tools = tool;
+    enemy.setTool(tool);
 
 	map.initMap(70, 70);
 	map.createMap(7, 7, tools);
@@ -172,6 +173,7 @@ Game::Game(Utilits& tool) {
     unitCount = 0;
     stoneCount = 0;
 }
+
 
 void Game::run(sf::RenderWindow& window) {
 

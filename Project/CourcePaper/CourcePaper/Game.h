@@ -49,6 +49,8 @@ public:
 	//Конструктор класса
 	Game(Utilits& tool);
 
+	void setTool(Utilits& tool);
+
 	//Функция обновления игрового процесса
 	void update(sf::Event& event, sf::RenderWindow& window);
 

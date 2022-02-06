@@ -12,11 +12,12 @@ private:
 	std::vector<Unit> personList;
 	sf::Color color;
 
+	Utilits tool;
 public:
 	//Конструкторы
-	EnemyAI(sf::Color color);
+	EnemyAI(sf::Color color, Utilits& tool);
 	EnemyAI();
-
+	void setTool(Utilits& tool);
 	//Инициализировать первоначальных юнитов
 	void initPersonList();
 

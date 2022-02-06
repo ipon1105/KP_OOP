@@ -20,8 +20,10 @@ private:
 
 	Title** map;    //Массив плиток
 
-    std::vector<Unit> unitList;     //Список всех юнитов на карте
-    std::vector<Objects> objectsList;  //Список всех построек на карте
+    std::vector<Unit> unitList;         //Список всех юнитов на карте
+    std::vector<Objects> objectsList;   //Список всех построек на карте
+
+    Utilits tool;
 
     //Генерация карты с помощью шума перлина
     void perlinCreate(Utilits& tool);

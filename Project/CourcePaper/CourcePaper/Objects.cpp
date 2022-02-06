@@ -70,12 +70,11 @@ void Objects::setPosition(const sf::Vector2f& pos) {
 	sprite.setPosition(pos);
 }
 
-bool tempBool = false;
-
-void Objects::update(sf::RenderWindow& window, sf::Event& event)
+void Objects::startInfo(sf::RenderWindow& window)
 {
+
 	if (hitBoxing) {
-		
+
 		ImGui::BeginGroup();
 		ImGui::Text(name);
 		ImGui::Text("%d/%d", hp, maxHp);
@@ -89,15 +88,22 @@ void Objects::update(sf::RenderWindow& window, sf::Event& event)
 			tempBool = false;
 
 		ImGui::Image(sprite);
-		if(type == base){
-			ImGui::Text(u8"Меню создания:");
-			ImGui::Image(sf::Sprite(tool.getTexture(unit_human_warrior_left_0)));
-			ImGui::SameLine();
-			ImGui::Image(sf::Sprite(tool.getTexture(unit_human_warrior_left_1)));
-		}
-		ImGui::EndGroup();
-
+		
 	}
+}
+
+void Objects::stopInfo(sf::RenderWindow& window)
+{
+	if (hitBoxing) {
+		ImGui::EndGroup();
+	}
+}
+
+types Objects::getType() { return type; }
+
+void Objects::update(sf::RenderWindow& window, sf::Event& event)
+{
+	
 }
 
 void Objects::pollUpdate(sf::RenderWindow& window, sf::Event& event)
