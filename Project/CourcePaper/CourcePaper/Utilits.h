@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "block.h"
+#include "types.h"
 
 class Utilits
 {

@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "MyView.h"
 #include "GameSetting.h"
+#include "PerlinNoise.h"
 
 Map::Map() {
 
@@ -53,10 +54,103 @@ Map::Map(const Map& newMap) {
         map[i] = new Title[this->colCount];
 }
 
+void Map::perlinCreate(Utilits& tool) {
+    sf::Uint8* pixel = new sf::Uint8[this->rowCount * this->colCount];
+
+    double biomSize = 0.1;
+
+    int num;
+    PerlinNoise noiseMap;
+    for (int i = 0; i < rowCount; i++)
+        for (int j = 0; j < colCount; j++)
+        {
+            num = ((i * rowCount) + j);
+            pixel[num] = noiseMap.noise(j * biomSize, i * biomSize, seed) * 255;
+        }
+
+    for (int i = 0; i < rowCount; i++)
+        for (int j = 0; j < colCount; j++)
+        {
+            num = i * rowCount + j;
+            types set;
+
+            if (pixel[num] <= 70)
+                set = water;
+            else if (pixel[num] <= 200)
+                set = grass;
+            else set = stone;
+
+            map[i][j].setType(set, tool);
+            map[i][j].setPosition(sf::Vector2i(j,i));
+        }
+    
+    delete[] pixel;
+}
+
+types Map::getTypes(const int& i, const int& j) {
+    if (i < 0 || i >= this->rowCount ||
+        j < 0 || j >= this->colCount)
+        return empty;
+    return map[i][j].getType();
+}
+
+void Map::faceting(Utilits& tool) {
+    types nowType;
+    types tmpType;
+
+    for(int i = 0; i < rowCount; i++)
+        for (int j = 0; j < colCount; j++)
+        {
+            nowType = map[i][j].getType();
+
+            if (nowType == grass)
+            {
+                tmpType = getTypes(i, j - 1);
+
+                if (tmpType != empty && tmpType == grass)
+                    nowType = water_grass_left;
+
+                tmpType = getTypes(i - 1, j);
+                if (tmpType != empty && tmpType == grass)
+                    nowType = water_grass_down;
+
+                tmpType = getTypes(i + 1, j);
+                if (tmpType != empty && tmpType == grass)
+                    nowType = water_grass_up;
+
+                if (tmpType != empty && tmpType == grass) {
+                    nowType = water_grass_right;
+
+                    if (getTypes(i - 1, j) == grass)
+                        nowType = grass_water_right_down;
+                    if (getTypes(i + 1, j) == grass)
+                        nowType = grass_water_right_up;
+                }
+            }
+            else if (nowType == stone)
+            {
+
+            }
+            else if (nowType == water)
+            {
+                tmpType = getTypes(i, j - 1);
+
+                
+                //if()
+            }
+            
+            if(nowType != map[i][j].getType())
+                map[i][j].setType(nowType, tool);
+        }
+}
+
 void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed) {
     this->seed = seed;
     srand(seed);
 
+    perlinCreate(tool);
+    faceting(tool);
+    /*
     int r = 0, c = 0;
     types** blockMap = new types*[this->rowCount];
     for (int i = 0; i < rowCount; i++)
@@ -65,7 +159,9 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
     for (int i = 0; i < rowCount; i++)
         for (int j = 0; j < colCount; j++)
             blockMap[i][j] = empty;
+*/
 
+    /*
     for (int i = 0; i < stoneCount; i++) {
         r = rand() % rowCount;
         c = rand() % colCount;
@@ -80,12 +176,17 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
         blockMap[r][c] = grass;
     }
 
+    for (int i = 0; i < rowCount; i++)
+        for (int j = 0; j < colCount; j++)
+            blockMap[i][j] = stone;
+
+    
     bool gen = true;
     while (gen) {
         //Деление
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < colCount; j++) {
-                if (blockMap[i][j] != 0) {
+                if (blockMap[i][j] != empty) {
 
                     if (blockMap[i][j] == shadowGrass || blockMap[i][j] == shadowStone)
                         break;
@@ -128,9 +229,10 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
         }
     }
 
-
+*/
+    
     //Гранение:
-
+    /*
     for (int k = 0; k < rowCount*colCount; k++)
         for (int i = 0; i < rowCount; i++)
             for (int j = 0; j < colCount; j++) {
@@ -534,16 +636,17 @@ void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool,
                 
             }
     
+   
     for (int i = 0; i < rowCount; i++)
         for (int j = 0; j < colCount; j++) 
         {
             map[i][j].setType(blockMap[i][j], tool);
             map[i][j].setPosition(sf::Vector2i(j, i));
         }
-
-    for (int i = 0; i < rowCount; i++)
+*/
+    /*for (int i = 0; i < rowCount; i++)
         delete[] blockMap[i];
-    delete[] blockMap;
+    delete[] blockMap;*/
 }
 
 /*

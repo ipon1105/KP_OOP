@@ -1,6 +1,6 @@
 #pragma once
 
-#include "block.h"
+#include "types.h"
 #include "Title.h"
 #include "Utilits.h"
 #include "Unit.h"
@@ -21,6 +21,12 @@ private:
 
     std::vector<Unit> unitList;     //Список всех юнитов на карте
     //std::vector<Builds> buildList;  //Список всех построек на карте
+
+    //Генерация карты с помощью шума перлина
+    void perlinCreate(Utilits& tool);
+    void faceting(Utilits& tool);
+    int facetingData(Utilits& tool);
+    types getTypes(const int& i, const int& j);
 public:
     //Конструкторы
     Map();

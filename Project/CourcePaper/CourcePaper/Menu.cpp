@@ -6,7 +6,7 @@
 #include "MyView.h"
 #include "GameSetting.h"
 #include "Game.h"
-#include "block.h"
+#include "types.h"
 #include "Creater.h"
 
 #include <SFML/Graphics.hpp>

@@ -7,6 +7,7 @@
 #include "Menu.h"
 #include "GameSetting.h"
 #include "Utilits.h"
+#include "PerlinNoise.h"
 
 #include <SFML/Graphics.hpp>;
 #include <SFML/Audio.hpp>;
@@ -17,6 +18,108 @@ using namespace sf;
 
 Utilits tool;
 sf::RenderWindow window;
+
+void temp() {
+	int videoWidth = 600;
+	int videoHeight = 600;
+
+	int colCount = 600;
+	int rowCount = 600;
+	window.create(VideoMode(videoWidth, videoHeight), "SFML Works!");
+
+	sf::Uint8* myColorMap = new sf::Uint8[rowCount * colCount * 4];
+	sf::Uint8* perlinNoise = new sf::Uint8[rowCount * colCount];
+
+	float scale = 1;
+	float biomSize = 1;
+
+	int num;
+	PerlinNoise noiseMap;
+
+	ImGui::SFML::Init(window);
+
+	for (int i = 0; i < rowCount; i++)
+		for (int j = 0; j < colCount; j++)
+		{
+			num = ((i * rowCount) + j);
+			perlinNoise[num] = noiseMap.noise(j * biomSize, i * biomSize, scale) * 255;
+		}
+
+	for (int i = 0; i < rowCount; i++)
+		for (int j = 0; j < colCount; j++)
+		{
+			num = 4 * ((i * rowCount) + j);
+
+			myColorMap[num]		= 0;	//R
+			myColorMap[num + 1] = abs(255 - 255 - perlinNoise[((i * rowCount) + j)]);	//G 00ff00
+			myColorMap[num + 2] = abs(240 - perlinNoise[((i * rowCount) + j)]);			//B 0000ff
+			myColorMap[num + 3] = 255;
+		}
+
+	sf::Image img;
+	sf::Texture txt;
+	sf::Sprite sprite;
+
+	img.create(colCount, rowCount, myColorMap);
+	txt.create(colCount, rowCount);
+	txt.loadFromImage(img);
+	sprite.setTexture(txt);
+
+	Clock deltaClock;
+    while (window.isOpen()) {
+
+        Event event;
+        while (window.pollEvent(event))
+        {
+			ImGui::SFML::ProcessEvent(event);
+            if (event.type == Event::Closed)
+                window.close();
+        }
+		ImGui::SFML::Update(window, deltaClock.restart());
+
+		ImGui::Begin("Setting");
+
+		ImGui::SliderFloat(u8"scale", &scale, 0.01, 10.0);
+		ImGui::SliderFloat(u8"biomSize", &biomSize, 0.001, 0.1);
+
+		if (ImGui::Button(u8"Generate")) {
+			for (int i = 0; i < rowCount; i++)
+				for (int j = 0; j < colCount; j++)
+				{
+					num = ((i * rowCount) + j);
+					perlinNoise[num] = noiseMap.noise(j * biomSize, i * biomSize, scale) * 255;
+				}
+
+			for (int i = 0; i < rowCount; i++)
+				for (int j = 0; j < colCount; j++)
+				{
+					num = 4 * ((i * rowCount) + j);
+
+					myColorMap[num] = 0;	//R
+					myColorMap[num + 1] = abs(255 - 255 - perlinNoise[((i * rowCount) + j)]);	//G 00ff00
+					myColorMap[num + 2] = abs(240 - perlinNoise[((i * rowCount) + j)]);		//B 0000ff
+					myColorMap[num + 3] = 255;
+				}
+			img.create(colCount, rowCount, myColorMap);
+			txt.loadFromImage(img);
+			sprite.setTexture(txt);
+		}
+		ImGui::End();
+
+        window.clear();
+
+		window.pushGLStates();
+		window.draw(sprite);
+		window.popGLStates();
+		ImGui::SFML::Render();
+
+        window.display();
+    }
+	ImGui::SFML::Shutdown();
+
+	delete[] myColorMap;
+	delete[] perlinNoise;
+}
 
 void loadFunc() {
 	char text[11];
@@ -84,6 +187,9 @@ void loadFunc() {
 
 int main()
 {
+	//temp();
+	//return 0;
+
 	//Загрузка конфигурации
 	if (loadConfigurate() == -1) 
 		exit(1);	//Ошибка
