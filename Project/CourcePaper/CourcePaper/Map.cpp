@@ -115,9 +115,9 @@ void Map::faceting(Utilits& tool) {
             secretNumWater += ((tmpType = getTypes(i, j - 1)) == empty ? nowType : tmpType) == water ? 8 : 0;   //лево water
             secretNumStone += (tmpType == empty ? nowType : tmpType) == stone ? 8 : 0;                          //лево stone
 
-            if(secretNumWater == 10 || secretNumWater == 5 || secretNumWater == 15)
+            if(secretNumWater == 10 || secretNumWater == 5 || secretNumWater == 15|| (getTypes(i + 1, j - 1) == water && getTypes(i - 1, j + 1) == water)  || (getTypes(i - 1, j - 1)==water &&getTypes(i + 1, j + 1)==water))
                 map[i][j].setType(water, tool);
-            if(secretNumStone == 10 || secretNumStone == 5 || secretNumStone == 15)
+            if(secretNumStone == 10 || secretNumStone == 5 || secretNumStone == 15 || (getTypes(i + 1, j - 1) == stone && getTypes(i - 1, j + 1) == stone) || (getTypes(i - 1, j - 1) == stone && getTypes(i + 1, j + 1) == stone))
                 map[i][j].setType(stone, tool);
                 
         }
