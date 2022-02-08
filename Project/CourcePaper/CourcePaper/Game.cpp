@@ -124,12 +124,16 @@ void Game::menuInit(sf::RenderWindow& window)
     ImGui::SameLine();
 
     //Игровая информация
-    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - (160 + ImGui::CalcTextSize(_itoa(woodCount, tmp, 10)).x + ImGui::CalcTextSize(_itoa(stoneCount, tmp, 10)).x + ImGui::CalcTextSize(_itoa(unitCount, tmp, 10)).x));
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - (200 + ImGui::CalcTextSize(_itoa(woodCount, tmp, 10)).x + ImGui::CalcTextSize(_itoa(stoneCount, tmp, 10)).x + ImGui::CalcTextSize(_itoa(unitCount, tmp, 10)).x + ImGui::CalcTextSize(_itoa(maxUnitCount, tmp, 10)).x));
     ImGui::BeginGroup();
     {
         ImGui::Image(spriteUnit);
         ImGui::SameLine();
         ImGui::Text(_itoa(unitCount++, tmp, 10));
+        ImGui::SameLine();
+        ImGui::Text("/");
+        ImGui::SameLine();
+        ImGui::Text(_itoa(maxUnitCount++, tmp, 10));
         ImGui::SameLine();
         ImGui::Image(spriteWood);
         ImGui::SameLine();
