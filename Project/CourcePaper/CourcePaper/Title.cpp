@@ -8,11 +8,6 @@ Title::Title() {
 void Title::setType(const tool::Surfaces& type) {
     this->titleType = type;
     sprite.setTexture(tool::Utils::getTexture(type));
-
-    if (type == tool::water)
-        titleState = busyState;
-    else
-        titleState = freeState;
 }
 
 void Title::setHitBoxing(const bool& set, const sf::Color& color) {
@@ -37,11 +32,7 @@ void Title::setPosition(const sf::Vector2i& position) {
     initHitBox();
 }
 
-state Title::setState() { return titleState; }
-
 sf::Vector2i Title::getPosition() { return this->position; }
-
-state Title::getState() { return this->titleState; }
 
 tool::Surfaces Title::getType() { return titleType; }
 
@@ -56,7 +47,6 @@ void Title::render(sf::RenderWindow& window) {
 
 Title& Title::operator = (const Title& box) {
     this->position = box.position;
-    this->titleState = box.titleState;
     this->titleType = box.titleType;
     this->sprite = box.sprite;
     this->hitBox = box.hitBox;

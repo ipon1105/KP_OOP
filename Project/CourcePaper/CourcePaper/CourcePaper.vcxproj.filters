@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Исходные файлы\imgui">
-      <UniqueIdentifier>{07727814-7d22-436d-8994-7fe4e6ef4023}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы заголовков\ImGui_SFML">
-      <UniqueIdentifier>{f51992ff-cde7-4918-95c6-c0d95d72af99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\Game">
       <UniqueIdentifier>{3de3c30f-91c5-479b-b0fa-643e4f72f1a2}</UniqueIdentifier>
     </Filter>
@@ -31,28 +25,43 @@
     <Filter Include="Файлы заголовков\Game\Utils">
       <UniqueIdentifier>{2676b716-473f-43ee-8792-031dd8ffc8e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\Game\Map">
+      <UniqueIdentifier>{09c00cd9-31a3-43da-9be3-159c485aec95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Game\Map">
+      <UniqueIdentifier>{b149ea3e-0df1-43f8-b13f-3f1a3c53bd05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Game\Utils\imgui">
+      <UniqueIdentifier>{07727814-7d22-436d-8994-7fe4e6ef4023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Game\Utils\ImGui_SFML">
+      <UniqueIdentifier>{f51992ff-cde7-4918-95c6-c0d95d72af99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Game\Interface">
+      <UniqueIdentifier>{7c28c9db-3bc1-43d5-8ad8-b2f528bc34de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui.cpp">
-      <Filter>Исходные файлы\imgui</Filter>
+      <Filter>Исходные файлы\Game\Utils\imgui</Filter>
     </ClCompile>
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_demo.cpp">
-      <Filter>Исходные файлы\imgui</Filter>
+      <Filter>Исходные файлы\Game\Utils\imgui</Filter>
     </ClCompile>
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_draw.cpp">
-      <Filter>Исходные файлы\imgui</Filter>
+      <Filter>Исходные файлы\Game\Utils\imgui</Filter>
     </ClCompile>
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_tables.cpp">
-      <Filter>Исходные файлы\imgui</Filter>
+      <Filter>Исходные файлы\Game\Utils\imgui</Filter>
     </ClCompile>
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_widgets.cpp">
-      <Filter>Исходные файлы\imgui</Filter>
+      <Filter>Исходные файлы\Game\Utils\imgui</Filter>
     </ClCompile>
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui-SFML.cpp">
-      <Filter>Исходные файлы\imgui</Filter>
+      <Filter>Исходные файлы\Game\Utils\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Исходные файлы\Game</Filter>
@@ -66,22 +75,10 @@
     <ClCompile Include="Game.cpp">
       <Filter>Исходные файлы\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>Исходные файлы\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Исходные файлы\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Unit.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="AI.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Creater.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="PerlinNoise.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Objects.cpp">
@@ -91,335 +88,338 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Game\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp">
+      <Filter>Исходные файлы\Game\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>Исходные файлы\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Исходные файлы\Game\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bit_SFML-2.5.1\include\SFML\Main.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\AlResource.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\BlendMode.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\CircleShape.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Clipboard.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Clock.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Color.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Config.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Context.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\ContextSettings.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\ConvexShape.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Cursor.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Drawable.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Err.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Event.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\Export.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Export.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Export.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Export.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\Export.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\FileInputStream.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Font.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\Ftp.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\GlResource.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Glsl.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Glyph.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\GpuPreference.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\Http.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Image.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig-SFML.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imgui.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imgui_internal.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imgui-SFML.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imgui-SFML_export.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imstb_rectpack.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imstb_textedit.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\imgui\imstb_truetype.h">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\InputSoundFile.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\InputStream.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\IpAddress.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Joystick.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Keyboard.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\Listener.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Lock.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\MemoryInputStream.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Mouse.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\Music.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Mutex.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\NativeActivity.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\NonCopyable.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\OpenGL.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\OutputSoundFile.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\Packet.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\PrimitiveType.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Rect.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\RectangleShape.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\RenderStates.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\RenderTarget.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\RenderTexture.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\RenderWindow.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Sensor.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Shader.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Shape.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Sleep.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\Socket.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\SocketHandle.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\SocketSelector.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\Sound.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundBuffer.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundBufferRecorder.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundFileFactory.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundFileReader.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundFileWriter.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundRecorder.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundSource.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Audio\SoundStream.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Sprite.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\String.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\TcpListener.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\TcpSocket.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Text.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Texture.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Thread.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\ThreadLocal.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\ThreadLocalPtr.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Time.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Touch.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Transform.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Transformable.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Network\UdpSocket.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Utf.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Vector2.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\System\Vector3.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\Vertex.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\VertexArray.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\VertexBuffer.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\VideoMode.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Graphics\View.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\Window.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowHandle.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowStyle.hpp">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Файлы заголовков\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
       <Filter>Файлы заголовков\Game</Filter>
     </ClInclude>
     <ClInclude Include="GameSetting.h">
@@ -428,28 +428,13 @@
     <ClInclude Include="MyView.h">
       <Filter>Файлы заголовков\Game\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>Файлы заголовков\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Файлы заголовков\Game</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="state.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="AI.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Creater.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="PerlinNoise.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Objects.h">
@@ -459,37 +444,53 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Game\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>Файлы заголовков\Game\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Файлы заголовков\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Файлы заголовков\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Файлы заголовков\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="bit_SFML-2.5.1\include\SFML\Main.hpp">
+      <Filter>Файлы заголовков\Game\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bit_SFML-2.5.1\include\SFML\Graphics\Glsl.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\Graphics\Rect.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\Audio\SoundFileFactory.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\System\String.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\System\Thread.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\System\ThreadLocalPtr.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\System\Utf.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector2.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector3.inl">
-      <Filter>Файлы заголовков\ImGui_SFML</Filter>
+      <Filter>Файлы заголовков\Game\Utils\ImGui_SFML</Filter>
     </None>
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\spriteList.png">
@@ -498,13 +499,13 @@
     <Image Include="bitmap1.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\..\..\Downloads\Fense.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CourcePaper.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config.txt" />
   </ItemGroup>
 </Project>

@@ -4,7 +4,6 @@
 #include "imgui-SFML.h"
 
 #include "Utils.h"
-#include "AI.h"
 #include "Map.h"
 
 #include <SFML/Graphics.hpp>
@@ -58,4 +57,3 @@ public:
 	void run(sf::RenderWindow& window);
 
 };
-

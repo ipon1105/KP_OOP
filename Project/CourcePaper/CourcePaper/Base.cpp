@@ -13,23 +13,23 @@ Base::Base(){
 void Base::initHitShape() {
 	this->hitShape.setFillColor(sf::Color::Transparent);
 	this->hitShape.setOutlineColor(sf::Color::Green);
-	this->hitShape.setOutlineThickness(2);
+	this->hitShape.setOutlineThickness(tool::OUTLINE_THICKNESS);
+	this->hitShape.setRadius(this->hitShapeRad);
 	this->updateHitShapePos();
 }
 
 void Base::updateHitShapePos()
 {
 	this->hitShape.setPosition( 
-		this->sprite.getPosition().x + (this->hitShapeRed / 2) + tool::OUTLINE_THICKNESS,
-		this->sprite.getPosition().y + (this->hitShapeRed / 2) + tool::OUTLINE_THICKNESS 
+		this->sprite.getPosition().x + ((this->sprite.getPosition().x + tool::TITLE_SIZE / 2) - (this->sprite.getPosition().x + this->hitShapeRad)),
+		this->sprite.getPosition().y + ((this->sprite.getPosition().y + tool::TITLE_SIZE / 2) - (this->sprite.getPosition().y + this->hitShapeRad))
 	);
-	this->hitShape.setRadius(tool::OUTLINE_THICKNESS);
+	this->hitShape.setOutlineThickness(tool::OUTLINE_THICKNESS);
 }
-
 #pragma endregion
 #pragma region Сеттеры
 
-void Base::setHitBoxing(const bool& set = true, const sf::Color& color = sf::Color::Green){
+void Base::setHitBoxing(const bool& set, const sf::Color& color){
 	this->hitBoxing = set;
 	this->hitShape.setOutlineColor(color);
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Utils.h"
-#include "state.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -14,7 +13,6 @@ private:
 
 	sf::Vector2i position;		//Позиция клетки на карте
 
-	state titleState;			//Состояние плитки: freeState or busyState
 	tool::Surfaces titleType;			//Тип поверхности
 	
 	sf::Sprite	sprite;			//Спрайт поверхности
@@ -39,10 +37,6 @@ public:
 	//Вернуть/Задать отрисовку границ
 	bool getHitBoxing();
 	void setHitBoxing(const bool& set, const sf::Color& color = sf::Color::Green);
-
-	//Вернуть/Задать состояние
-	state getState();
-	state setState();
 
 	//Функция отрисовки плитки на экране
 	void render(sf::RenderWindow& window);

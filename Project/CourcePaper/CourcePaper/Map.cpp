@@ -8,15 +8,15 @@
 
 Map::Map() {
 
+    unitList.push_back(Unit(tool::Surfaces(tool::unit_human_villager_down_1), 1, 1));
+    //unitList[0].setGlobalPos(sf::Vector2f(10 * tool::TITLE_SIZE, 10 * tool::TITLE_SIZE));
+    //unitList[0].setColor(sf::Color::Red);
 }
 
 void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
-    unitList.push_back(Unit());
-    //unitList[0].setGlobalPos(sf::Vector2f(10 * tool::TITLE_SIZE, 10 * tool::TITLE_SIZE));
-    //unitList[0].setColor(sf::Color::Red);
 
     if(map != NULL)
         this->~Map();
@@ -267,8 +267,8 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
 void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
 {
     //Одноразовое обновление юнитов
-    //for (int i = 0; i < unitList.size(); i++)
-    //    unitList[i].pollUpdate(event, window);
+    for (int i = 0; i < unitList.size(); i++)
+        unitList[i].poll_update(event, window);
 
     //Одноразовое обновление юнитов
     for (int i = 0; i < objectsList.size(); i++)
@@ -282,8 +282,8 @@ void Map::render(sf::RenderWindow& window){
             this->map[i][j].render(window);
 
     //Отрисовка юнитов
-    //for (int i = 0; i < unitList.size(); i++)
-    //    unitList[i].render(window);
+    for (int i = 0; i < unitList.size(); i++)
+        unitList[i].render(window);
 
     //Отрисовка объектов
     for (int i = 0; i < objectsList.size(); i++)

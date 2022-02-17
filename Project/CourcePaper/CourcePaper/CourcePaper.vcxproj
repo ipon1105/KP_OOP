@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AI.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui-SFML.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui.cpp" />
@@ -173,7 +172,6 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AI.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig-SFML.h" />
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig.h" />
@@ -292,7 +290,6 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MyView.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="state.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
@@ -306,14 +303,17 @@
     <None Include="bit_SFML-2.5.1\include\SFML\System\Utf.inl" />
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector2.inl" />
     <None Include="bit_SFML-2.5.1\include\SFML\System\Vector3.inl" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\..\..\Downloads\Fense.png" />
     <Image Include="bitmap1.bmp" />
     <Image Include="resource\spriteList.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CourcePaper.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
