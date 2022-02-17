@@ -7,6 +7,8 @@ namespace tool {
     static const int TITLE_SIZE = 32;           //Размер одной плитки
     static const int OUTLINE_THICKNESS = 2;     //Ширина выделения
 
+    static const sf::Vector2f VECTOR_TITLE_SIZE = sf::Vector2f(static_cast<float>(TITLE_SIZE), static_cast<float>(TITLE_SIZE));
+
     //Поверхности
     static enum Surfaces {
         empty = -1,
