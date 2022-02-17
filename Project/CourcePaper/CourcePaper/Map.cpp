@@ -247,7 +247,7 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
         //
         //}
         //unitList[i].stopInfo();
-        //unitList[i].update(event, window);
+       unitList[i].update(event, window);
     }
 
     //Обновление объектов

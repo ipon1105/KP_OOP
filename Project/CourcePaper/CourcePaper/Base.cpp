@@ -90,4 +90,4 @@ bool Base::getHitBoxing() {
 	return this->hitBoxing;
 }
 
-#pragma endregion
+#pragma endregion	
