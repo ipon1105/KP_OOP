@@ -23,7 +23,7 @@ void EnemyAI::setTool(Utilits& tool)
 void EnemyAI::initPersonList()
 {
 	Unit person(tool);
-	person.setOriginPos(sf::Vector2i(3, 3));
+	person.setGlobalPos(sf::Vector2f(3 * TITLE_SIZE, 3 * TITLE_SIZE));
 	personList.push_back(person);
 }
 
@@ -46,8 +46,8 @@ void EnemyAI::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
 		int row = mousePos.y / 32;
 
 		for(int i = 0; i < this->personList.size(); i++)
-			if (this->personList[i].getOriginPos().x == col &&
-				this->personList[i].getOriginPos().y == row) 
+			if (this->personList[i].getGlobalPos().x / 32 == col &&
+				this->personList[i].getGlobalPos().y / 32 == row)
 				this->personList[i].setHitboxing(!this->personList[i].getHitboxing());
 			else
 				this->personList[i].setHitboxing(false);

@@ -19,7 +19,7 @@ class Game
 private:
 	Map map;
 	Utilits tools;
-	EnemyAI enemy;
+	//EnemyAI enemy;
 	sf::Clock deltaClock;
 
 	//Список всех юнитов игрока

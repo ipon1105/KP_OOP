@@ -162,7 +162,7 @@ void Game::interfaceInit(sf::RenderWindow& window) {
 
 Game::Game(Utilits& tool) {
     this->tools = tool;
-    enemy.setTool(tool);
+    //enemy.setTool(tool);
 
 	map.initMap(70, 70);
 	map.createMap(7, 7, tools);
@@ -199,7 +199,7 @@ void Game::run(sf::RenderWindow& window) {
 
 			cameraUpdateZoom(event);
             map.pollUpdate(event, window);
-            enemy.pollUpdate(event, window);
+            //enemy.pollUpdate(event, window);
 		}
         cameraUpdateMove(event);
 
@@ -219,7 +219,7 @@ void Game::render(sf::RenderWindow& window) {
 
     window.pushGLStates();
     map.render(window);
-    enemy.render(window);
+    //enemy.render(window);
     window.popGLStates();
     ImGui::SFML::Render();
 

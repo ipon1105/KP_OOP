@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AI.cpp" />
+    <ClCompile Include="Base.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui-SFML.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui.cpp" />
     <ClCompile Include="bit_SFML-2.5.1\imgui\imgui_demo.cpp" />
@@ -173,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI.h" />
+    <ClInclude Include="Base.h" />
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig-SFML.h" />
     <ClInclude Include="bit_SFML-2.5.1\imgui\imconfig.h" />
     <ClInclude Include="bit_SFML-2.5.1\imgui\imgui-SFML.h" />
