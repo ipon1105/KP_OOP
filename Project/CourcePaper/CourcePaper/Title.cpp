@@ -5,11 +5,11 @@ Title::Title() {
     initHitBox();
 }
 
-void Title::setType(const types& type, Utilits& tool) {
+void Title::setType(const tool::Surfaces& type) {
     this->titleType = type;
-    sprite.setTexture(tool.getTexture(type));
+    sprite.setTexture(tool::Utils::getTexture(type));
 
-    if (type == water)
+    if (type == tool::water)
         titleState = busyState;
     else
         titleState = freeState;
@@ -21,8 +21,8 @@ void Title::setHitBoxing(const bool& set, const sf::Color& color) {
 }
 
 void Title::initHitBox() {
-    this->hitBox.setPosition(this->position.x * TITLE_SIZE + this->hitTitleThickness, this->position.y * TITLE_SIZE + this->hitTitleThickness);
-    this->hitBox.setSize(sf::Vector2f((float) TITLE_SIZE - this->hitTitleThickness * 2, (float) TITLE_SIZE - this->hitTitleThickness * 2));
+    this->hitBox.setPosition(this->position.x * tool::TITLE_SIZE + tool::OUTLINE_THICKNESS, this->position.y * tool::TITLE_SIZE + tool::OUTLINE_THICKNESS);
+    this->hitBox.setSize(sf::Vector2f((float)tool::TITLE_SIZE - tool::OUTLINE_THICKNESS * 2, (float) tool::TITLE_SIZE - tool::OUTLINE_THICKNESS * 2));
     this->hitBox.setFillColor(sf::Color::Transparent);
     this->hitBox.setOutlineColor(sf::Color::Green);
     this->hitBox.setOutlineThickness(this->hitTitleThickness);
@@ -33,7 +33,7 @@ void Title::initHitBox() {
 void Title::setPosition(const sf::Vector2i& position) {
     this->position = position;
 
-    this->sprite.setPosition(this->position.x * TITLE_SIZE, this->position.y * TITLE_SIZE);
+    this->sprite.setPosition(this->position.x * tool::TITLE_SIZE, this->position.y * tool::TITLE_SIZE);
     initHitBox();
 }
 
@@ -43,7 +43,7 @@ sf::Vector2i Title::getPosition() { return this->position; }
 
 state Title::getState() { return this->titleState; }
 
-types Title::getType() { return titleType; }
+tool::Surfaces Title::getType() { return titleType; }
 
 bool Title::getHitBoxing() { return hitBoxing; }
 

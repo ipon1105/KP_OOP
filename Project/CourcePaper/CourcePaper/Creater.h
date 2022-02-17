@@ -4,13 +4,12 @@
 #include "imgui-SFML.h"
 
 #include "Map.h"
-#include "Utilits.h"
+#include "Utils.h"
 #include "MyView.h"
 
 class Creater
 {
 private:
-	Utilits tools;
 	Map map;
 
 	sf::Clock deltaClock;
@@ -26,7 +25,7 @@ private:
 	void staticWindow(sf::RenderWindow& window);
 public:
 	//Конструктор класса
-	Creater(Utilits& tool);
+	Creater();
 
 	//Функция обновления игрового процесса
 	void update(const sf::Event& event, sf::RenderWindow& window);

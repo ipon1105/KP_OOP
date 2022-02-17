@@ -2,39 +2,13 @@
 
 #include <SFML/Graphics.hpp>
 
-class Utils
-{
-private:
-	//Массив всех объектов со спрайт листа
-	sf::Texture textureMap[157];
+namespace tool {
 
-	bool finish;	//Результат загрузки текстур
-	int progress;	//Содержит прогресс загрузки
-public:
-    enum types;
-	//Конструкторы
-	Utils();
-
-	//Начать загрузку текстур
-	static void startLoad();
-
-	//Вернёт текстуру по номеру (row*(номер строки от 0) + col*(номер столбца от 0))
-	static sf::Texture& getTexture(const int& num);
-
-	//Вернёт текстуру по перечислению block
-	static sf::Texture& getTexture(const types& title);
-
-	//Вернёт результат загрузки
-	static bool isFinily();
-
-	//Вернёт прогресс процеса
-	static int getProgress();
-
-    static const int TITLE_SIZE = 32;  //Размер одной плитки
-    static const int OUTLINE_THICKNESS = 2;  //Размер одной плитки
+    static const int TITLE_SIZE = 32;           //Размер одной плитки
+    static const int OUTLINE_THICKNESS = 2;     //Ширина выделения
 
     //Поверхности
-    static enum types {
+    static enum Surfaces {
         empty = -1,
 
         //<!--1-ый ряд-->//
@@ -234,5 +208,29 @@ public:
         shadowStone         //Тень камня
 
     };
-};
+
+
+    class Utils
+    {
+    public:
+        //Конструкторы
+        Utils();
+
+        //Начать загрузку текстур 
+        static void startLoad();
+
+        //Вернёт текстуру по номеру (row*(номер строки от 0) + col*(номер столбца от 0))
+        static sf::Texture& getTexture(const int& num);
+
+        //Вернёт текстуру по перечислению block
+        static sf::Texture& getTexture(const Surfaces& title);
+
+        //Вернёт результат загрузки
+        static bool isFinily();
+
+        //Вернёт прогресс процеса
+        static int getProgress();
+    };
+}
+
 

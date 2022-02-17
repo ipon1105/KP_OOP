@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "MyView.h"
 #include "GameSetting.h"    
-#include "Utilits.h"    
+#include "Utils.h"    
 
 #include <SFML/Graphics.hpp>
 #include <Windows.h>
@@ -93,7 +93,7 @@ void Game::staticWindow(sf::RenderWindow& window) {
                 ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Тесты:");
 
                 if (ImGui::Button(u8"Сгенирировать заново"))
-                    map.createMap(3, 3, tools);
+                    map.createMap(3, 3);
                 ImGui::SameLine();
 
                 ImGui::Text(u8"Сид = ");
@@ -160,18 +160,17 @@ void Game::interfaceInit(sf::RenderWindow& window) {
     window.setFramerateLimit(30);
 }
 
-Game::Game(Utilits& tool) {
-    this->tools = tool;
+Game::Game() {
     //enemy.setTool(tool);
 
 	map.initMap(70, 70);
-	map.createMap(7, 7, tools);
+	map.createMap(7, 7);
 
     play = true;
 
-    spriteStone.setTexture(tool.getTexture(stoneRes));
-    spriteWood .setTexture(tool.getTexture(woodRes ));
-    spriteUnit.setTexture(tool.getTexture(unit_russion_villager_down_1));
+    spriteStone.setTexture(tool::Utils::getTexture(tool::stoneRes));
+    spriteWood .setTexture(tool::Utils::getTexture(tool::woodRes ));
+    spriteUnit.setTexture (tool::Utils::getTexture(tool::unit_russion_villager_down_1));
 
     woodCount = 0;
     unitCount = 0;

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "types.h"
-#include "Utilits.h"
+#include "Utils.h"
 #include "state.h"
 
 #include <SFML/Graphics.hpp>
@@ -16,7 +15,7 @@ private:
 	sf::Vector2i position;		//Позиция клетки на карте
 
 	state titleState;			//Состояние плитки: freeState or busyState
-	types titleType;			//Тип поверхности
+	tool::Surfaces titleType;			//Тип поверхности
 	
 	sf::Sprite	sprite;			//Спрайт поверхности
 	sf::RectangleShape hitBox;	//Квадрат хитбокса
@@ -30,8 +29,8 @@ public:
 	Title();
 
 	//Вернуть/Задать тип
-	void setType(const types& type, Utilits& tool);
-	types getType();
+	void setType(const tool::Surfaces& type);
+	tool::Surfaces getType();
 
 	//Вернуть/Задать позицию
 	void setPosition(const sf::Vector2i& pos);

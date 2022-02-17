@@ -6,39 +6,38 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
-Objects::Objects(const types type, Utilits& tool)
+Objects::Objects(const tool::Surfaces type)
 {
 	this->type = type;
-	this->tool = tool;
-	this->size = sf::Vector2f(tool.getTexture(type).getSize().x, tool.getTexture(type).getSize().y);
+	this->size = sf::Vector2f(tool::Utils::getTexture(type).getSize().x, tool::Utils::getTexture(type).getSize().y);
 
-	this->sprite.setTexture(tool.getTexture(type)); 
+	this->sprite.setTexture(tool::Utils::getTexture(type));
 	this->sprite.setPosition(0, 0);
 
 	this->hp = this->maxHp = 100;
 
 	this->hitBox.setFillColor(sf::Color::Transparent);
 	this->hitBox.setOutlineColor(sf::Color::Green);
-	this->hitBox.setOutlineThickness(OUTLINE_THICKNESS);
-	this->hitBox.setPosition(sprite.getPosition() + sf::Vector2f(OUTLINE_THICKNESS, OUTLINE_THICKNESS));
-	this->hitBox.setSize(size - sf::Vector2f(OUTLINE_THICKNESS * 2, OUTLINE_THICKNESS * 2));
+	this->hitBox.setOutlineThickness(tool::OUTLINE_THICKNESS);
+	this->hitBox.setPosition(sprite.getPosition() + sf::Vector2f(tool::OUTLINE_THICKNESS, tool::OUTLINE_THICKNESS));
+	this->hitBox.setSize(size - sf::Vector2f(tool::OUTLINE_THICKNESS * 2, tool::OUTLINE_THICKNESS * 2));
 	this->hitBoxing = false;
 
 	switch (type) {
-		case wall_A:
-		case wall_B:
-		case wall_down_right:
-		case wall_left_right:
-		case wall_up_down:
-		case wall_left_down:
-		case wall_up_right:
-		case wall_left_up:
+		case tool::wall_A:
+		case tool::wall_B:
+		case tool::wall_down_right:
+		case tool::wall_left_right:
+		case tool::wall_up_down:
+		case tool::wall_left_down:
+		case tool::wall_up_right:
+		case tool::wall_left_up:
 			strcpy(name, u8"Стена"); break;
-		case base: strcpy(name, u8"База"); break;
-		case home: strcpy(name, u8"Дом"); break;
-		case tree: strcpy(name, u8"Дерево"); break;
-		case woodRes: strcpy(name, u8"Бревно"); break;
-		case stoneRes: strcpy(name, u8"Камень"); break;
+		case tool::base: strcpy(name, u8"База"); break;
+		case tool::home: strcpy(name, u8"Дом"); break;
+		case tool::tree: strcpy(name, u8"Дерево"); break;
+		case tool::woodRes: strcpy(name, u8"Бревно"); break;
+		case tool::stoneRes: strcpy(name, u8"Камень"); break;
 	}
 }
 
@@ -59,14 +58,14 @@ sf::Vector2i Objects::getTitlePos() { return this->titlePos; }
 
 void Objects::setTitlePos(const sf::Vector2i& pos) {
 	this->titlePos = pos;
-	sprite.setPosition(sf::Vector2f(pos.x * TITLE_SIZE, pos.y * TITLE_SIZE));
+	sprite.setPosition(sf::Vector2f(pos.x * tool::TITLE_SIZE, pos.y * tool::TITLE_SIZE));
 	hitBox.setPosition(sprite.getPosition());
 }
 
 sf::Vector2f Objects::getPosition() { return sprite.getPosition(); }
 
 void Objects::setPosition(const sf::Vector2f& pos) {
-	this->titlePos = sf::Vector2i(pos.x / TITLE_SIZE, pos.y / TITLE_SIZE);
+	this->titlePos = sf::Vector2i(pos.x / tool::TITLE_SIZE, pos.y / tool::TITLE_SIZE);
 	sprite.setPosition(pos);
 }
 
@@ -99,7 +98,7 @@ void Objects::stopInfo(sf::RenderWindow& window)
 	}
 }
 
-types Objects::getType() { return type; }
+tool::Surfaces Objects::getType() { return type; }
 
 void Objects::update(sf::RenderWindow& window, sf::Event& event)
 {

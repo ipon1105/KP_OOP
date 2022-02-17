@@ -170,7 +170,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MyView.cpp" />
     <ClCompile Include="Unit.cpp" />
-    <ClCompile Include="Utilits.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI.h" />
@@ -284,7 +284,6 @@
     <ClInclude Include="bit_SFML-2.5.1\include\SFML\Window\WindowStyle.hpp" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="PerlinNoise.h" />
-    <ClInclude Include="types.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Creater.h" />
     <ClInclude Include="Game.h" />
@@ -295,7 +294,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="Unit.h" />
-    <ClInclude Include="Utilits.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bit_SFML-2.5.1\include\SFML\Audio\SoundFileFactory.inl" />

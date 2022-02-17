@@ -1,35 +1,32 @@
 #include "AI.h"
 #include "MyView.h"
 
-EnemyAI::EnemyAI(sf::Color color, Utilits& tool)
+EnemyAI::EnemyAI(sf::Color color)
 {
-	this->tool = tool;
 	this->color = color;
 	initPersonList();
 }
 
 EnemyAI::EnemyAI()
 {
-	this->tool = tool;
 	this->color = sf::Color::Red;
 	initPersonList();
 }
 
-void EnemyAI::setTool(Utilits& tool)
+void EnemyAI::setTool()
 {
-	this->tool = tool;
 }
 
 void EnemyAI::initPersonList()
 {
-	Unit person(tool);
-	person.setGlobalPos(sf::Vector2f(3 * TITLE_SIZE, 3 * TITLE_SIZE));
-	personList.push_back(person);
+	Unit person();
+	//person.setGlobalPos(sf::Vector2f(3 * tool::TITLE_SIZE, 3 * tool::TITLE_SIZE));
+	//personList.push_back(person);
 }
 
 void EnemyAI::render(sf::RenderWindow& window) {
-	for (int i = 0; i < this->personList.size(); i++)
-		personList[i].render(window);
+	//for (int i = 0; i < this->personList.size(); i++)
+	//	personList[i].render(window);
 }
 
 void EnemyAI::update(sf::Event& event, sf::RenderWindow& window) {
@@ -45,12 +42,12 @@ void EnemyAI::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
 		int col = mousePos.x / 32;
 		int row = mousePos.y / 32;
 
-		for(int i = 0; i < this->personList.size(); i++)
-			if (this->personList[i].getGlobalPos().x / 32 == col &&
-				this->personList[i].getGlobalPos().y / 32 == row)
-				this->personList[i].setHitboxing(!this->personList[i].getHitboxing());
-			else
-				this->personList[i].setHitboxing(false);
+		//for(int i = 0; i < this->personList.size(); i++)
+		//	if (this->personList[i].getGlobalPos().x / 32 == col &&
+		//		this->personList[i].getGlobalPos().y / 32 == row)
+		//		this->personList[i].setHitboxing(!this->personList[i].getHitboxing());
+		//	else
+		//		this->personList[i].setHitboxing(false);
 		
 	}
 	if (event.type == event.MouseButtonPressed &&
@@ -63,11 +60,11 @@ void EnemyAI::pollUpdate(sf::Event& event, sf::RenderWindow& window) {
 
 		sf::Vector2i t(col, row);
 
-		for (int i = 0; i < this->personList.size(); i++)
-			if (this->personList[i].getHitboxing()) {
-				this->personList[i].goToOriginPos(t);
-				this->personList[i].goToGlobalPos(mousePos);
-			}
+		//for (int i = 0; i < this->personList.size(); i++)
+		//	if (this->personList[i].getHitboxing()) {
+		//		this->personList[i].goToOriginPos(t);
+		//		this->personList[i].goToGlobalPos(mousePos);
+		//	}
 	}
 }
 

@@ -6,7 +6,7 @@
 
 #include "Menu.h"
 #include "GameSetting.h"
-#include "Utilits.h"
+#include "Utils.h"
 #include "PerlinNoise.h"
 
 #include <SFML/Graphics.hpp>;
@@ -16,7 +16,6 @@
 
 using namespace sf;
 
-Utilits tool;
 sf::RenderWindow window;
 
 void temp() {
@@ -42,7 +41,7 @@ void temp() {
 		for (int j = 0; j < colCount; j++)
 		{
 			num = ((i * rowCount) + j);
-			perlinNoise[num] = noiseMap.noise(j * biomSize, i * biomSize, scale) * 255;
+			perlinNoise[num] = noiseMap.noise(static_cast<float>(biomSize * j), static_cast<float>(biomSize * i), scale) * 255;
 		}
 
 	for (int i = 0; i < rowCount; i++)
@@ -130,7 +129,7 @@ void loadFunc() {
 
 	window.create(sf::VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
 
-	sf::Thread loadThread(&Utilits::startLoad, &tool);
+	sf::Thread loadThread(&tool::Utils::startLoad);
 	loadThread.launch();
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -159,7 +158,7 @@ void loadFunc() {
 
         ImGui::Begin(u8"Начало", &menuWindow, ImGuiWindowFlags_NoDecoration);
 
-		_itoa((int)((((float)tool.getProgress()) / 158.0f) * 100.0f), text, 10);
+		_itoa((int)((((float)tool::Utils::getProgress()) / 158.0f) * 100.0f), text, 10);
 
 		loadText[18] = text[0];
 		loadText[19] = text[1];
@@ -175,7 +174,7 @@ void loadFunc() {
         ImGui::SFML::Render(window);
         window.display();
 		
-		if (tool.isFinily())
+		if (tool::Utils::isFinily())
 			break;
 
         if (getSetting().screenScale)
@@ -216,8 +215,8 @@ int main()
 				window.create(VideoMode(getSetting().windowWidth, getSetting().windowHeight), "SFML Works!", (getSetting().screenScale) ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
 			}
 			break;
-			case 4: num = game(window, tool);		break;
-			case 5: num = mapCreater(window, tool); break;
+			case 4: num = game(window);		break;
+			case 5: num = mapCreater(window); break;
 		}
 
 		if (!num) exit(0);

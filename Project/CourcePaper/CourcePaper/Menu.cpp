@@ -6,7 +6,6 @@
 #include "MyView.h"
 #include "GameSetting.h"
 #include "Game.h"
-#include "types.h"
 #include "Creater.h"
 
 #include <SFML/Graphics.hpp>
@@ -610,17 +609,17 @@ public:
 
 */
 
-int game(sf::RenderWindow& window, Utilits& tool) {
+int game(sf::RenderWindow& window) {
 
-    Game gme(tool);
+    Game gme;
     gme.run(window);
 
     return 1;
 }
 
-int mapCreater(sf::RenderWindow& window, Utilits& tool) {
+int mapCreater(sf::RenderWindow& window) {
 
-    Creater edit(tool);
+    Creater edit;
     edit.run(window);
 
     return 1;

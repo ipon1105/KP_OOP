@@ -14,8 +14,8 @@ void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
-    unitList.push_back(Unit(tool));
-    unitList[0].setGlobalPos(sf::Vector2f(10 * TITLE_SIZE, 10 * TITLE_SIZE));
+    unitList.push_back(Unit());
+    //unitList[0].setGlobalPos(sf::Vector2f(10 * tool::TITLE_SIZE, 10 * tool::TITLE_SIZE));
     //unitList[0].setColor(sf::Color::Red);
 
     if(map != NULL)
@@ -57,14 +57,14 @@ Map::Map(const Map& newMap) {
         map[i] = new Title[this->colCount];
 }
 
-void Map::perlinCreate(Utilits& tool) {
+void Map::perlinCreate() {
     sf::Uint8* pixel = new sf::Uint8[this->rowCount * this->colCount];
 
     double biomSize = 0.1;
     int num;
 
     PerlinNoise noiseMap;
-    types set;
+    tool::Surfaces set;
     for (int i = 0; i < rowCount; i++)
         for (int j = 0; j < colCount; j++)
         {
@@ -78,28 +78,29 @@ void Map::perlinCreate(Utilits& tool) {
             num = i * rowCount + j;
 
             if (pixel[num] <= 80)
-                set = water;
+                set = tool::water;
             else if (pixel[num] <= 160)
-                set = grass;
-            else set = stone;
+                set = tool::grass;
+            else set = tool::stone;
 
-            map[i][j].setType(set, tool);
+            map[i][j].setType(set);
             map[i][j].setPosition(sf::Vector2i(j,i));
         }
     
     delete[] pixel;
 }
 
-types Map::getTypes(const int& i, const int& j) {
+tool::Surfaces Map::getTypes(const int& i, const int& j) {
     if (i < 0 || i >= this->rowCount ||
         j < 0 || j >= this->colCount)
-        return empty;
+        return tool::empty;
     return map[i][j].getType();
 }
 
-void Map::faceting(Utilits& tool) {
-    types nowType;
-    types tmpType;
+void Map::faceting() {
+    using namespace tool;
+    tool::Surfaces nowType;
+    tool::Surfaces tmpType;
 
     int secretNumWater;
     int secretNumStone;
@@ -119,17 +120,17 @@ void Map::faceting(Utilits& tool) {
             secretNumStone += (tmpType == empty ? nowType : tmpType) == stone ? 8 : 0;                          //лево stone
 
             if(secretNumWater == 10 || secretNumWater == 5 || secretNumWater == 15|| (getTypes(i + 1, j - 1) == water && getTypes(i - 1, j + 1) == water)  || (getTypes(i - 1, j - 1)==water &&getTypes(i + 1, j + 1)==water))
-                map[i][j].setType(water, tool);
+                map[i][j].setType(water);
             if(secretNumStone == 10 || secretNumStone == 5 || secretNumStone == 15 || (getTypes(i + 1, j - 1) == stone && getTypes(i - 1, j + 1) == stone) || (getTypes(i - 1, j - 1) == stone && getTypes(i + 1, j + 1) == stone))
-                map[i][j].setType(stone, tool);
+                map[i][j].setType(stone);
             switch (secretNumStone) {
                 case 14: case 13: case 11: case 7:
-                    map[i][j].setType(stone, tool);
+                    map[i][j].setType(stone);
                 break;
             }
             switch (secretNumWater) {
                 case 14: case 13: case 11: case 7:
-                    map[i][j].setType(water, tool);
+                    map[i][j].setType(water);
                 break;
             }
                 
@@ -196,7 +197,7 @@ void Map::faceting(Utilits& tool) {
                 }
 
                 if (nowType != tmpType)
-                    map[i][j].setType(tmpType, tool);
+                    map[i][j].setType(tmpType);
 
                 continue;
             }
@@ -204,15 +205,13 @@ void Map::faceting(Utilits& tool) {
         }
 }
 
-void Map::createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed) {
+void Map::createMap(const int& stoneCount, const int& grassCount, const int seed) {
     this->seed = seed;
     srand(seed);
 
-    this->tool = tool;
-
-    perlinCreate(tool);
-    faceting(tool);
-    objectsList.push_back(Objects(base, tool));
+    perlinCreate();
+    faceting();
+    objectsList.push_back(Objects(tool::base));
     objectsList[0].setTitlePos(sf::Vector2i(7, 7));
    
 }
@@ -242,23 +241,23 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
 {
     //обновление юнитов
     for (int i = 0; i < unitList.size(); i++) {
-        unitList[i].startInfo(window);
-        if (unitList[i].getHitboxing() && unitList[i].getColor() == sf::Color::Green)
-        {
-
-        }
-        unitList[i].stopInfo();
-        unitList[i].update(event, window);
+        //unitList[i].startInfo(window);
+        //if (unitList[i].getHitboxing() && unitList[i].getColor() == sf::Color::Green)
+        //{
+        //
+        //}
+        //unitList[i].stopInfo();
+        //unitList[i].update(event, window);
     }
 
     //Обновление объектов
     for (int i = 0; i < objectsList.size(); i++){
         objectsList[i].startInfo(window);
-        if (objectsList[i].getHitBoxing() && objectsList[i].getType() == base) {
+        if (objectsList[i].getHitBoxing() && objectsList[i].getType() == tool::base) {
             ImGui::Text(u8"Меню создания:");
-            ImGui::Image(sf::Sprite(tool.getTexture(unit_human_warrior_left_0)));
+            ImGui::Image(sf::Sprite(tool::Utils::getTexture(tool::unit_human_warrior_left_0)));
             ImGui::SameLine();
-            ImGui::Image(sf::Sprite(tool.getTexture(unit_human_warrior_left_1)));
+            ImGui::Image(sf::Sprite(tool::Utils::getTexture(tool::unit_human_warrior_left_1)));
         }
         objectsList[i].stopInfo(window);
         objectsList[i].update(window, event);
@@ -268,8 +267,8 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
 void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
 {
     //Одноразовое обновление юнитов
-    for (int i = 0; i < unitList.size(); i++)
-        unitList[i].pollUpdate(event, window);
+    //for (int i = 0; i < unitList.size(); i++)
+    //    unitList[i].pollUpdate(event, window);
 
     //Одноразовое обновление юнитов
     for (int i = 0; i < objectsList.size(); i++)
@@ -283,8 +282,8 @@ void Map::render(sf::RenderWindow& window){
             this->map[i][j].render(window);
 
     //Отрисовка юнитов
-    for (int i = 0; i < unitList.size(); i++)
-        unitList[i].render(window);
+    //for (int i = 0; i < unitList.size(); i++)
+    //    unitList[i].render(window);
 
     //Отрисовка объектов
     for (int i = 0; i < objectsList.size(); i++)

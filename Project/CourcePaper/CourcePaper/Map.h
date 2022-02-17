@@ -1,8 +1,7 @@
 #pragma once
 
-#include "types.h"
 #include "Title.h"
-#include "Utilits.h"
+#include "Utils.h"
 #include "Unit.h"
 #include "Objects.h"
 
@@ -23,12 +22,10 @@ private:
     std::vector<Unit> unitList;         //Список всех юнитов на карте
     std::vector<Objects> objectsList;   //Список всех построек на карте
 
-    Utilits tool;
-
     //Генерация карты с помощью шума перлина
-    void perlinCreate(Utilits& tool);
-    void faceting(Utilits& tool);
-    types getTypes(const int& i, const int& j);
+    void perlinCreate();
+    void faceting();
+    tool::Surfaces getTypes(const int& i, const int& j);
 public:
     //Конструкторы
     Map();
@@ -36,7 +33,7 @@ public:
     Map(const int& row, const int& col);
 
     //Генерирует карту с введённой кучностью и сидом
-    void createMap(const int& stoneCount, const int& grassCount, Utilits& tool, const int seed = time(0));
+    void createMap(const int& stoneCount, const int& grassCount, const int seed = time(0));
 
     //Инициализация
     void initMap(const int& row, const int& col);

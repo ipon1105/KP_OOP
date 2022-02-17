@@ -2,8 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "types.h"
-#include "Utilits.h"
+#include "Utils.h"
 
 class Objects
 {
@@ -18,13 +17,12 @@ private:
 	sf::Color hitColor;
 	sf::RectangleShape hitBox;
 
-	types type;
+	tool::Surfaces type;
 	bool hitBoxing;
 	bool tempBool = false;
-	Utilits tool;
 public:
 	//Конструкторы
-	Objects(const types type, Utilits& tool);
+	Objects(const tool::Surfaces type);
 
 	//Отображение хит боксов
 	void setHitBoxing(const bool set = true,const sf::Color color = sf::Color::Green);
@@ -44,7 +42,7 @@ public:
 	void startInfo(sf::RenderWindow& window);
 	void stopInfo(sf::RenderWindow& window);
 
-	types getType();
+	tool::Surfaces getType();
 
 	void update(sf::RenderWindow& window, sf::Event& event);
 

@@ -5,12 +5,10 @@
 #include <Windows.h>
 
 
-Creater::Creater(Utilits& tool)
+Creater::Creater()
 {
-	this->tools = tool;
-
 	map.initMap(tableMin.y, tableMin.x);
-	map.createMap(7, 7, tools);
+	map.createMap(7, 7);
 }
 
 void Creater::staticWindow(sf::RenderWindow& window) {
@@ -96,7 +94,7 @@ void Creater::staticWindow(sf::RenderWindow& window) {
                 ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), u8"Тесты:");
 
                 if (ImGui::Button(u8"Сгенирировать заново"))
-                    map.createMap(3, 3, tools);
+                    map.createMap(3, 3);
                 ImGui::SameLine();
 
                 ImGui::Text(u8"Сид = ");

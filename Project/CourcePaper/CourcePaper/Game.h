@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
-#include "Utilits.h"
+#include "Utils.h"
 #include "AI.h"
 #include "Map.h"
 
@@ -18,7 +18,6 @@ class Game
 {
 private:
 	Map map;
-	Utilits tools;
 	//EnemyAI enemy;
 	sf::Clock deltaClock;
 
@@ -47,9 +46,7 @@ private:
 	void menuInit(sf::RenderWindow& window);
 public:
 	//Конструктор класса
-	Game(Utilits& tool);
-
-	void setTool(Utilits& tool);
+	Game();
 
 	//Функция обновления игрового процесса
 	void update(sf::Event& event, sf::RenderWindow& window);
