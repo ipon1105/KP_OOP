@@ -8,7 +8,7 @@
 
 Map::Map() {
 
-    unitList.push_back(Unit(tool::Surfaces(tool::unit_human_villager_down_1), 1, 1));
+    unitList.push_back(Unit(tool::Surfaces(tool::unit_human_villager_left_0), 1, 1));
     //unitList[0].setGlobalPos(sf::Vector2f(10 * tool::TITLE_SIZE, 10 * tool::TITLE_SIZE));
     //unitList[0].setColor(sf::Color::Red);
 }

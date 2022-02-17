@@ -1,8 +1,9 @@
 #include "Unit.h"
 #include "MyView.h"
+#include <SFML/Graphics.hpp>
 
 Unit::Unit(const tool::Surfaces& type, const int& row, const int& col) : Base() {
-    animCount = 0;
+    animCount = animZero = 0;
 	this->animationCol = animationBase = type;
 
 	this->hitShapeRad = 16 - tool::OUTLINE_THICKNESS;
@@ -13,9 +14,20 @@ Unit::Unit(const tool::Surfaces& type, const int& row, const int& col) : Base() 
 }
 
 void Unit::move(float x, float y) {
-    animCount++;
-    if (x)
-        sprite.setTexture(tool::Utils::getTexture(int(animationBase) + 9 + (animCount % 3)));
+    animZero = ++animZero % 11;
+
+    if(animZero == 0)
+        animCount = ++animCount % 3;
+
+    if (x > 0)
+        sprite.setTexture(tool::Utils::getTexture(int(animationBase) + 9 + (animCount)));
+    else if (x == -1)
+        sprite.setTexture(tool::Utils::getTexture(int(animationBase) + (animCount)));
+    else if (y > 0)
+        sprite.setTexture(tool::Utils::getTexture(int(animationBase) + 3 + (animCount)));
+    else 
+        sprite.setTexture(tool::Utils::getTexture(int(animationBase) + 6 + (animCount)));
+
     
 
     this->sprite.move(sf::Vector2f(x, y));
@@ -31,16 +43,29 @@ void Unit::render(sf::RenderWindow& window) {
 }
 
 void Unit::update(sf::Event& event, sf::RenderWindow& window) {
-    ImGui::Begin(u8"Окно управления");
-    if (ImGui::Button(u8"Right"))
-        this->move(1, 0);
-    if (ImGui::Button(u8"Left"))
-        this->move(-1, 0);
-    if (ImGui::Button(u8"Down"))
-        this->move(0, 1);
-    if (ImGui::Button(u8"Up"))
-        this->move(0, -1);
-    ImGui::End();
+    if (hitBoxing) {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            return this->move(0, -1);
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+            return this->move(0, 1);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            return this->move(-1, 0);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            return this->move(1, 0);
+
+        ImGui::Begin(u8"Окно управления");
+        if (ImGui::Button(u8"Right"))
+            this->move(1, 0);
+        if (ImGui::Button(u8"Left"))
+            this->move(-1, 0);
+        if (ImGui::Button(u8"Down"))
+            this->move(0, 1);
+        if (ImGui::Button(u8"Up"))
+            this->move(0, -1);
+        ImGui::End();
+        return;
+    
+    }
 }
 
 void Unit::poll_update(sf::Event& event, sf::RenderWindow& window) {

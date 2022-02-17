@@ -14,7 +14,7 @@ private:
 	tool::Surfaces animationBase;
 
 	int animCount;
-
+	int animZero;
 public:
 	Unit(const tool::Surfaces& type, const int& row, const int& col);
 

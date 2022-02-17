@@ -193,7 +193,8 @@ int main()
 	if (loadConfigurate() == -1) 
 		exit(1);	//Ошибка
 	
-	int num = 1;
+	int num = 1; 
+	tool::fps = getSetting().FPS;
 	//Звук
 	{
 		getBackgroundMusic().openFromFile("resource//Main-Theme.wav");
