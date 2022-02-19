@@ -2,6 +2,7 @@
 #include "MyView.h"
 #include "GameSetting.h"
 #include "PerlinNoise.h"
+#include "Base.h"
 
 #include "imgui.h"
 #include "imgui-SFML.h"
@@ -18,22 +19,27 @@ void Map::initMap(const int& row, const int& col) {
     this->colCount = col;
 
 
-    if(map != NULL)
+    if(this->map != NULL)
         this->~Map();
 
-    map = new Title * [rowCount];
-    for (int i = 0; i < rowCount; i++)
-        map[i] = new Title[this->colCount];
-        
+    this->map = new Title * [this->rowCount];
+    this->moveMap = new tool::MoveSurfaces * [this->rowCount];
+    for (int i = 0; i < rowCount; i++){
+        this->map[i] = new Title[this->colCount];
+        this->moveMap[i] = new tool::MoveSurfaces[this->colCount];
+    }
 }
 
 Map::Map(const int& row, const int& col) {
     this->colCount = col;
     this->rowCount = row;
 
-    map = new Title*[this->rowCount];
-    for (int i = 0; i < this->rowCount; i++)
-        map[i] = new Title[this->colCount];
+    this->map = new Title * [this->rowCount];
+    this->moveMap = new tool::MoveSurfaces * [this->rowCount];
+    for (int i = 0; i < rowCount; i++) {
+        this->map[i] = new Title[this->colCount];
+        this->moveMap[i] = new tool::MoveSurfaces[this->colCount];
+    }
 }
 
 int Map::getRowCount() {
@@ -45,16 +51,16 @@ int Map::getColCount() {
 }
 
 Title** Map::getMap() {
-    return map;
+    return this->map;
 }
 
 Map::Map(const Map& newMap) {
     this->colCount = newMap.colCount;
     this->rowCount = newMap.rowCount;
 
-    map = new Title * [this->rowCount];
+    this->map = new Title * [this->rowCount];
     for (int i = 0; i < this->rowCount; i++)
-        map[i] = new Title[this->colCount];
+        this->map[i] = new Title[this->colCount];
 }
 
 void Map::perlinCreate() {
@@ -77,8 +83,11 @@ void Map::perlinCreate() {
         {
             num = i * rowCount + j;
 
-            if (pixel[num] <= 80)
+            this->moveMap[i][j] = tool::passible;
+            if (pixel[num] <= 80){
                 set = tool::water;
+                this->moveMap[i][j] = tool::unpassible;
+            }
             else if (pixel[num] <= 160)
                 set = tool::grass;
             else set = tool::stone;
@@ -205,6 +214,20 @@ void Map::faceting() {
         }
 }
 
+void Map::moveMapUpdate()
+{
+    for(int i = 0; i < this->rowCount; i++)
+        for (int j = 0; j < this->colCount; j++)
+        {
+            moveMap[i][j] = (map[i][j].getType() == tool::water 
+                ? tool::unpassible : tool::passible);
+
+        }
+
+    for (int i = 0; i < unitList.size(); i++)
+        moveMap[unitList[i].getTitlePos().y][unitList[i].getTitlePos().x] = tool::unpassible;
+}
+
 void Map::createMap(const int& stoneCount, const int& grassCount, const int seed) {
     this->seed = seed;
     srand(seed);
@@ -240,15 +263,9 @@ if (event.type == event.MouseButtonPressed &&
 void Map::update(sf::Event& event, sf::RenderWindow& window) 
 {
     //обновление юнитов
-    for (int i = 0; i < unitList.size(); i++) {
-        //unitList[i].startInfo(window);
-        //if (unitList[i].getHitboxing() && unitList[i].getColor() == sf::Color::Green)
-        //{
-        //
-        //}
-        //unitList[i].stopInfo();
-       unitList[i].update(event, window);
-    }
+    for (int i = 0; i < unitList.size(); i++)
+       unitList[i].update(event, window, moveMap);
+    
 
     //Обновление объектов
     for (int i = 0; i < objectsList.size(); i++){
@@ -297,6 +314,9 @@ Map::~Map(){
     for (int i = 0; i < this->rowCount; i++)
         delete[] this->map[i];
     delete[] map;
+    for (int i = 0; i < this->rowCount; i++)
+        delete[] this->moveMap[i];
+    delete[] moveMap;
 
 }
  

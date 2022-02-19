@@ -15,13 +15,38 @@ private:
 
 	int animCount;
 	int animZero;
+	int field_of_view;
+
+	int maxRow;
+	int maxCol;
 public:
-	Unit(const tool::Surfaces& type, const int& row, const int& col);
+	Unit(const tool::Surfaces& type, const int& row, const int& col, const int& view_field = 3);
+
+	void setMaxRow(int row);
+	void setMaxCol(int col);
 
 	void move(float x, float y);
+	void moveToSide(const tool::Side& side, tool::MoveSurfaces** moveMap);
 
 	void render(sf::RenderWindow& window);
+	void update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces** moveMap);
 	void update(sf::Event& event, sf::RenderWindow& window);
 	void poll_update(sf::Event& event, sf::RenderWindow& window);
+
+	void setTitlePos(const sf::Vector2f& pos);
+	void setTitlePos(const sf::Vector2i& pos);
+	void setTitlePos(int x, int y);
+	void setTitlePos(float x, float y);
+
+	//Задать позицию в Плитках
+	sf::Vector2i getTitlePos();
+
+	//Задать/Получить отображение границ
+	void setHitBoxing(const bool& set = true, const sf::Color& color = sf::Color::Green);
+	bool getHitBoxing();
+
+	//Задать/Получить глобальные координаты
+	void setPosition(const sf::Vector2f& pos);
+	sf::Vector2f getPosition();
 };
 

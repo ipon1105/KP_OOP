@@ -210,6 +210,20 @@ namespace tool {
 
     };
 
+    //Стороны
+    static enum Side {
+        up,
+        right,
+        down,
+        left
+    };
+
+    //Можно ходить или нет
+    static enum MoveSurfaces {
+        unpassible = 0,
+        passible = 1
+    };
+
     class Utils
     {
     public:

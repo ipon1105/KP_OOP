@@ -18,6 +18,7 @@ private:
     int seed;       //Ключ генерации карты
 
 	Title** map;    //Массив плиток
+    tool::MoveSurfaces** moveMap;
 
     std::vector<Unit> unitList;         //Список всех юнитов на карте
     std::vector<Objects> objectsList;   //Список всех построек на карте
@@ -25,6 +26,7 @@ private:
     //Генерация карты с помощью шума перлина
     void perlinCreate();
     void faceting();
+    void moveMapUpdate();
     tool::Surfaces getTypes(const int& i, const int& j);
 public:
     //Конструкторы
