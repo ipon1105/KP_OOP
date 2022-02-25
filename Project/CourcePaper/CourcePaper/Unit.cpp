@@ -73,6 +73,22 @@ void Unit::update(sf::Event& event, sf::RenderWindow& window) {
 
 void Unit::update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces** moveMap) {
 
+    sf::Vector2i pos = getTitlePos();
+    // Обработка нажатия на ПКМ
+    if (event.type == event.MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Right)
+    {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        while (pos.x < getGlobalMousePos(window).x / 32)
+            return this->move(1, 0);
+        while (pos.x > getGlobalMousePos(window).x / 32)
+            return this->move(-1, 0);
+        while (pos.y < getGlobalMousePos(window).y / 32)
+            return this->move(0, 1);
+        while (pos.y > getGlobalMousePos(window).y / 32)
+            return this->move(0, -1);
+    } 
+   
     if (hitBoxing) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             return this->move(0, -1);

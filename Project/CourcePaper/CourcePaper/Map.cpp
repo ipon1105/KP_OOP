@@ -216,6 +216,7 @@ void Map::faceting() {
 
 void Map::moveMapUpdate()
 {
+    
     for(int i = 0; i < this->rowCount; i++)
         for (int j = 0; j < this->colCount; j++)
         {
@@ -239,9 +240,13 @@ void Map::createMap(const int& stoneCount, const int& grassCount, const int seed
    
 }
 
-/*
-* Обработка нажатия на ПКМ
-if (event.type == event.MouseButtonPressed &&
+
+
+
+void Map::update(sf::Event& event, sf::RenderWindow& window) 
+{
+    // Обработка нажатия на ПКМ
+    if (event.type == event.MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Right)
     {
         for (int i = 0; i < rowCount; i++)
@@ -256,12 +261,9 @@ if (event.type == event.MouseButtonPressed &&
         if (col >= this->colCount || row >= this->rowCount || col < 0 || row < 0)
             return;
 
-        map[row][col].setHitBoxing( !map[row][col].getHitBoxing());
+        map[row][col].setHitBoxing(!map[row][col].getHitBoxing());
     }
-*/
 
-void Map::update(sf::Event& event, sf::RenderWindow& window) 
-{
     //обновление юнитов
     for (int i = 0; i < unitList.size(); i++)
        unitList[i].update(event, window, moveMap);
