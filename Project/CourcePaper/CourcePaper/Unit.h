@@ -19,6 +19,9 @@ private:
 
 	int maxRow;
 	int maxCol;
+	sf::Vector2i targetPos;
+	bool up=false, right = false, left = false, down = false;
+
 public:
 	Unit(const tool::Surfaces& type, const int& row, const int& col, const int& view_field = 3);
 
@@ -27,6 +30,8 @@ public:
 
 	void move(float x, float y);
 	void moveToSide(const tool::Side& side, tool::MoveSurfaces** moveMap);
+	void moveToPos(const tool::Side& side, tool::MoveSurfaces** moveMap);
+	bool onPos();
 
 	void render(sf::RenderWindow& window);
 	void update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces** moveMap);

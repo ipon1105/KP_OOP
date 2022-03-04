@@ -45,6 +45,7 @@ void Unit::move(float x, float y) {
 
 void Unit::moveToSide(const tool::Side& side, tool::MoveSurfaces** moveMap) {
     sf::Vector2i pos = getTitlePos();
+   
 
     if (pos.y == 0 && side == tool::up) return;
     if (pos.x == maxCol - 1 && side == tool::right) return;
@@ -58,6 +59,27 @@ void Unit::moveToSide(const tool::Side& side, tool::MoveSurfaces** moveMap) {
         case tool::left:   if (moveMap[pos.y][pos.x - 1]) setTitlePos(pos.x - 1, pos.y);  break;
     }
 }
+void Unit::moveToPos(const tool::Side& side, tool::MoveSurfaces** moveMap) {
+    sf::Vector2i pos = getTitlePos();
+
+
+    switch (side) {
+    case tool::up:     if (moveMap[pos.y - 1][pos.x]) setTitlePos(pos.x, pos.y - 1);  break;
+    case tool::right:  if (moveMap[pos.y][pos.x + 1]) setTitlePos(pos.x + 1, pos.y);  break;
+    case tool::down:   if (moveMap[pos.y + 1][pos.x]) setTitlePos(pos.x, pos.y + 1);  break;
+    case tool::left:   if (moveMap[pos.y][pos.x - 1]) setTitlePos(pos.x - 1, pos.y);  break;
+    }
+}
+
+bool Unit::onPos()
+{
+//    sf::Vector2i pos = getTitlePos();
+//  pos.x = ceil(pos.x / 32);
+//  pos.y = ceil(pos.y / 32);
+//    if (pos.x < targetPos.x || pos.x > targetPos.x &&
+//        pos.y < targetPos.y || pos.y > targetPos.y)
+      return true;
+}
 
 void Unit::render(sf::RenderWindow& window) {
 
@@ -68,26 +90,14 @@ void Unit::render(sf::RenderWindow& window) {
 }
 
 void Unit::update(sf::Event& event, sf::RenderWindow& window) {
-
+    
 }
+
 
 void Unit::update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces** moveMap) {
 
-    sf::Vector2i pos = getTitlePos();
+    sf::Vector2f pos = getPosition();
     // Обработка нажатия на ПКМ
-    if (event.type == event.MouseButtonPressed &&
-        event.mouseButton.button == sf::Mouse::Right)
-    {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        while (pos.x < getGlobalMousePos(window).x / 32)
-            return this->move(1, 0);
-        while (pos.x > getGlobalMousePos(window).x / 32)
-            return this->move(-1, 0);
-        while (pos.y < getGlobalMousePos(window).y / 32)
-            return this->move(0, 1);
-        while (pos.y > getGlobalMousePos(window).y / 32)
-            return this->move(0, -1);
-    } 
    
     if (hitBoxing) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -99,6 +109,8 @@ void Unit::update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             return this->move(1, 0);
 
+   
+
         ImGui::Begin(u8"Окно управления");
         if (ImGui::Button(u8"Right"))
             this->moveToSide(tool::right, moveMap);
@@ -109,8 +121,43 @@ void Unit::update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces
         if (ImGui::Button(u8"Up"))
             this->moveToSide(tool::up, moveMap);
         ImGui::End();
-        return;
     
+    }
+  
+
+    //if (pos.x > targetPos.x)
+    //pos.x = floor(pos.x / 32);
+    //if (pos.x < targetPos.x)
+    //pos.x = ceil(pos.x / 32);
+    //if (pos.y > targetPos.y)
+    //pos.y = floor(pos.y / 32);
+    //if (pos.y < targetPos.y/32)
+    //pos.y = ceil(pos.y / 32);
+
+
+
+    if (right)
+        pos.x = ceil(pos.x / 32);
+    if (left)
+        pos.x = floor(pos.x / 32);
+    if(down)
+        pos.y = ceil(pos.y / 32);
+    if (up)
+        pos.y = floor(pos.y / 32);
+   
+
+   
+
+    if (onPos())
+    {
+            if (pos.x > targetPos.x/32)
+                return this->move(-1, 0);
+            if (pos.x < targetPos.x/32)
+                return this->move(1, 0);
+            if (pos.y > targetPos.y / 32)
+                return this->move(0, -1);
+            if (pos.y < targetPos.y / 32)
+                return this->move(0, 1);  
     }
 }
 
@@ -126,6 +173,29 @@ void Unit::poll_update(sf::Event& event, sf::RenderWindow& window) {
             mousePos.x <= this->sprite.getPosition().x + sprite.getTextureRect().width &&
             mousePos.y <= this->sprite.getPosition().y + sprite.getTextureRect().height)
             hitBoxing = !hitBoxing; //Поподание
+    } 
+
+
+    if (event.type == event.MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Right&& hitBoxing)
+    {
+        right = left = down = up = false;
+        
+        targetPos = getGlobalMousePos(window);
+
+        sf::Vector2f pos = getPosition();
+
+        if (targetPos.x > pos.x )
+            right = true; 
+        else
+            left = true;
+        if (targetPos.y > pos.y)
+            down = true;
+        else
+            up = true;
+
+      //  targetPos.x /= 32;
+      //  targetPos.y /= 32;
     }
 }
 
