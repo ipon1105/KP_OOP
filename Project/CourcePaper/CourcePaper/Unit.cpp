@@ -73,12 +73,13 @@ void Unit::moveToPos(const tool::Side& side, tool::MoveSurfaces** moveMap) {
 
 bool Unit::onPos()
 {
-//    sf::Vector2i pos = getTitlePos();
-//  pos.x = ceil(pos.x / 32);
-//  pos.y = ceil(pos.y / 32);
-//    if (pos.x < targetPos.x || pos.x > targetPos.x &&
-//        pos.y < targetPos.y || pos.y > targetPos.y)
-      return true;
+    sf::Vector2i pos = getTitlePos();
+    pos.x = ceil(pos.x / 32);
+    pos.y = ceil(pos.y / 32);
+        if (pos.x < targetPos.x || pos.x > targetPos.x &&
+            pos.y < targetPos.y || pos.y > targetPos.y)
+                return true;
+    return false;
 }
 
 void Unit::render(sf::RenderWindow& window) {
@@ -109,9 +110,7 @@ void Unit::update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             return this->move(1, 0);
 
-   
-
-        ImGui::Begin(u8"Окно управления");
+        ImGui::Begin(u8"Окно управления и статистики");
         if (ImGui::Button(u8"Right"))
             this->moveToSide(tool::right, moveMap);
         if (ImGui::Button(u8"Left"))
@@ -120,44 +119,46 @@ void Unit::update(sf::Event& event, sf::RenderWindow& window, tool::MoveSurfaces
             this->moveToSide(tool::down, moveMap);
         if (ImGui::Button(u8"Up"))
             this->moveToSide(tool::up, moveMap);
+        ImGui::Text(u8"Позиция персонажа: %f;  %f.", this->getPosition().x, this->getPosition().y);
+        ImGui::Text(u8"Позиция персонажа: %d;  %d.", this->getTitlePos().x, this->getTitlePos().y);
         ImGui::End();
     
     }
   
-
-    //if (pos.x > targetPos.x)
-    //pos.x = floor(pos.x / 32);
-    //if (pos.x < targetPos.x)
-    //pos.x = ceil(pos.x / 32);
-    //if (pos.y > targetPos.y)
-    //pos.y = floor(pos.y / 32);
-    //if (pos.y < targetPos.y/32)
-    //pos.y = ceil(pos.y / 32);
-
-
-
     if (right)
-        pos.x = ceil(pos.x / 32);
+    {
+        pos.x = floor(pos.x / 32);    
+    }
     if (left)
-        pos.x = floor(pos.x / 32);
-    if(down)
-        pos.y = ceil(pos.y / 32);
+    {
+        pos.x = ceil(pos.x / 32);
+    }
     if (up)
+    {
+        pos.y = ceil(pos.y / 32);
+    }
+    if (down)
+    {
         pos.y = floor(pos.y / 32);
-   
-
-   
+    }
 
     if (onPos())
     {
             if (pos.x > targetPos.x/32)
-                return this->move(-1, 0);
+                this->moveToSide(tool::left, moveMap);
+                //return this->move(-1, 0);
             if (pos.x < targetPos.x/32)
-                return this->move(1, 0);
+                this->moveToSide(tool::right, moveMap);
+                //return this->move(1, 0);
             if (pos.y > targetPos.y / 32)
-                return this->move(0, -1);
+                this->moveToSide(tool::up, moveMap);
+                //return this->move(0, -1);
             if (pos.y < targetPos.y / 32)
-                return this->move(0, 1);  
+                 this->moveToSide(tool::down, moveMap);
+                //return this->move(0, 1);  
+    }
+    else {
+        sprite.setPosition(pos.x * 32, pos.y * 32);
     }
 }
 
@@ -180,22 +181,17 @@ void Unit::poll_update(sf::Event& event, sf::RenderWindow& window) {
         event.mouseButton.button == sf::Mouse::Right&& hitBoxing)
     {
         right = left = down = up = false;
-        
         targetPos = getGlobalMousePos(window);
-
         sf::Vector2f pos = getPosition();
 
-        if (targetPos.x > pos.x )
-            right = true; 
+        if (targetPos.x >= pos.x)   
+            right = true;
         else
             left = true;
-        if (targetPos.y > pos.y)
+        if (targetPos.y >= pos.y)
             down = true;
         else
             up = true;
-
-      //  targetPos.x /= 32;
-      //  targetPos.y /= 32;
     }
 }
 
