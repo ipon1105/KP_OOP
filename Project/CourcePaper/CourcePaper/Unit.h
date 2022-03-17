@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "GameSetting.h"
+#include "MyView.h"
 #include "Utils.h"
 #include "Base.h"
 
@@ -51,5 +53,7 @@ public:
 	//Задать/Получить глобальные координаты
 	void setPosition(const sf::Vector2f& pos);
 	sf::Vector2f getPosition();
+	sf::IntRect getTextureRect();
+	void setTargetPos(const sf::Vector2i& pos);
 };
 

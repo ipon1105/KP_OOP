@@ -10,16 +10,17 @@
 Map::Map() {
 
     unitList.push_back(Unit(tool::Surfaces(tool::unit_human_villager_left_0), 1, 1));
-    //unitList[0].setGlobalPos(sf::Vector2f(10 * tool::TITLE_SIZE, 10 * tool::TITLE_SIZE));
-    //unitList[0].setColor(sf::Color::Red);
+    unitList.push_back(Unit(tool::Surfaces(tool::unit_russion_villager_left_0), 2, 1));
 }
 
 void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
-    unitList[0].setMaxCol(col);
-    unitList[0].setMaxRow(row);
+    for (int i = 0; i < unitList.size(); i++) {
+        unitList[i].setMaxCol(col);
+        unitList[i].setMaxRow(row);
+    }
 
     if(this->map != NULL)
         this->~Map();
@@ -267,9 +268,9 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
     }
 
     //обновление юнитов
-    for (int i = 0; i < unitList.size(); i++)
+    for (int i = 0; i < unitList.size(); i++){
         unitList[i].update(event, window, moveMap);
-    
+    }
 
     //Обновление объектов
     for (int i = 0; i < objectsList.size(); i++){
@@ -288,10 +289,37 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
 void Map::pollUpdate(sf::Event& event, sf::RenderWindow& window)
 {
     //Одноразовое обновление юнитов
-    for (int i = 0; i < unitList.size(); i++)
-        unitList[i].poll_update(event, window);
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) &&
+        event.type == event.MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Left)
+        for (int j = 0; j < unitList.size(); j++)
+            unitList[j].setHitBoxing(false);
 
-    //Одноразовое обновление юнитов
+    for (int i = 0; i < unitList.size(); i++){
+        sf::Vector2i mousePos;
+        if (event.type == event.MouseButtonPressed &&
+            event.mouseButton.button == sf::Mouse::Left)
+        {
+            
+
+            mousePos = getGlobalMousePos(window);
+
+            if (mousePos.x >= this->unitList[i].getPosition().x &&
+                mousePos.y >= this->unitList[i].getPosition().y &&
+                mousePos.x <= this->unitList[i].getPosition().x + unitList[i].getTextureRect().width &&
+                mousePos.y <= this->unitList[i].getPosition().y + unitList[i].getTextureRect().height)
+                unitList[i].setHitBoxing(true);
+        }
+
+
+        if (event.type == event.MouseButtonPressed &&
+            event.mouseButton.button == sf::Mouse::Right && unitList[i].getHitBoxing()) {
+            unitList[i].setTargetPos(getGlobalMousePos(window));
+            
+        }
+    }
+
+    //Одноразовое обновление
     for (int i = 0; i < objectsList.size(); i++)
         objectsList[i].pollUpdate(window, event);
 }

@@ -7,14 +7,14 @@ class Base
 {
 protected:
 	sf::Sprite sprite;			//Главный ресурс 
-	sf::CircleShape hitShape;	//Граница
+	sf::RectangleShape solid;	//Граница
 
 	float hitShapeRad = 5;		//Радиус границы
 	
 	bool hitBoxing;				//Отображение
 
-	void initHitShape();		//Инициализация фигуры
-	void updateHitShapePos();	//Обновление фигуры
+	void initSolid();		//Инициализация фигуры
+	void updateSolid();	//Обновление фигуры
 public:
 	Base();
 
