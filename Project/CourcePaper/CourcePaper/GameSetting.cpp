@@ -29,7 +29,7 @@ int saveConfigurate() {
 	outData << confSetting.soundVolume	<< '\n';
 
 	//Полноэкранный режим
-	outData << confSetting.screenScale;
+	outData << confSetting.screenScale << '\n';
 
 	//Кадров в секунду
 	outData << confSetting.FPS;

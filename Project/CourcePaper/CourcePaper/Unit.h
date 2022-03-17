@@ -15,21 +15,20 @@ private:
 
 	int animCount;
 	int animZero;
-	int field_of_view;
 
 	int maxRow;
 	int maxCol;
+	float rootSpeed;
 	sf::Vector2i targetPos;
 
 public:
-	Unit(const tool::Surfaces& type, const int& row, const int& col, const int& view_field = 3);
+	Unit(const tool::Surfaces& type, const int& row, const int& col);
 
 	void setMaxRow(int row);
 	void setMaxCol(int col);
 
-	void move(float x, float y);
+	void move(const tool::Side& side, float x, float y);
 	void moveToSide(const tool::Side& side, tool::MoveSurfaces** moveMap);
-	void moveToPos(const tool::Side& side, tool::MoveSurfaces** moveMap);
 	bool onPos();
 
 	void render(sf::RenderWindow& window);

@@ -18,6 +18,8 @@ void Map::initMap(const int& row, const int& col) {
     this->rowCount = row;
     this->colCount = col;
 
+    unitList[0].setMaxCol(col);
+    unitList[0].setMaxRow(row);
 
     if(this->map != NULL)
         this->~Map();
@@ -266,7 +268,7 @@ void Map::update(sf::Event& event, sf::RenderWindow& window)
 
     //обновление юнитов
     for (int i = 0; i < unitList.size(); i++)
-       unitList[i].update(event, window, moveMap);
+        unitList[i].update(event, window, moveMap);
     
 
     //Обновление объектов
