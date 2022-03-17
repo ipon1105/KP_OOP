@@ -20,7 +20,6 @@ private:
 	int maxRow;
 	int maxCol;
 	sf::Vector2i targetPos;
-	bool up=false, right = false, left = false, down = false;
 
 public:
 	Unit(const tool::Surfaces& type, const int& row, const int& col, const int& view_field = 3);
