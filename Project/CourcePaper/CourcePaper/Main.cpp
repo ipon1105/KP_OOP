@@ -16,6 +16,7 @@
 
 using namespace sf;
 
+
 sf::RenderWindow window;
 
 void temp() {
